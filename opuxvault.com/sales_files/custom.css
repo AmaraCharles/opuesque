@@ -1,0 +1,73 @@
+.card-nft {
+    flex: 0 0 auto; /* Prevent flex items from shrinking */
+    min-width: 10px; /* Set a minimum width for each card */
+    max-width: 200px; /* Set a minimum width for each card */
+    /* height: 400px; */
+    margin-right: 10px; /* Add some spacing between cards */
+    padding: 0px;
+}
+.nft-card-img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+}
+
+.text-black {
+    color: #000;
+}
+
+.category-gif {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: cover;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-container {
+    position: relative;
+  }
+  
+.shimmer-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      #eeeeee 0%,
+      #dddddd 20%,
+      #eeeeee 40%,
+      #eeeeee 100%
+    );
+    background-size: 800px 100%;
+    animation: shimmer 1.2s infinite linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+  
+@keyframes shimmer {
+    0% {
+      background-position: -800px 0;
+    }
+    100% {
+      background-position: 800px 0;
+    }
+}
+  
+.nft-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    position: relative;
+    z-index: 2;
+  }
+
+.tf-switch-check {
+  background: rgb(173 170 182 / 38%);
+}
