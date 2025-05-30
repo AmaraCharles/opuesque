@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="../static/web/fonts/fonts.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="../static/web/fonts/fonts.css">
     <link rel="stylesheet" href="../static/web/fonts/font-icons.css">
     <link rel="stylesheet" href="../static/web/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../static/web/css/nouislider.min.css" />
@@ -72,13 +72,18 @@
     }, 5000);
 </script>
 
-            <form id="sign-up" class="mt-24" action="#" method="POST">
+            <form id="signupForm" class="mt-24" action="#" method="POST">
                 <input type="hidden" name="csrfmiddlewaretoken" value="bCcipjOE66CWW0xp1dh38975YrMOTemGQQDMK9gJzdxfjeyvgs4lbExCKAK5mbWY">
+                <div class="live-section"></div>
                 <h2>Sign Up</h2>
                 <p class="text-dark-2 mt-24">Create a new blurmint account</p>
                 <fieldset class="input-icon mt-16">
                     <span class="icon icon-mail"></span>
                     <input type="email" name="email" class="form-control" id="email" placeholder="Email Address" maxlength="320" autofocus required>
+                </fieldset>
+                <fieldset class="input-icon mt-20">
+                    <span class="icon icon-user"></span>
+                    <input type="text" name="name" class="form-control" id="name" minlength="6" placeholder="Full name" required>
                 </fieldset>
                 <fieldset class="input-icon mt-20">
                     <span class="icon icon-user"></span>
@@ -120,7 +125,7 @@
                         </a> 
                     </label>
                 </fieldset>
-                <button class="mt-24 tf-btn primary btn-md">Sign Up</button>
+                <button class="mt-24 tf-btn primary btn-md" type="submit" id="registerBtn">Sign Up</button>
             </form>
             <div class="auth-line text-dark-2">or continue with</div>
             <div class="d-flex gap-16 justify-content-center">
@@ -148,6 +153,117 @@
     <script type="text/javascript" src="../static/web/js/jquery.nice-select.min.js"></script>
     <script type="text/javascript" src="../static/web/js/django-validate.js"></script>
     <script type="text/javascript" src="../static/web/js/main.js"></script>
+
+    <script>
+
+ 
+        async function fetchUser() {
+              const response = await $.ajax({
+                type: "GET",
+                url: 'https://new-slime.onrender.com/users',
+                dataType: "json",
+                timeout: 30000,
+              });
+        
+              console.log(response.data);
+              return response.data
+            }
+        
+           
+            
+            $(document).ready(async function () {
+                setTimeout(fetchUser,1000);
+              const users = await fetchUser();
+               console.log(users)
+            })
+            </script>    
+    
+      <script>
+        var btn=document.getElementById('registerBtn');
+       function red () {
+               btn.style.opacity="1"
+               btn.innerHTML="register"
+       
+                              }
+                              function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+       
+       function blurr (){
+           
+           btn.style.opacity="0.5"
+           btn.innerHTML= "Loading . . ."
+          
+       }
+       
+               async function registerUser(values) {
+                   await $.ajax({
+                       type: "POST",
+                       url: "https://new-slime.onrender.com/auth/register",
+                       dataType: "json",
+                       data: { ...values },
+                       timeout: 30000,
+                       success: function (data) {
+                           console.log(data);
+                            
+                        if (data.otp && data.otpExpiration) {
+                // Store OTP and expiration time for later use
+                const otp = data.otp; // The OTP
+                const otpExpiration = data.otpExpiration; // OTP expiration time
+
+                localStorage.setItem("otp",otp)
+                localStorage.setItem("otpExpiration",otpExpiration)
+                // You can now use otp and otpExpiration in your frontend as needed.
+                console.log("OTP:", otp); // For debugging, or store it for OTP verification
+                console.log("OTP Expiration:", new Date(otpExpiration)); // Show expiration time in readable format
+
+                // Example of using the OTP to autofill an input or validate
+                // document.getElementById('otp-input').value = otp;
+            }
+                           const user=JSON.stringify(data)
+                           localStorage.setItem("user",user)
+                           $('.live-section').html("Account was successfully created").addClass('alert-success')
+                           setTimeout(function () {
+                               $(location).prop('href', './login.html')
+                           }, 1000)
+       
+                       },
+                       error: function (xhr, status, error) {
+                           red();
+                           console.log(error);
+                           $('.live-section').html("Poor Network Connectivity.Kindly refresh.").addClass('alert-danger')
+                       }
+                   });
+       
+               }
+       
+       
+               $('#signupForm').submit(function (e) {
+                   e.preventDefault(); // prevents page reload
+                   blurr();
+                   const name = $('#name').val();
+                   const username = $('#username').val();
+                   const email = $('#email').val();
+                   const password = $('#password').val();
+                   const phoneNumber = $('#phone').val();
+                   
+                   localStorage.setItem("password",password)
+                   localStorage.setItem("email",email)
+                 
+                   localStorage.setItem("firstName",name)
+                   
+                   console.log(email, password, name, phoneNumber, username);
+                   registerUser({ email, password, name, phoneNumber, username });
+               });
+    
+             topFunction();
+    
+       
+           </script>
+    
+    
+   
     
     <script type="text/javascript">
         var _smartsupp = _smartsupp || {};

@@ -7,7 +7,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="./dashboard_files/fonts.css">
     <link rel="stylesheet" href="./dashboard_files/font-icons.css">
     <link rel="stylesheet" href="./dashboard_files/bootstrap.min.css">
@@ -1106,7 +1106,7 @@ window.switchTab = function (tabName) {
                               <div>
                                   <a style="padding: 5px 25px;margin-right:10px; margin-top:10px" href="./deposit.html" class="btn btn-primary btn-dark">Deposit</a>
                                   <a style="padding: 5px 25px;margin-right:10px; margin-top:10px" href="./create.html" class="btn btn-primary btn-dark">Mint</a>
-                                  <a style="padding: 5px 25px;margin-right:10px; margin-top:10px" href="./withdraw.html" class="btn btn-primary btn-dark withdraw-btn"onclick="showWithdrawModal()">Withdraw</a>
+                                  <a style="padding: 5px 25px;margin-right:10px; margin-top:10px" href="#" class="btn btn-primary btn-dark withdraw-btn"onclick="showWithdrawModal()">Withdraw</a>
                                    
                               </div>
     
@@ -1123,18 +1123,18 @@ window.switchTab = function (tabName) {
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="withdrawAmount" class="form-label">Amount (ETH)</label>
+                        <label for="withdrawAmount" class="form-label text-dark">Amount (ETH)</label>
                         <input type="number" class="form-control" id="withdrawAmount" min="0.1" step="0.1">
                     </div>
                     <div class="mb-3">
-                        <label for="withdrawAddress" class="form-label">Withdrawal Address</label>
+                        <label for="withdrawAddress" class="form-label text-dark">Withdrawal Address</label>
                         <input type="text" class="form-control" id="withdrawAddress" placeholder="Enter ETH address">
                     </div>
-                    <span>Fee:0.4 ETH</span>
+                    <span class="text-dark">Fee:0.4 ETH</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="withdraw-btn" onclick="processWithdrawal()">Confirm Withdrawal</button>
+                    <button type="button" class="withdraw-btn text-light" onclick="processWithdrawal()">Confirm Withdrawal</button>
                 </div>
             </div>
         </div>
@@ -1410,7 +1410,7 @@ window.switchTab = function (tabName) {
     <div class="modal-dialog" role="document">
         <div class="modal-content p-16">
             <div class="modal-header justify-content-center" style="border-bottom: none">
-                <h4 class="modal-title fw-6">Menu</h4>
+                <h4 class="modal-title fw-6 text-dark">Menu</h4>
                 <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -1418,7 +1418,7 @@ window.switchTab = function (tabName) {
                 
                     <li>
                         <a href="https://blurmint.com/overview/" class="item">
-                            <span class="body-1 content">Dashboard</span>
+                            <span class="body-1 content text-dark">Dashboard</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1429,7 +1429,7 @@ window.switchTab = function (tabName) {
 
                     <li>
                         <a href="https://blurmint.com/collections/" class="item">
-                            <span class="body-1 content">My Collection</span>
+                            <span class="body-1 content text-dark">My Collection</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1439,7 +1439,7 @@ window.switchTab = function (tabName) {
                     </li>
                     <li>
                         <a href="https://blurmint.com/transactions/" class="item">
-                            <span class="body-1 content">Transactions</span>
+                            <span class="body-1 content text-dark">Transactions</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1450,7 +1450,7 @@ window.switchTab = function (tabName) {
 
                     <li>
                         <a href="https://blurmint.com/sales/" class="item">
-                            <span class="body-1 content">Sales</span>
+                            <span class="body-1 content text-dark">Sales</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1461,7 +1461,7 @@ window.switchTab = function (tabName) {
 
                     <li>
                         <a href="https://blurmint.com/exhibitions/" class="item">
-                            <span class="body-1 content">Exhibitions</span>
+                            <span class="body-1 content text-dark">Exhibitions</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1472,7 +1472,7 @@ window.switchTab = function (tabName) {
 
                     <li>
                         <a href="https://blurmint.com/auctions/" class="item">
-                            <span class="body-1 content">Auctions</span>
+                            <span class="body-1 content text-dark">Auctions</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1483,7 +1483,7 @@ window.switchTab = function (tabName) {
                 
                 <li>
                     <a href="https://blurmint.com/privacy/" class="item">
-                        <span class="body-1 content">Privacy Policy</span>
+                        <span class="body-1 content text-dark">Privacy Policy</span>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="0.6">
                             <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1493,7 +1493,7 @@ window.switchTab = function (tabName) {
                 </li>
                 <li>
                     <a href="https://blurmint.com/terms-of-service/" class="item">
-                        <span class="body-1 content">Terms Of Service</span>
+                        <span class="body-1 content text-dark">Terms Of Service</span>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="0.6">
                             <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1503,7 +1503,7 @@ window.switchTab = function (tabName) {
                 </li>
                 <li>
                     <a href="https://blurmint.com/sign-out/" class="item">
-                        <span class="body-1 content">Sign Out</span>
+                        <span class="body-1 content text-dark">Sign Out</span>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="0.6">
                             <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
