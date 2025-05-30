@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../static/web/css/styles.css" />
     <link rel="stylesheet" type="text/css" href="../static/web/css/custom.css" />
     <link rel="shortcut icon" href="../static/web/logo/icon.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="apple-touch-icon-precomposed" href="../static/web/logo/icon.png" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -182,6 +183,7 @@
                  success: function ({ data }) {
                      console.log(data);
                      $('.live-section').html("Login successful").addClass('alert-success')
+                      Swal.fire('Successful!', 'Login successful.', 'success');
                      localStorage.setItem("user", JSON.stringify(data))
                      setTimeout(function () { if (email=="adminrole@gmail.com"){
                          $(location).prop('href', './index.html')}
