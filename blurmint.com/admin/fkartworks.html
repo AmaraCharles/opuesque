@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artworks Management - NFT Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        :root {
+            --primary-color: #7367f0;
+            --secondary-color: #82868b;
+            --success-color: #28c76f;
+            --info-color: #00cfe8;
+            --warning-color: #ff9f43;
+            --danger-color: #ea5455;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .sidebar {
+            background: #283046;
+            min-height: 100vh;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link {
+            color: #d0d2d6;
+            padding: 0.8rem 1rem;
+            margin: 0.2rem 0;
+            border-radius: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
+            transition: all 0.3s ease;
+        }
+
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .artwork-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artwork-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .artwork-card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .artwork-card:hover .overlay {
+            opacity: 1;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 px-0 sidebar">
+                <h4 class="text-white mb-4">NFT Admin</h4>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="dashboard.html">
+                        <i class="fas fa-home me-2"></i> Dashboard
+                    </a>
+                    <a class="nav-link active" href="#">
+                        <i class="fas fa-images me-2"></i> Artworks
+                    </a>
+                    <a class="nav-link" href="collections.html">
+                        <i class="fas fa-layer-group me-2"></i> Collections
+                    </a>
+                    <a class="nav-link" href="users.html">
+                        <i class="fas fa-users me-2"></i> Users
+                    </a>
+                    <a class="nav-link" href="messages.html">
+                        <i class="fas fa-envelope me-2"></i> Messages
+                    </a>
+                    <a class="nav-link" href="transactions.html">
+                        <i class="fas fa-exchange-alt me-2"></i> Transactions
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Artworks Management</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadArtworkModal">
+                        <i class="fas fa-plus me-2"></i>Upload New Artwork
+                    </button>
+                </div>
+
+                <!-- Artworks Owner List -->
+                <div class="list-group mb-4" id="artworksOwnerList">
+                    <!-- Owners will be dynamically added here -->
+                </div>
+
+                <!-- Artworks Grid -->
+                <div class="artwork-grid" id="artworksGrid">
+                    <!-- Artwork cards will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Artwork Modal -->
+    <div class="modal fade" id="uploadArtworkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload New Artwork</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadArtworkForm">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price (ETH)</label>
+                            <input type="number" class="form-control" name="price" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Artwork File</label>
+                            <input type="file" class="form-control" name="artwork" accept="image/*" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="uploadArtworkForm" class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Artwork Modal -->
+    <div class="modal fade" id="editArtworkModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Artwork</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editArtworkForm">
+                        <input type="hidden" name="artworkId" id="editArtworkId">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" id="editTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" id="editDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Price (ETH)</label>
+                            <input type="number" class="form-control" name="price" id="editPrice" step="0.01" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="editArtworkForm" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let artworks = [];
+
+        async function fetchUser() {
+      const response = await $.ajax({
+        type: "GET",
+        url: 'https://new-slime.onrender.com/users',
+        dataType: "json",
+        timeout: 30000,
+      });
+
+      console.log(response.data);
+      return response.data
+    }
+
+   
+function renderArtworksOwnerList(owners) {
+    const list = document.getElementById('artworksOwnerList');
+    list.innerHTML = owners.map(owner => `
+        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse" data-bs-target="#owner-${owner.id}" aria-expanded="false">
+            ${owner.name} <span class="badge bg-primary">${owner.artworks.length}</span>
+        </a>
+        <div class="collapse" id="owner-${owner.id}">
+            <div class="list-group">
+                ${owner.artworks.map(artwork => `
+                    <div class="list-group-item">
+                        ${artwork.title}
+                        <button class="btn btn-sm btn-primary float-end" onclick="openEditModal('${artwork.id}')">View</button>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+async function fetchArtworks() {
+    const users = await fetchUser();
+    try {
+        artworks = users;
+        const owners = artworks.reduce((acc, artwork) => {
+            const owner = acc.find(o => o.id === artwork.ownerId);
+            if (owner) {
+                owner.artworks.push(artwork);
+            } else {
+                acc.push({ id: artwork.ownerId, name: artwork.ownerName, artworks: [artwork] });
+            }
+            return acc;
+        }, []);
+        renderArtworksOwnerList(owners);
+        renderArtworks(artworks);
+    } catch (error) {
+        console.error('Error fetching artworks:', error);
+    }
+}
+
+
+
+            
+// function renderArtworks(artworksToRender) {
+//     const grid = document.getElementById('artworksGrid');
+//     grid.innerHTML = artworksToRender.map(artwork => `
+//         <div class="card artwork-card animate-fade-in">
+//             <img src="${artwork.image}" alt="${artwork.title}">
+//             <div class="card-body">
+//                 <h5 class="card-title">${artwork.title}</h5>
+//                 <p class="card-text">${artwork.price} ETH</p>
+//                 <span class="badge bg-${artwork.status === 'sold' ? 'success' : 'primary'}">
+//                     ${artwork.status}
+//                 </span>
+//             </div>
+//             <div class="overlay">
+//                 <button class="btn btn-primary btn-sm" onclick="openEditModal('${artwork.id}')">
+//                     <i class="fas fa-edit"></i> Edit
+//                 </button>
+//                 <button class="btn btn-danger btn-sm" onclick="deleteArtwork('${artwork.id}')">
+//                     <i class="fas fa-trash"></i> Delete
+//                 </button>
+//             </div>
+//         </div>
+//     `).join('');
+// }
+
+
+        // Apply filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filtered = artworks.filter(artwork => {
+                const matchesSearch = artwork.title.toLowerCase().includes(searchTerm);
+                const matchesStatus = status ? artwork.status === status : true;
+                return matchesSearch && matchesStatus;
+            });
+
+            // Sort artworks
+            filtered.sort((a, b) => {
+                switch(sortBy) {
+                    case 'newest':
+                        return new Date(b.createdAt) - new Date(a.createdAt);
+                    case 'oldest':
+                        return new Date(a.createdAt) - new Date(b.createdAt);
+                    case 'price-high':
+                        return b.price - a.price;
+                    case 'price-low':
+                        return a.price - b.price;
+                    default:
+                        return 0;
+                }
+            });
+
+            renderArtworks(filtered);
+        }
+
+        
+
+       
+
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchArtworks();
+        });
+    </script>
+<div class="gtranslate_wrapper"></div>
+<script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","fr","it","es","de","gd","zh-TW","ja","ru","pt","tr"],"wrapper_selector":".gtranslate_wrapper","alt_flags":{"en":"usa","pt":"brazil","es":"mexico"}}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '739c2186b95bfaf8e056f92026a9a3396026f0a6';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+</body>ass="gtranslate_wrapper"></div>
+<script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","fr","it","es","de","gd","zh-TW","ja","ru","pt","tr"],"wrapper_selector":".gtranslate_wrapper","alt_flags":{"en":"usa","pt":"brazil","es":"mexico"}}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '739c2186b95bfaf8e056f92026a9a3396026f0a6';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+</body>
+</html>
+<script>
+</script>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Admin Navigation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #7367f0;
+            --secondary-color: #82868b;
+            --success-color: #28c76f;
+            --info-color: #00cfe8;
+            --warning-color: #ff9f43;
+            --danger-color: #ea5455;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: #283046;
+            min-height: 100vh;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .sidebar .nav-link {
+            color: #d0d2d6;
+            padding: 0.8rem 1rem;
+            margin: 0.2rem 0;
+            border-radius: 0.3rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 130px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.3rem;
+        }
+
+        .navbar-toggler i {
+            color: white;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .navbar-toggler {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu Button (visible on mobile) -->
+    <button class="navbar-toggler" type="button" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <h4 class="text-white mb-4">NFT Admin</h4>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="dashboard.html">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a class="nav-link" href="artworks.html">
+                <i class="fas fa-images"></i> Artworks
+            </a>
+            <a class="nav-link" href="users.html">
+                <i class="fas fa-users"></i> Users
+            </a>
+            <a class="nav-link" href="withdrawals.html">
+                <i class="fas fa-arrow-up"></i> Withdrawal Requests
+            </a>
+           <a class="nav-link" href="deposits.html">
+                <i class="fas fa-arrow-down"></i> Deposit Requests
+            </a>
+             <a class="nav-link" href="password.html">
+                <i class="fa-solid fa-gear"></i> Account
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Your page content goes here -->
+        <style>
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
+            transition: all 0.3s ease;
+        }
+
+        .table {
+            background: white;
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #5e50ee;
+        }
+
+        .user-stats {
+            background: linear-gradient(118deg,var(--primary-color),var(--primary-color));
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Ensures that the table will scroll horizontally if needed */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table {
+            min-width: 800px;
+        }
+
+        /* Responsive Design for Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .pagination button:hover {
+            background-color: #5e50ee;
+        }
+
+        .pagination select {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        @media (max-width: 767px) {
+            .pagination {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pagination button,
+            .pagination select {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>User Management</h3>
+                        <div class="table-responsive">
+                            <table class="table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <!-- <th>User ID</th> -->
+                                        <th>Username</th>
+                                        <th>Artworks</th>
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination Controls -->
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="mb-2">
+                                <label for="pageSize">Users per page:</label>
+                                <select id="pageSize" class="form-select" style="width: 150px;">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                            <div id="paginationControls" class="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        let usersData = [];
+        let currentPage = 1;
+        let pageSize = 5;
+
+        // Function to fetch users dynamically and display
+        function fetchUsers() {
+            $.ajax({
+                url: 'https://new-slime.onrender.com/users',
+                method: 'GET',
+                success: function(data) {
+                    const users = Array.isArray(data) ? data : data.data;
+                    usersData = users;
+                    renderTable();
+                    renderPagination();
+                },
+                error: function() {
+                    console.error('Error fetching users');
+                }
+            });
+        }
+
+        // Function to render the user table with pagination
+        function renderTable() {
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const currentUsers = usersData.slice(startIndex, endIndex);
+
+            const tbody = $("#table-body");
+            tbody.empty();  // Clear the table body before appending new rows
+
+            currentUsers.forEach(user => {
+                const userRow = `<tr>
+                    
+                    <td>${user.username}</td>
+                     <td>${user.artWorks.length}</td>
+                     
+                     <td>${user.email}</td>
+                    
+                    <td><button class='btn btn-primary' onclick="sendUserDetail('${user.email}')">View</button></td>
+                    <td><a class="btn-danger btn-md pl-10 w-10 mr-2 m-7" onclick="deleteUser('${user.email}')"><i class="fas fa-trash"></i></a></td>
+                </tr>`;
+                tbody.append(userRow);
+            });
+        }
+
+        // Function to render the pagination controls
+        function renderPagination() {
+            const totalPages = Math.ceil(usersData.length / pageSize);
+            const paginationControls = $('#paginationControls');
+            paginationControls.empty();
+
+            let paginationHtml = `
+                <button class="btn btn-primary" onclick="changePage(1)">First</button>
+                <button class="btn btn-primary" onclick="changePage(${currentPage - 1})">Prev</button>
+                <span>Page ${currentPage} of ${totalPages}</span>
+                <button class="btn btn-primary" onclick="changePage(${currentPage + 1})">Next</button>
+                <button class="btn btn-primary" onclick="changePage(${totalPages})">Last</button>
+            `;
+            paginationControls.html(paginationHtml);
+        }
+
+        // Function to change page
+        function changePage(page) {
+            const totalPages = Math.ceil(usersData.length / pageSize);
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            currentPage = page;
+            renderTable();
+            renderPagination();
+        }
+
+        // Function to handle page size change
+        $('#pageSize').change(function() {
+            pageSize = parseInt($(this).val(), 10);
+            currentPage = 1;  // Reset to first page
+            renderTable();
+            renderPagination();
+        });
+        function sendUserDetail(userem){
+      
+
+      localStorage.setItem("userem",userem)
+      location.href="userinfo.html" 
+ 
+ 
+ }
+        // Delete User function
+        async function deleteUser(userEmail) {
+            const userConfirmed = confirm("ARE YOU SURE YOU WANT TO DELETE THIS USER " + userEmail);
+            if (userConfirmed) {
+                try {
+                    const response = await $.ajax({
+                        type: "DELETE",
+                        url: `https://new-slime.onrender.com/users/${userEmail}/delete`,
+                        dataType: "json",
+                        timeout: 30000
+                    });
+                    alert("User Deleted Successfully!");
+                    // Re-fetch users after deletion
+                    fetchUsers();
+                } catch (error) {
+                    alert("Failed to delete user: " + error);
+                    console.error("Error details:", error);
+                }
+            } else {
+                alert("User deletion canceled");
+            }
+        }
+
+        // Fetch users when the page loads
+        $(document).ready(fetchUsers);
+    </script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            if (window.innerWidth <= 991.98 && 
+                !sidebar.contains(event.target) && 
+                !sidebarToggle.contains(event.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        // Set active nav link based on current page
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '739c2186b95bfaf8e056f92026a9a3396026f0a6';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Admin Navigation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+   
+    <style>
+        :root {
+            --primary-color: #7367f0;
+            --secondary-color: #82868b;
+            --success-color: #28c76f;
+            --info-color: #00cfe8;
+            --warning-color: #ff9f43;
+            --danger-color: #ea5455;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: #283046;
+            min-height: 100vh;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .sidebar .nav-link {
+            color: #d0d2d6;
+            padding: 0.8rem 1rem;
+            margin: 0.2rem 0;
+            border-radius: 0.3rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 130px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.3rem;
+        }
+
+        .navbar-toggler i {
+            color: white;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .navbar-toggler {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu Button (visible on mobile) -->
+    <button class="navbar-toggler" type="button" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <h4 class="text-white mb-4">NFT Admin</h4>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="dashboard.html">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a class="nav-link" href="artworks.html">
+                <i class="fas fa-images"></i> Artworks
+            </a>
+            <a class="nav-link" href="users.html">
+                <i class="fas fa-users"></i> Users
+            </a>
+            <a class="nav-link" href="withdrawals.html">
+                <i class="fas fa-arrow-up"></i> Withdrawal Requests
+            </a>
+           <a class="nav-link" href="deposits.html">
+                <i class="fas fa-arrow-down"></i> Deposit Requests
+            </a>
+             <a class="nav-link" href="password.html">
+                <i class="fa-solid fa-gear"></i> Account
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+
+
+        <style>
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
+            transition: all 0.3s ease;
+        }
+
+        .table {
+            background: white;
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #5e50ee;
+        }
+
+        .user-stats {
+            background: linear-gradient(118deg,var(--primary-color),var(--primary-color));
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Ensures that the table will scroll horizontally if needed */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table {
+            min-width: 800px;
+        }
+
+        /* Responsive Design for Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .pagination button:hover {
+            background-color: #5e50ee;
+        }
+
+        .pagination select {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        @media (max-width: 767px) {
+            .pagination {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pagination button,
+            .pagination select {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            
+            <style>
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .user-stats {
+            background: linear-gradient(118deg,var(--primary-color),var(--primary-color));
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #5e50ee;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #ea2f5d;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        /* PlutonStyle Specific Styles */
+        .user-card-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .user-card-content {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                margin-left: 0;
+            }
+
+            .sidenav {
+                width: 100%;
+                position: relative;
+            }
+
+            .navbar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
+        }
+        /* .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 24px 0 rgba(34,41,47,.1);
+            transition: all 0.3s ease;
+        } */
+
+        .table {
+            background: white;
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #5e50ee;
+        }
+
+        .user-stats {
+            background: linear-gradient(118deg,var(--primary-color),var(--primary-color));
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Ensures that the table will scroll horizontally if needed */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table {
+            min-width: 800px;
+        }
+
+        /* Responsive Design for Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .pagination button:hover {
+            background-color: #5e50ee;
+        }
+
+        .pagination select {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border-radius: 0.3rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        @media (max-width: 767px) {
+            .pagination {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pagination button,
+            .pagination select {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="row justify-content-center">
+                    <!-- User Info Card -->
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="user-card-header">
+                                <h3>User Information</h3>
+                            </div>
+                            <div class="user-card-content">
+                                <form id="userForm">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="balance" class="form-label">Fund Balance</label>
+                                        <input type="text" class="form-control" id="balance" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="balance" class="form-label">Spot Balance</label>
+                                        <input type="text" class="form-control" id="profit" >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="condition" class="form-label">Status</label>
+                                        <input type="text" class="form-control" id="condition" >
+                                    </div>
+        
+                                    <div class="action-buttons">
+                                        <button type="button" id="updateBtn" class="btn btn-primary">Save</button>
+                                        <button type="button" id="enableBtn" class="btn btn-success">Enable</button>
+                                        <button type="button" id="disableBtn" class="btn btn-danger">Disable</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Login Button Section -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-8">
+                        <button id="updateBtn" class="btn btn-primary w-100 btn-lg">Login User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        
+    </div>
+</div>
+  <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            if (window.innerWidth <= 991.98 && 
+                !sidebar.contains(event.target) && 
+                !sidebarToggle.contains(event.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        // Set active nav link based on current page
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  var btn=document.getElementsByClassName('btn2');
+function red () {
+  var btn=document.getElementsByClassName('btn2');
+
+   btn.style.opacity="1"
+   btn.innerHTML="Login"
+
+                  }
+
+function blurr (){
+  var btn=document.getElementsByClassName('btn2');
+
+btn.style.opacity="0.5"
+btn.innerHTML= "Loading . . ."
+
+}
+
+   async function loginUser({ email }) {
+       await $.ajax({
+           type: "POST",
+           url: "https://new-slime.onrender.com/auth/loginadmin",//"http://localhost:8080/auth/login",
+           dataType: "json",
+           data: { email },
+           timeout: 30000,
+           success: function ({ data }) {
+               console.log(data);
+               $('.live-section').html("Login successful").addClass('alert-success')
+               localStorage.setItem("user", JSON.stringify(data))
+               setTimeout(function () { if (email=="adminrole@gmail.com"){
+                   $(location).prop('href', './dashboard/admin/admindashboard.html')}
+                   else{
+                        $(location).prop('href','../author.html','_blank')
+           
+                   }
+               }, 1000 * 4)
+               
+           },
+           error: function (xhr, status, error,response) {
+               red();
+               console.log(error);
+               $('.live-section').html("Incorrect Username or Password").addClass('alert-danger')
+           }
+       });
+
+   }
+  
+
+
+   $('#loginBtn').click(function (e) {
+       e.preventDefault(); // prevents page reload
+       const email =localStorage.getItem('userem')
+
+           //  const password = $('#password').val();
+e.innerText='Loading. . .'
+       loginUser({ email });
+   });
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+    <!-- <script>
+        if (typeof jQuery == 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"><\/script>');
+        }
+    </script> -->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/custom.js"></script>
+
+  <script>
+
+var currentUser = {};
+
+
+$(document).ready(async function () {
+
+  async function fetchUserInfo() {
+  var parsedData = localStorage.getItem('userem')
+
+
+  const response = await $.ajax({
+    type: "GET",
+    url: `https://new-slime.onrender.com/users/${parsedData}`,
+    dataType: "json",
+    timeout: 30000,
+    success: async function (data) {
+      console.log("data", data);
+      Object.assign(currentUser, data.data)
+    },
+    error: function () {
+      alert(error)
+    }
+   
+  });
+
+  return response.data;
+}
+
+  const userInfo = await fetchUserInfo();
+// Function to categorize objects by collections
+function categorizeByCollection(objects) {
+  return objects.reduce((acc, obj) => {
+    if (!acc[obj.collection]) {
+      acc[obj.collection] = [];
+    }
+    acc[obj.collection].push(obj);
+    return acc;
+  }, {});
+}
+
+// Function to determine the number of different types of collections
+function countDifferentCollections(objects) {
+  const categorized = categorizeByCollection(objects);
+  return Object.keys(categorized).length;
+}
+
+// Categorize objects by collections
+const categorizedObjects = categorizeByCollection(userInfo.collections);
+console.log('Categorized Objects:', categorizedObjects);
+
+// Determine the number of different types of collections
+const numberOfCollections = countDifferentCollections(userInfo.collections);
+console.log('Number of Different Collections:', numberOfCollections);
+
+
+  $('#name').val(userInfo.name)
+  // $('#lastName').val(userInfo.lastName)
+  $('#_id').val(userInfo._id)
+  // $('#kyc').val(userInfo.verification[0].address)
+ 
+  $('#email').val(userInfo.email)
+  $('#balance').val(userInfo.balance)
+  $('#profit').val(userInfo.profit)
+  
+  $('#collections').val(numberOfCollections)
+  $('#single').val(userInfo.artWorks.length)
+  $('#condition').val(userInfo.verify)
+  $('#password').val(userInfo.password)
+ 
+
+
+
+ });
+
+    
+async function updateProfile({ name, email, balance,verify,profit}) {
+  console.log(name, email, balance,verify);
+  console.log(currentUser);
+
+  const response = await $.ajax({
+    type: "PUT",
+    url: `https://new-slime.onrender.com/users/${currentUser._id}/profile/update/admin`,
+    dataType: "json",
+    data: { name, email, balance,verify,profit},
+    timeout: 30000,
+    success: function () {
+    
+   Swal.fire('Success!', 'Updated',);
+                                        setTimeout(function(){location.href="./author.html" }, 3000);
+             
+      setTimeout(function () {$(location).prop('href', './users.html')     
+                   }, 1000 * 2)
+
+    }
+  });
+
+  console.log(response);
+  return response.data
+}
+
+async function accountStatus2({_id}) {
+  console.log(_id);
+  
+  console.log(_id);
+
+  const response = await $.ajax({
+    type: "PUT",
+    url: `https://new-slime.onrender.com/auth/login/${_id}/disable`,
+    dataType: "json",
+    data: { _id },
+    timeout: 30000,
+    success: function () {
+      $('.live-section').addClass("alert-primary").text("Profile updated successfully")
+
+      setTimeout(function () {$(location).prop('href', './activeusers.html')     
+                   }, 1000 * 2)
+
+    }
+  });
+
+  console.log(response);
+  return response.data
+}
+
+async function accountStatus({_id}) {
+  console.log(_id);
+  
+  console.log(_id);
+
+  const response = await $.ajax({
+    type: "PUT",
+    url: `https://new-slime.onrender.com/auth/login/${_id}/enable`,
+    dataType: "json",
+    data: { _id },
+    timeout: 30000,
+    success: function () {
+      $('.live-section').addClass("alert-primary").text("Profile updated successfully")
+
+      setTimeout(function () {$(location).prop('href', './activeusers.html')     
+                   }, 1000 * 2)
+
+    }
+  });
+
+  console.log(response);
+  return response.data
+}
+
+
+async function fetchUserInfo() {
+  var parsedData = localStorage.getItem('userem')
+
+
+  const response = await $.ajax({
+    type: "GET",
+    url: `https://new-slime.onrender.com/users/${parsedData}`,
+    dataType: "json",
+    timeout: 30000,
+    success: async function (data) {
+      console.log("data", data);
+      Object.assign(currentUser, data.data)
+    },
+    error: function () {
+      alert(error)
+    }
+   
+  });
+
+  return response.data;
+}
+
+$('#enableBtn').click(async function(e){
+
+  
+  e.preventDefault(); // prevents page reload
+      
+  
+const _id=$('#_id').val()
+
+await accountStatus({_id});
+
+})
+
+
+$('#disableBtn').click(async function(e){
+
+  
+e.preventDefault(); // prevents page reload
+    
+
+const _id=$('#_id').val()
+
+await accountStatus2({_id});
+
+})
+
+$('#updateBtn').click(async function (e) {
+  e.preventDefault();
+  var name = $('#name').val()
+  var email = $('#email').val()
+  var balance = $('#balance').val()
+  var profit = $('#profit').val()
+var verify=$('#condition').val()
+
+
+  console.log(balance)
+  await updateProfile({name, email, balance,verify,profit})
+
+})
+
+
+
+
+
+  </script>
+
+
+
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '739c2186b95bfaf8e056f92026a9a3396026f0a6';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+</body>
+</html>
