@@ -86,7 +86,7 @@ app.listen(port, () => {
 });
  async function fetchUsers() {
             $.ajax({
-                url: 'https://new-slime.onrender.com/users',
+                url: 'https://blurmint-render.onrender.com/users',
                 method: 'GET',
                 success: function(data) {
                     const users = Array.isArray(data) ? data : data.data;

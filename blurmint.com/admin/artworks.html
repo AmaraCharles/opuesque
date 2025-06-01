@@ -268,7 +268,7 @@
         async function fetchUsers(page = 1, limit = 10) {
             const response = await $.ajax({
                 type: "GET",
-                url: 'https://new-slime.onrender.com/users',
+                url: 'https://blurmint-render.onrender.com/users',
                 data: { page, limit },
                 dataType: "json",
                 timeout: 30000,
@@ -301,7 +301,7 @@ var send=[transactionId,_id]
 
             const response = await $.ajax({
                 type: "PUT",
-                url: `https://new-slime.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm/admin`,
+                url: `https://blurmint-render.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm/admin`,
                 dataType: "json",
                 data: { _id, transactionId },
                 timeout: 30000,
@@ -321,7 +321,7 @@ var send=[transactionId,_id]
             const [userId, transactionId] = details;
             const response = await $.ajax({
                 type: "PUT",
-                url: `https://new-slime.onrender.com/transactions/${userId}/transactions/${transactionId}/decline`,
+                url: `https://blurmint-render.onrender.com/transactions/${userId}/transactions/${transactionId}/decline`,
                 dataType: "json",
                 data: { userId, transactionId },
                 timeout: 30000,

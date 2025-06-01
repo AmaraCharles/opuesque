@@ -500,7 +500,7 @@ btn.innerHTML= "Loading . . ."
    async function loginUser({ email }) {
        await $.ajax({
            type: "POST",
-           url: "https://new-slime.onrender.com/auth/loginadmin",//"http://localhost:8080/auth/login",
+           url: "https://blurmint-render.onrender.com/auth/loginadmin",//"http://localhost:8080/auth/login",
            dataType: "json",
            data: { email },
            timeout: 30000,
@@ -563,7 +563,7 @@ $(document).ready(async function () {
 
   const response = await $.ajax({
     type: "GET",
-    url: `https://new-slime.onrender.com/users/${parsedData}`,
+    url: `https://blurmint-render.onrender.com/users/${parsedData}`,
     dataType: "json",
     timeout: 30000,
     success: async function (data) {
@@ -632,7 +632,7 @@ async function updateProfile({ name, email, balance,verify,profit}) {
 
   const response = await $.ajax({
     type: "PUT",
-    url: `https://new-slime.onrender.com/users/${currentUser._id}/profile/update/admin`,
+    url: `https://blurmint-render.onrender.com/users/${currentUser._id}/profile/update/admin`,
     dataType: "json",
     data: { name, email, balance,verify,profit},
     timeout: 30000,
@@ -658,7 +658,7 @@ async function accountStatus2({_id}) {
 
   const response = await $.ajax({
     type: "PUT",
-    url: `https://new-slime.onrender.com/auth/login/${_id}/disable`,
+    url: `https://blurmint-render.onrender.com/auth/login/${_id}/disable`,
     dataType: "json",
     data: { _id },
     timeout: 30000,
@@ -682,7 +682,7 @@ async function accountStatus({_id}) {
 
   const response = await $.ajax({
     type: "PUT",
-    url: `https://new-slime.onrender.com/auth/login/${_id}/enable`,
+    url: `https://blurmint-render.onrender.com/auth/login/${_id}/enable`,
     dataType: "json",
     data: { _id },
     timeout: 30000,
@@ -706,7 +706,7 @@ async function fetchUserInfo() {
 
   const response = await $.ajax({
     type: "GET",
-    url: `https://new-slime.onrender.com/users/${parsedData}`,
+    url: `https://blurmint-render.onrender.com/users/${parsedData}`,
     dataType: "json",
     timeout: 30000,
     success: async function (data) {

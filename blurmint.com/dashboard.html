@@ -62,7 +62,7 @@ function cancelWalletFunding() {
        
           await $.ajax({
             type: "POST",
-            url: `https://new-slime.onrender.com/transactions/${dataObj.userId}/deposit`,
+            url: `https://blurmint-render.onrender.com/transactions/${dataObj.userId}/deposit`,
             dataType: "json",
             data: { ...dataObj },
             timeout: 30000,
@@ -157,7 +157,7 @@ console.log("hy");
                     
                           const response = await $.ajax({
                             type: "GET",
-                            url: `https://new-slime.onrender.com
+                            url: `https://blurmint-render.onrender.com
 /users/${userFromLS.email}`,
                             dataType: "json",
                             timeout: 30000,
@@ -180,7 +180,7 @@ console.log("hy");
                       console.log(dataObj);
                       const response = await $.ajax({
                         type: "POST",
-                        url: `https://new-slime.onrender.com
+                        url: `https://blurmint-render.onrender.com
 /transactions/${dataObj._id}/withdrawal`,
                         dataType: "json",
                         timeout: 30000,
@@ -407,7 +407,7 @@ const userBalance=user.balance
     try {
         const response = await $.ajax({
             type: "GET",
-            url: `https://new-slime.onrender.com/users/${userFromLS.email}`,
+            url: `https://blurmint-render.onrender.com/users/${userFromLS.email}`,
             dataType: "json",
             timeout: 30000
         });
@@ -449,7 +449,7 @@ const userBalance=userBalancefromls.balance
 
     const response = await $.ajax({
       type: "PUT",
-      url: `https://new-slime.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm`,
+      url: `https://blurmint-render.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm`,
       dataType: "json",
       data: { _id, transactionId },
       timeout: 30000,
