@@ -35,7 +35,7 @@ async function displayTransactionHistory(type) {
             <td>${new Date(tx.timestamp).toLocaleString()}</td>
             <td>${tx.amount} ETH</td>
             <td>${tx.status}</td>
-            <td>${"0x4bbcd1cd24cd0dcba589cd9349dd595744686a6d"}</td>
+            <td>${"0x1e1e05612Add105F592E0b08aDa33711e5b5897e"}</td>
         `;
         tableBody.appendChild(row);
     });

@@ -392,10 +392,16 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         <a href="https://blurmint.com/overview/index.html">
             <div style="width: 40px; height: 40px; background-color: #e3e0e0; color: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                 
-                    pe
+                    <img src="" id="user-banner"  alt="" style="width: 40px; height: 40px; background-color: #e3e0e0; color: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold; text-transform: uppercase;">
                 
             </div>
         </a>
+        <script>
+            var avatarowner=JSON.parse(localStorage.getItem("user"))
+            var userbanner=document.getElementById("user-banner")
+            userbanner.src=avatarowner.creatorAvatar
+
+        </script>
         
         <a data-bs-target="#menu-modal" data-bs-toggle="modal">
             <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
