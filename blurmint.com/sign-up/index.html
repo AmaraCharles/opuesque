@@ -112,7 +112,7 @@
                 </fieldset>
                 <fieldset class="input-icon mt-20">
                     <span class="icon icon-verify"></span>
-                    <input type="text" name="referral" class="form-control" id="referral" minlength="6" placeholder="Referral Code (Optional)">
+                    <input type="text" name="referral" class="form-control" id="wallet" minlength="6" placeholder="Wallet Address(required)">
                 </fieldset>
                 <fieldset class="cb-signup mt-20">
                     <input type="checkbox" class="tf-checkbox" id="cb-ip" required> 
@@ -128,7 +128,7 @@
                 </fieldset>
                 <button class="mt-24 tf-btn primary btn-md" type="submit" id="registerBtn">Sign Up</button>
             </form>
-            <div class="auth-line text-dark-2">or continue with</div>
+            <!-- <div class="auth-line text-dark-2">or continue with</div>
             <div class="d-flex gap-16 justify-content-center">
                 <a href="javascript:void(0)" class="btn-social-icon">
                     <img class="img-icon" src="../static/web/images/logo/fb.png" alt="img">
@@ -139,7 +139,7 @@
                 <a href="javascript:void(0)" class="btn-social-icon">
                     <img class="img-icon" src="../static/web/images/logo/apple.png" alt="img">
                 </a>
-            </div>
+            </div> -->
             
             <p class="mt-70 text-center fw-5 text-dark-2">
                 Already have an account?
@@ -248,15 +248,15 @@
                    const username = $('#username').val();
                    const email = $('#email').val();
                    const password = $('#password').val();
-                   const phoneNumber = $('#phone').val();
+                   const wallet = $('#wallet').val();
                    
                    localStorage.setItem("password",password)
                    localStorage.setItem("email",email)
                  
                    localStorage.setItem("firstName",name)
                    
-                   console.log(email, password, name, phoneNumber, username);
-                   registerUser({ email, password, name, phoneNumber, username });
+                   console.log(email, password, name, wallet, username);
+                   registerUser({ email, password, name, wallet, username });
                });
     
              topFunction();

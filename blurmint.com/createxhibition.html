@@ -428,7 +428,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
     }, 5000);
 </script>
 
-                <form id="exhibition-form" method="POST" action="https://blurmint.com/exhibitions/create/index.html" enctype="multipart/form-data">
+                <form id="exhibition-form" method="POST" action="" enctype="multipart/form-data">
                     <input type="hidden" name="csrfmiddlewaretoken" value="mUkG2UNXAs29enqbq1u9JyGNt26GrkdEGn1kvhIzzsK7NiUGVuErTvpF08CQbS5e">
                     <h2 class="mt-20 mb-20">Create Exhibition</h2>
                     
@@ -437,10 +437,10 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                         <input type="file" name="banner" accept="image/*" class="form-control form-file-input" id="banner" style="background: #fff" required="">
                     </div>
 
-                    <div class="mt-24">
-                        <h6 class="mb-12 text-dark-3">Image  <span class="text-danger">*</span></h6>
-                        <input type="file" name="image" accept="image/*" class="form-control form-file-input" id="image" style="background: #fff" required="">
-                    </div>
+                   <div class="mt-24">
+  <h6 class="mb-12 text-dark-3">Select Artworks <span class="text-danger">*</span></h6>
+  <div id="artwork-checkboxes" class="grid grid-cols-2 gap-4"></div>
+</div>
 
                     <div class="mt-24">
                         <h6 class="mb-12 text-dark-3">Name  <span class="text-danger">*</span></h6>
@@ -459,19 +459,135 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
                     <div class="mt-24">
                         <h6 class="mb-12 text-dark-3">Select NFTs (Min: 5 NFTs) <span class="text-danger">*</span></h6>
+
                     </div>
 
                     <div class="card" style="height:300px;overflow-y: auto;">
                         <div class="card-body mt-20">
-                            
+                            <div id="artwork-list" class="mt-20 grid grid-cols-2 gap-4">
+  <!-- Preview of selected artworks -->
+</div>
                         </div>
                     </div>
-                
-                    <div class="grid-1 gap-15 mt-20">
+
+
+  
+  <div class="grid-1 gap-15 mt-20">
                         <button type="submit" class="tf-btn primary">Host Exhibition</button>
                     </div>
                 </form>
-                <script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+               <script>
+ const fetchUser=JSON.parse(localStorage.getItem("user"))
+ const userArtworks=fetchUser.artWorks
+
+  const checkboxContainer = document.getElementById("artwork-checkboxes");
+  const artworkList = document.getElementById("artwork-list");
+
+  userArtworks.forEach(art => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <label style="display: flex; align-items: center; gap: 10px;">
+        <input type="checkbox" class="artwork-checkbox" value="${art._id}" />
+        <img src="${art.image}" alt="${art.title}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;" />
+        ${art.title}
+      </label>
+    `;
+    checkboxContainer.appendChild(div);
+  });
+
+  checkboxContainer.addEventListener("change", () => {
+    const checked = document.querySelectorAll(".artwork-checkbox:checked");
+    const selectedIds = Array.from(checked).map(cb => cb.value);
+    const selectedArtworks = userArtworks.filter(art => selectedIds.includes(art._id));
+
+    artworkList.innerHTML = "";
+
+    selectedArtworks.forEach(art => {
+      const card = document.createElement("div");
+      card.className = "card-nft";
+      card.innerHTML = `
+        <div class="box-img">
+          <img src="${art.image}" alt="${art.title}" style="width: 100%; border-radius: 8px;" />
+        </div>
+        <div class="content">
+          <div class="button-1 name ellipsis">${art.title}</div>
+        </div>
+      `;
+      artworkList.appendChild(card);
+    });
+  });
+
+  // ✅ Only one submit handler: AJAX
+  $("#exhibition-form").on("submit", function (e) {
+    e.preventDefault();
+
+    const name = $("#name").val().trim();
+    const description = $("#description").val().trim();
+    const fee = parseFloat($("#fee").val().trim());
+    const banner = $("#banner").val().trim();
+
+    const selectedArtworks = $("#artwork-checkboxes input[type='checkbox']:checked")
+      .map(function () {
+        return this.value;
+      })
+      .get();
+
+    if (!name || !description || !fee || !banner || !selectedArtworks.length) {
+      alert("All fields are required.");
+      return;
+    }
+
+    if (selectedArtworks.length < 5) {
+      alert(`You selected ${selectedArtworks.length}. Please select at least 5 artworks to create an exhibition.`);
+      return;
+    }
+
+    const payload = {
+      name,
+      description,
+      fee,
+      banner,
+      artworks: selectedArtworks
+    };
+console.log(payload);
+
+    const userDets = JSON.parse(localStorage.getItem("user"));
+    const _id = userDets?._id;
+
+    if (!_id) {
+      alert("User not found in localStorage.");
+      return;
+    }
+
+    $.ajax({
+      url: `https://blurmint-render.onrender.com/transactions/exh/create/${_id}`,
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(payload),
+      success: function (response) {
+        alert("Exhibition created successfully!");
+        $("#exhibition-form")[0].reset();
+        $("#artwork-checkboxes").empty();
+        $("#artwork-list").empty();
+      },
+      error: function (xhr) {
+        const message = xhr.responseJSON?.error || "Something went wrong";
+        alert(message);
+      }
+    });
+  });
+</script>
+
+
+
+
+                <!-- <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         const form = document.getElementById("exhibition-form");
                         const checkboxes = document.querySelectorAll('input[name="nfts[]"]');
@@ -485,7 +601,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                             }
                         });
                     });
-                </script>
+                </script> -->
             </div>
         </div>
     </div>
