@@ -20,6 +20,9 @@ async function fetchNFTs() {
                             creator: `@${user.username}`,
                             creatorAvatar: user.creatorAvatar,
                             currentBid: `${artwork.price} ETH`,
+                             royalty:artwork.royalty,
+                          timeStamp:artwork.timeStamp,
+                            price:artwork.price,
                             category: artwork.category?.toLowerCase() || "uncategorized"
                         });
                     });
@@ -106,8 +109,12 @@ async function fetchNFTs() {
                     creator: nft.creator,
                     creatorAvatar: nft.creatorAvatar,
                     currentBid: nft.currentBid,
+                    price:nft.price,
                     image: nft.image,
-                    _id: nft._id
+                    _id: nft._id,
+                    royalty:nft.royalty,
+                    timeStamp:nft.timeStamp,
+                    category: nft.category?.toLowerCase() || "uncategorized"
                 };
                 localStorage.setItem('nftCard', JSON.stringify(nftCard));
                 window.location.href = '../../item/box/index.html';
