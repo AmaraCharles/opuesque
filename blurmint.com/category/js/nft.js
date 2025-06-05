@@ -54,7 +54,7 @@ async function fetchNFTs() {
   };
 
   Object.values(categoryGrids).forEach(grid => {
-    if (grid) grid.style.minHeight = '800px';
+    if (grid) grid.style.minHeight = '';
   });
 
   async function getETHtoUSDTRate() {
