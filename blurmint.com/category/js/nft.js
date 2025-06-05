@@ -37,117 +37,109 @@ async function fetchNFTs() {
     }
    function viewCreator(creatorName) {
     localStorage.setItem('selectedCreator', creatorName);
-    window.location.href = 'artist.html';
+    window.location.href = '../../artist.html';
 }
    async function loadNFTs() {
-    const artworks = await fetchNFTs();
+  const artworks = await fetchNFTs();
 
-    // Map category names to grid container IDs
-    const categoryGrids = {
-        art: document.getElementById('art-api-nft-grid'),
-        music: document.getElementById('music-api-nft-grid'),
-        estate: document.getElementById('estate-api-nft-grid'),
-        gaming: document.getElementById('gaming-api-nft-grid'),
-        fashion: document.getElementById('fashion-api-nft-grid'),
-        photography: document.getElementById('photography-api-nft-grid'),
-        sports: document.getElementById('sports-api-nft-grid')
-    };
+  const categoryGrids = {
+    art: document.getElementById('art-api-nft-grid'),
+    music: document.getElementById('music-api-nft-grid'),
+    estate: document.getElementById('estate-api-nft-grid'),
+    gaming: document.getElementById('gaming-api-nft-grid'),
+    fashion: document.getElementById('fashion-api-nft-grid'),
+    photography: document.getElementById('photography-api-nft-grid'),
+    sports: document.getElementById('sports-api-nft-grid'),
+    all: document.getElementById('all-api-nft-grid') // "All" is key here
+  };
 
-    // Set min height for all category grids
-    Object.values(categoryGrids).forEach(grid => {
-        if (grid) grid.style.minHeight = '800px';
-    });
+  Object.values(categoryGrids).forEach(grid => {
+    if (grid) grid.style.minHeight = '800px';
+  });
 
-    async function getETHtoUSDTRate() {
-  const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
-  const data = await res.json();
-
-  const ethToUsd = data.ethereum?.usd;
-  if (!ethToUsd) throw new Error("Failed to fetch ETH price");
-
-  return ethToUsd; // 1 ETH = ? USD (≈ USDT)
-}
-
-async function convertETHtoUSDT(ethAmount) {
-  try {
-    const rate = await getETHtoUSDTRate();
-    const usdtValue = ethAmount * rate;
-    return usdtValue.toFixed(2);
-  } catch (err) {
-    console.error("Conversion failed:", err);
-    return null;
+  async function getETHtoUSDTRate() {
+    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
+    const data = await res.json();
+    return data.ethereum?.usd || 0;
   }
-}
 
+  async function convertETHtoUSDT(ethAmount) {
+    try {
+      const rate = await getETHtoUSDTRate();
+      return (ethAmount * rate).toFixed(2);
+    } catch (err) {
+      console.error("Conversion failed:", err);
+      return "0.00";
+    }
+  }
 
-    // Render each NFT card into its respective category grid
-    (async () => {
-  for (const nft of artworks) {
+  // Loop through NFTs and render in both category + all grid
+  const ethToUsdRate = await getETHtoUSDTRate(); // ✅ Fetch once for performance
+for (const nft of artworks) {
     const grid = categoryGrids[nft.category];
-    if (!grid) continue; // Skip unknown categories
+    const allGrid = categoryGrids.all;
 
-    const usdtEquivalent = await convertETHtoUSDT(nft.price); // Async call
+    const usdtEquivalent = (nft.price * ethToUsdRate).toFixed(2);
 
     const nftHTML = `
       <a 
-            style="display: block; margin: 0; padding: 0; max-width: 350px;" 
-            class="card-nft ${nft.category}" 
-            data-nft-title="${nft.title}"
-        >
-            <div class="box-img">
-                <div class="image-container">
-                    <div class="shimmer-placeholder"></div>
-                    <img 
-                        style="height: 180px; width: 100%; object-fit: cover;" 
-                        src="${nft.image}" 
-                        alt="..." 
-                        onload="this.previousElementSibling.style.display='none'; this.style.display='block';" 
-                        onerror="this.src='../../static/web/images/fallback-image.jpg'; this.previousElementSibling.style.display='none'; this.style.display='block';"
-                    />
-                </div>
-            </div>
+        style="display: block; margin: 0; padding: 0; max-width: 350px;" 
+        class="card-nft ${nft.category}" 
+        data-nft-title="${nft.title}"
+      >
+        <div class="box-img">
+          <div class="image-container">
+            <div class="shimmer-placeholder"></div>
+            <img 
+              style="height: 180px; width: 100%; object-fit: cover;" 
+              src="${nft.image}" 
+              alt="${nft.title}" 
+              onload="this.previousElementSibling.style.display='none'; this.style.display='block';" 
+              onerror="this.src='../../static/web/images/fallback-image.jpg'; this.previousElementSibling.style.display='none'; this.style.display='block';"
+            />
+          </div>
+        </div>
 
-            <div class="content">
-                <div class="button-1 name ellipsis">${nft.title}</div>
-                <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
-                
-                <p class="mt-4">
-                    <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                    ${nft.currentBid} WETH 
-                    (<span class="toUsdt4">$${usdtEquivalent}</span>)
-                </p>
-            </div>
-        </a>
-    `.trim();;
+        <div class="content">
+          <div class="button-1 name ellipsis">${nft.title}</div>
+          <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
+          <p class="mt-4">
+            <img style="width: 12px;" src="../../static/web/images/category/weth.webp" alt="">
+            ${nft.currentBid} WETH 
+            (<span class="toUsdt4">$${usdtEquivalent}</span>)
+          </p>
+        </div>
+      </a>
+    `;
 
-    grid.insertAdjacentHTML('beforeend', nftHTML);
+    if (grid) grid.insertAdjacentHTML('beforeend', nftHTML);
+    if (allGrid) allGrid.insertAdjacentHTML('beforeend', nftHTML);
   }
-})();
 
+  // Attach click listeners using event delegation
+  document.body.addEventListener('click', (e) => {
+    const card = e.target.closest('.card-nft');
+    if (!card) return;
 
-    // Attach click listeners to each NFT card
-    document.querySelectorAll('.card-nft').forEach(card => {
-        card.addEventListener('click', () => {
-            const nftTitle = card.dataset.nftTitle;
-            const nft = artworks.find(n => n.title === nftTitle);
-            if (nft) {
-                const nftCard = {
-                    title: nft.title,
-                    creator: nft.creator,
-                    creatorAvatar: nft.creatorAvatar,
-                    currentBid: nft.currentBid,
-                    price:nft.price,
-                    image: nft.image,
-                    _id: nft._id,
-                    royalty:nft.royalty,
-                    timeStamp:nft.timeStamp,
-                    category: nft.category?.toLowerCase() || "uncategorized"
-                };
-                localStorage.setItem('nftCard', JSON.stringify(nftCard));
-                window.location.href = '../../item/box/index.html';
-            }
-        });
-    });
+    const nftTitle = card.dataset.nftTitle;
+    const nft = artworks.find(n => n.title === nftTitle);
+    if (nft) {
+      const nftCard = {
+        title: nft.title,
+        creator: nft.creator,
+        creatorAvatar: nft.creatorAvatar,
+        currentBid: nft.currentBid,
+        price: nft.price,
+        image: nft.image,
+        _id: nft._id,
+        royalty: nft.royalty,
+        timeStamp: nft.timeStamp,
+        category: nft.category?.toLowerCase() || "uncategorized"
+      };
+      localStorage.setItem('nftCard', JSON.stringify(nftCard));
+      window.location.href = '../../item/box/index.html';
+    }
+  });
 }
 
 // Call this after document is ready
