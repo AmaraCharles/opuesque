@@ -601,6 +601,10 @@ function populateArtworks(tabName) {
 
     const container = document.getElementById(`${tabName}-tab`);
     // container.innerHTML = '';
+    if (!container) {
+    console.error(`Container for tab '${tabName}' not found.`);
+    return;
+}
 
     artworks[tabName].forEach((art, index) => {
 
