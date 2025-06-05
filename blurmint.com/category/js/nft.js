@@ -32,7 +32,10 @@ async function fetchNFTs() {
             return [];
         }
     }
-
+   function viewCreator(creatorName) {
+    localStorage.setItem('selectedCreator', creatorName);
+    window.location.href = 'artist.html';
+}
    async function loadNFTs() {
     const artworks = await fetchNFTs();
 
@@ -78,7 +81,8 @@ async function fetchNFTs() {
 
                 <div class="content">
                     <div class="button-1 name ellipsis">${nft.title}</div>
-                    <p class="mt-4">${nft.creator}</p>
+                    <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
+                    
                     <p class="mt-4">
                         <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
                         ${nft.currentBid}
