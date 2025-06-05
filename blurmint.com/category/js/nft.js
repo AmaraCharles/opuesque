@@ -19,7 +19,7 @@ async function fetchNFTs() {
                             image: artwork.image,
                             creator: `@${user.username}`,
                             creatorAvatar: user.creatorAvatar,
-                            currentBid: `${artwork.price} ETH`,
+                            currentBid: `${artwork.price}`,
                              royalty:artwork.royalty,
                           timeStamp:artwork.timeStamp,
                             price:artwork.price,
@@ -58,45 +58,72 @@ async function fetchNFTs() {
         if (grid) grid.style.minHeight = '800px';
     });
 
+    async function getETHtoUSDTRate() {
+  const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
+  const data = await res.json();
+
+  const ethToUsd = data.ethereum?.usd;
+  if (!ethToUsd) throw new Error("Failed to fetch ETH price");
+
+  return ethToUsd; // 1 ETH = ? USD (≈ USDT)
+}
+
+async function convertETHtoUSDT(ethAmount) {
+  try {
+    const rate = await getETHtoUSDTRate();
+    const usdtValue = ethAmount * rate;
+    return usdtValue.toFixed(2);
+  } catch (err) {
+    console.error("Conversion failed:", err);
+    return null;
+  }
+}
+
+
     // Render each NFT card into its respective category grid
-    artworks.forEach(nft => {
-        const grid = categoryGrids[nft.category];
-        if (!grid) return; // Skip unknown categories
+    (async () => {
+  for (const nft of artworks) {
+    const grid = categoryGrids[nft.category];
+    if (!grid) continue; // Skip unknown categories
 
-        const nftHTML = `
-            <a 
-                style="margin-right:0px;padding:0px;max-width: 350px;" 
-                class="card-nft ${nft.category}" 
-                data-nft-title="${nft.title}"
-            >
-                <div class="box-img">
-                    <div class="image-container">
-                        <div class="shimmer-placeholder"></div>
-                        <img 
-                            style="height: 180px; object-fit: cover;" 
-                            src="${nft.image}" 
-                            alt="..." 
-                            onload="this.previousElementSibling.style.display='none'; this.style.display='block';" 
-                            onerror="this.src='../../static/web/images/fallback-image.jpg'; this.previousElementSibling.style.display='none'; this.style.display='block';"
-                        />
-                    </div>
+    const usdtEquivalent = await convertETHtoUSDT(nft.price); // Async call
+
+    const nftHTML = `
+      <a 
+            style="display: block; margin: 0; padding: 0; max-width: 350px;" 
+            class="card-nft ${nft.category}" 
+            data-nft-title="${nft.title}"
+        >
+            <div class="box-img">
+                <div class="image-container">
+                    <div class="shimmer-placeholder"></div>
+                    <img 
+                        style="height: 180px; width: 100%; object-fit: cover;" 
+                        src="${nft.image}" 
+                        alt="..." 
+                        onload="this.previousElementSibling.style.display='none'; this.style.display='block';" 
+                        onerror="this.src='../../static/web/images/fallback-image.jpg'; this.previousElementSibling.style.display='none'; this.style.display='block';"
+                    />
                 </div>
+            </div>
 
-                <div class="content">
-                    <div class="button-1 name ellipsis">${nft.title}</div>
-                    <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
-                    
-                    <p class="mt-4">
-                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                        ${nft.currentBid}
-                        (<span class="toUsdt" data-eth="4.00"></span>)
-                    </p>
-                </div>
-            </a>
-        `;
+            <div class="content">
+                <div class="button-1 name ellipsis">${nft.title}</div>
+                <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
+                
+                <p class="mt-4">
+                    <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
+                    ${nft.currentBid} WETH 
+                    (<span class="toUsdt4">$${usdtEquivalent}</span>)
+                </p>
+            </div>
+        </a>
+    `.trim();;
 
-        grid.innerHTML += nftHTML;
-    });
+    grid.insertAdjacentHTML('beforeend', nftHTML);
+  }
+})();
+
 
     // Attach click listeners to each NFT card
     document.querySelectorAll('.card-nft').forEach(card => {
