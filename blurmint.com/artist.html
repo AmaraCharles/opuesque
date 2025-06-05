@@ -608,7 +608,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         .tab-btn {
             padding: 12px 24px;
             background: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(13, 13, 13, 0.1);
             border-radius: 12px;
             font-family: 'Michroma', sans-serif;
             font-size: 14px;
@@ -733,7 +733,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             <div class="profile-header">
                 <img src="" id="avatar" alt="Author" class="profile-avatar">
                 <div class="profile-info">
-                    <div style="display: flex;"><h1 class="profile-name">${artistData.name}</h1> <img src="./images/verify.png" style="height: 20px; width: 30px;" alt=""></div>
+                    <div style="display: flex;"><h1 class="profile-name">${artistData.name}</h1> <img src="./verify.png" style="height: 20px; width: 30px;" alt=""></div>
                 <div class="profile-username">@${artistData.username}</div>
                     <!-- <div class="wallet-address" onclick="copyWalletAddress()">
                         <span>0x4bbcd1cd24cd0dcba589cd9349dd595744686a6d</span>
@@ -745,7 +745,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                             <div class="stat-label text-dark">Items</div>
                         </div>
                         <div class="stat-item" style="margin-right: 30px;">
-                            <div class="stat-value text-dark" id="totalsold"></div>
+                            <div class="stat-value text-dark" id="totalsold">0</div>
                             <div class="stat-label text-dark">Volume</div>
                         </div>
                         <!-- <div class="stat-item">
@@ -768,7 +768,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 <!-- Fund Wallet Button -->
 <div>
 
-<p  id="bio">
+<p  id="bio" class="text-dark" style="color: #000;">
 
     
 </p>
@@ -885,440 +885,20 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
 <script>
 
-function cancelWalletFunding() {
-  console.log('User canceled wallet funding.');
-  document.getElementById('fundingAmount').value = '';
-}
 
-    // Show modal
-    function openWalletFundingModal() {
-      $('#walletFundingModal').modal('show');
-    }
-  
-    // Copy wallet address to clipboard
-    function copyWallletAddress() {
-      const addressInput = document.getElementById('walletAddressToFund');
-      navigator.clipboard.writeText(addressInput.value)
-        .then(() => alert("Wallet address copied!"))
-        .catch(err => console.error("Copy failed:", err));
-    }
-    async function depositFnc(dataObj) {
-          var btn=document.getElementById('confirmPayment');
-          function red () {
-            btn.style.opacity="1"
-            btn.innerHTML="Confirm Payment"
     
-                           }
-       
-          await $.ajax({
-            type: "POST",
-            url: `https://new-slime.onrender.com
-/transactions/${dataObj.userId}/deposit`,
-            dataType: "json",
-            data: { ...dataObj },
-            timeout: 30000,
-            success: function (data) {
-            //   localStorage.removeItem("ct")
-                console.log(data)
-                Swal.fire('Deposited!', 'Your funding request is being procssed', 'success');
-                                        setTimeout(function(){location.href="./author.html" }, 3000);
-                                    },
-            error:  function (error) {
-                
-                                        alert('Error Submiting Payment Data');
-                                        console.log(error);
-                                        red()
-                                    }
-            // function (xhr, status, error) {
-            //   console.log(error);
-            //   $('.live-section').html("").addClass('alert-danger')
-            // }
-        });
-    
-}
-    // Placeholder: handle funding confirmation
-   async function confirmWalletFunding() {
-
-     
-        var getuser=localStorage.getItem("user")
-        var parseUser=JSON.parse(getuser)
-      const amount = document.getElementById('fundingAmount').value;
-      const timestamp=new Date()
-      const from=parseUser.name
-      const to=parseUser.email
-const userId=parseUser._id
-
-var dataObj={
-
-    amount,timestamp,from,to,userId
-
-
-}
-      alert(`Funding wallet with ${amount} ETH...`);
-      // Add your funding logic here
-      $('#walletFundingModal').modal('hide');
-      await depositFnc(dataObj)
-    }
-  </script>
-      
-
-<script>
-
-function cancelWalletFunding() {
-  console.log('User canceled wallet funding.');
-  document.getElementById('fundingAmount').value = '';
-}
-
-    // Show modal
-    function openWalletFundingModal() {
-      $('#walletFundingModal').modal('show');
-    }
-  
-    // Copy wallet address to clipboard
-    function copyWallletAddress() {
-      const addressInput = document.getElementById('walletAddressToFund');
-      navigator.clipboard.writeText(addressInput.value)
-        .then(() => alert("Wallet address copied!"))
-        .catch(err => console.error("Copy failed:", err));
-    }
-    async function depositFnc(dataObj) {
-          var btn=document.getElementById('confirmPayment');
-          function red () {
-            btn.style.opacity="1"
-            btn.innerHTML="Confirm Payment"
-    
-                           }
-       
-          await $.ajax({
-            type: "POST",
-            url: `https://new-slime.onrender.com
-/transactions/${dataObj.userId}/deposit`,
-            dataType: "json",
-            data: { ...dataObj },
-            timeout: 30000,
-            success: function (data) {
-            //   localStorage.removeItem("ct")
-                console.log(data)
-                Swal.fire('Deposited!', 'Your funding request is being procssed', 'success');
-                                        setTimeout(function(){location.href="./author.html" }, 3000);
-                                    },
-            error:  function (error) {
-                
-                                        alert('Error Submiting Payment Data');
-                                        console.log(error);
-                                        red()
-                                    }
-            // function (xhr, status, error) {
-            //   console.log(error);
-            //   $('.live-section').html("").addClass('alert-danger')
-            // }
-        });
-    
-}
-    // Placeholder: handle funding confirmation
-   async function confirmWalletFunding() {
-
-     
-        var getuser=localStorage.getItem("user")
-        var parseUser=JSON.parse(getuser)
-      const amount = document.getElementById('fundingAmount').value;
-      const timestamp=new Date()
-      const from=parseUser.name
-      const to=parseUser.email
-const userId=parseUser._id
-
-var dataObj={
-
-    amount,timestamp,from,to,userId
-
-
-}
-      alert(`Funding wallet with ${amount} ETH...`);
-      // Add your funding logic here
-      $('#walletFundingModal').modal('hide');
-      await depositFnc(dataObj)
-    }
-  </script>
-      
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
-    <!-- <script>
-        if (typeof jQuery == 'undefined') {
-            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"><\/script>');
-        }
-    </script> -->
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/custom.js"></script>
-    <script>
-                
-                    
-                    async function fetchUserFromLocalStorage() {
-                      var parsedData = await localStorage.getItem('user')
-                      var user = JSON.parse((parsedData))
-                      var from = user.email
-                      var _id = user._id;
-                      var name=user.name;
-                var email=user.email;
-                var balance=user.profit
-                      return { _id, from,email,balance,name }
-                    }
-                
-             
-                function went(){alert('withdrawal request successfully sent')}
-                
-         
-                    async function fetchUserInfo() {
-                          var parsedData = localStorage.getItem('user')
-                          var userFromLS = JSON.parse((parsedData))
-                          let currentUser;
-                          console.log(userFromLS);
-                    
-                          const response = await $.ajax({
-                            type: "GET",
-                            url: `https://new-slime.onrender.com
-/users/beatricemoreau09@gmail.com`,
-                            dataType: "json",
-                            timeout: 30000,
-                            success: async function (data) {
-                            //   Object.assign(currentUser, data.data)
-                              await localStorage.setItem("user", JSON.stringify(data.data))
-                            },
-                            error: function () {
-                              alert(error)
-                            }
-                          });
-                    
-                          return response.data;
-                        }
-                    
-
-                
-                
-                    async function sendWithdrawalTx(dataObj) {
-                      console.log(dataObj);
-                      const response = await $.ajax({
-                        type: "POST",
-                        url: `https://new-slime.onrender.com
-/transactions/${dataObj._id}/withdrawal`,
-                        dataType: "json",
-                        timeout: 30000,
-                        data: dataObj,
-                 success:
-                //   function () {
-                //   went();
-                //           $('.live-section').show().addClass("alert-primary").text("withdrawal request successful")
-                //           location.href='withhistory.html'
-                //         }
-                
-                function (data) {
-                            console.log(data)
-                            Swal.fire('Successful!', 'Withdrqawal request successfully initiated.', 'success');
-                                                    setTimeout(function(){location.href="./author.html" }, 3000);
-                                                }
-                
-                
-                
-                ,
-                
-                        error: function (xhr, status, error) {
-                                    unBlurr();
-                                    expired()
-                                    console.log(error);
-                                   }
-                            });
-                    
-                      console.log(response);
-                      return response.data
-                      
-                    }
-                function expired(){alert('request timeout')}
-                // function blurr(){var dataBtn=document.getElementById('withdrawBtn')
-                //     dataBtn.innerHTML="Processing...";
-                //     dataBtn.style.opacity='0.5'
-                //    }
-                
-                   function unBlurr(){var dataBtn=document.getElementById('withdrawBtn')
-                    dataBtn.innerHTML="Confirm Withdrawal";
-                    dataBtn.style.opacity='1'
-                   }
-                    $("#withdrawBtn").click(async function (e) {
-            
-                      e.preventDefault();
-                      blurr()
-                      const amount = $('#withAmount').val();
-                      const method = $('#withMethod').val();
-                      const address = $('#withAddress').val();
-                      const account = $('#account').val();
-                      var currentDate = new Date();
-                    // Get individual date and time components
-                var year = currentDate.getFullYear();
-                var month = ('0' + (currentDate.getMonth() + 1)).slice(-2); // Month is zero-based, so we add 1
-                var day = ('0' + currentDate.getDate()).slice(-2);
-                var hours = ('0' + currentDate.getHours()).slice(-2);
-                var minutes = ('0' + currentDate.getMinutes()).slice(-2);
-                var seconds = ('0' + currentDate.getSeconds()).slice(-2);
-                
-                // Format the date and time
-                var timestamp= year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-               
-                      const {balance} = await fetchUserFromLocalStorage();
-                
-                  console.log(balance)
-                  if(Number(balance)<amount){
-            
-                    swal.fire({
-                                                 title: "Insufficient funds",
-                                                 text: "You dont have enough funds to proceed with this transaction.",
-                                                 type:"danger",
-                                                  timer: 3000
-                                                })
-                                                unBlurr();
-            
-                  }
-                  else{
-                      // var address = cryptoOption.address;
-                      var { _id, from } = await fetchUserFromLocalStorage();
-            
-                     
-                      await sendWithdrawalTx({ amount, method, address, _id, from ,account,timestamp,balance})
-                      
-                    }
-                    })
-
-
-
-        let withdrawModal;
-        
-        // Function to show withdraw modal
-        function showWithdrawModal() {
-            const modalElement = document.getElementById('withdrawModal');
-            withdrawModal = new bootstrap.Modal(modalElement);
-            withdrawModal.show();
-        
-            // Add event listeners for close buttons
-            modalElement.querySelector('.btn-close').addEventListener('click', function() {
-                withdrawModal.hide();
-                clearWithdrawModalInputs();
-            });
-        
-            modalElement.querySelector('.btn-secondary').addEventListener('click', function() {
-                withdrawModal.hide();
-                clearWithdrawModalInputs();
-            });
-        }
-        
-        // Function to process withdrawal
-     // MAIN WITHDRAWAL FUNCTION
-async function processWithdrawal(e) {
-    // e.preventDefault();
-
-    // blurr(); // Optional: your UI blur logic
-
-    // Fetch user info from localStorage
-    const { _id, from, account, balance } = await fetchUserFromLocalStorage();
-
-    // Generate timestamp
-    const currentDate = new Date();
-    const timestamp = currentDate.toISOString().slice(0, 19).replace('T', ' ');
-
-    // Read inputs
-    const amount = parseFloat(document.getElementById('withdrawAmount').value);
-    const address = document.getElementById('withdrawAddress').value;
-    const spotBalanceText = document.getElementById('spotBalance').innerText;
-    const spotBalance = parseFloat(spotBalanceText.replace(' ETH', ''));
-
-    // Basic validations
-    if (!amount || !address) {
-        return Swal.fire({
-            title: 'Error',
-            text: 'Please fill in all fields',
-            icon: 'error',
-            background: '#1a1a1a',
-            color: '#fff',
-            confirmButtonColor: '#36454F'
-        });
-    }
-
-    if (amount > spotBalance) {
-        return Swal.fire({
-            title: 'Insufficient Balance',
-            text: 'Withdrawal amount exceeds your spot balance',
-            icon: 'error',
-            background: '#1a1a1a',
-            color: '#fff',
-            confirmButtonColor: '#36454F'
-        });
-    }
-
-    // Show processing modal
-    await Swal.fire({
-        title: 'Processing Withdrawal',
-        text: `Withdrawing ${amount} ETH to ${address}`,
-        icon: 'info',
-        background: '#1a1a1a',
-        color: '#fff',
-        confirmButtonColor: '#36454F',
-        showConfirmButton: false,
-        timer: 2000
-    });
-
-    try {
-        // Call your API to handle withdrawal
-        await sendWithdrawalTx({
-            amount,
-            method: 'ETH',
-            address,
-            _id,
-            from,
-            account,
-            timestamp,
-            balance
-        });
-
-        // Update balance in UI
-        const newBalance = spotBalance - amount;
-        document.getElementById('spotBalance').innerText = `${newBalance.toFixed(2)} ETH`;
-
-        // Success message
-        await Swal.fire({
-            title: 'Success!',
-            text: 'Withdrawal has been processed',
-            icon: 'success',
-            background: '#1a1a1a',
-            color: '#fff',
-            confirmButtonColor: '#36454F'
-        });
-
-        // Close modal and reset inputs
-        if (withdrawModal) withdrawModal.hide();
-        clearWithdrawModalInputs();
-
-    } catch (error) {
-        console.error('Withdrawal error:', error);
-        Swal.fire({
-            title: 'Error',
-            text: 'Withdrawal failed. Please try again later.',
-            icon: 'error',
-            background: '#1a1a1a',
-            color: '#fff',
-            confirmButtonColor: '#36454F'
-        });
-    }
-
 
     async function fetchUserInfo() {
     var username=localStorage.getItem("selectedCreator")
     try {
         const response = await $.ajax({
             type: "GET",
-            url: `https://new-slime.onrender.com/users/username/${username}`,
+            url: `https://blurmint-render.onrender.com/users/username/${username}`,
             dataType: "json",
             timeout: 30000
         });
 
-        localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("creator", JSON.stringify(response.data));
         console.log("Fetched user info.");
         return response.data;
 
@@ -1328,62 +908,8 @@ async function processWithdrawal(e) {
     }
 }
 
-}
 
-      async function sendTransacDetail(details){
-
-
-
-
-const detailss=decodeURIComponent(details)
-const parseDetails=JSON.parse(detailss)
-
-console.log(parseDetails);
-
-// var [transactionId,_id]=details;
-
-// var amount=localStorage.getItem("amy")
-// alert(amount)
-_id=parseDetails.userid
-// amount=parseDetails.amount
-transactionId=parseDetails.transacId
-var send=[transactionId,_id]
-console.log(_id)
-console.log(transactionId)
-
-
-
-
-const response = await $.ajax({
-type: "PUT",
-url: `https://new-slime.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm`,
-dataType: "json",
-data:{_id,transactionId},
-timeout: 30000,
-
-success: function () {
-    Swal.fire('Listed!', 'Your artwork has been listed.', 'success');
-setTimeout(function () {$(location).prop('href', './author.html')     
-      }, 1000 * 2)
-
-}
-});
-
-console.log(response);
-return response.data
-
-}
-//decline user withdrawal request
-
-async function holder(details) {
-
-    sendTransacDetail(details)
-    
-}
-
-
-
-      $(document).ready(async function () {
+    $(document).ready(async function () {
 
     
 
@@ -1430,7 +956,7 @@ const artworks = {
 
 // Function to populate artworks in a tab
 function populateArtworks(tabName) {
-    var getUser=localStorage.getItem("user")
+    var getUser=localStorage.getItem("creator")
     var user=JSON.parse(getUser)
 $("#bio").text(user.bio)
     const container = document.getElementById(`${tabName}-tab`);
@@ -1528,6 +1054,7 @@ window.switchTab = function (tabName) {
             // document.getElementById('fundedBalance').innerText = '1.75 ETH';
             populateArtworks('listed');
         });
+
     </script>
 
 
@@ -1564,7 +1091,7 @@ window.switchTab = function (tabName) {
             </a>
         </li>
         <li>
-            <a href="https://blurmint.com/marketplace/index.html">
+            <a href="./marketplace/index.html">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g>
                         <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1581,7 +1108,7 @@ window.switchTab = function (tabName) {
             
         </li>
         <li>
-            <a href="https://blurmint.com/settings/index.html">
+            <a href="./user.html">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g>
                     <path d="M12.1596 10.87C12.0596 10.86 11.9396 10.86 11.8296 10.87C9.44957 10.79 7.55957 8.84 7.55957 6.44C7.55957 3.99 9.53957 2 11.9996 2C14.4496 2 16.4396 3.99 16.4396 6.44C16.4296 8.84 14.5396 10.79 12.1596 10.87Z" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1592,7 +1119,7 @@ window.switchTab = function (tabName) {
         </li>
         <li>
             
-            <a href="https://blurmint.com/sign-out/index.html">
+            <a href="./sign-in/index.html">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20" fill="none">
                     <g>
                         <path d="M1.66602 5.37258C1.66602 3.33008 3.35788 1.66675 5.43646 1.66675H9.57072C11.6451 1.66675 13.3327 3.32508 13.3327 5.36425V14.6276C13.3327 16.6709 11.6408 18.3334 9.56139 18.3334H5.42883C3.35364 18.3334 1.66602 16.6751 1.66602 14.6359V13.8526V5.37258Z" stroke="#1A1528" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1700,7 +1227,7 @@ window.switchTab = function (tabName) {
                     </a>
                 </li>
                 <li>
-                    <a href="https://blurmint.com/sign-out/index.html" class="item">
+                    <a href="./sign-in/index.html" class="item">
                         <span class="body-1 content">Sign Out</span>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="0.6">
@@ -1724,7 +1251,7 @@ window.switchTab = function (tabName) {
             </a>
         </li>
         <li>
-            <a href="https://blurmint.com/marketplace/index.html">
+            <a href="./marketplace/index.html">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g>
                         <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1741,7 +1268,7 @@ window.switchTab = function (tabName) {
             
         </li>
         <li>
-            <a href="https://blurmint.com/settings/index.html">
+            <a href="./user.html">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g>
                     <path d="M12.1596 10.87C12.0596 10.86 11.9396 10.86 11.8296 10.87C9.44957 10.79 7.55957 8.84 7.55957 6.44C7.55957 3.99 9.53957 2 11.9996 2C14.4496 2 16.4396 3.99 16.4396 6.44C16.4296 8.84 14.5396 10.79 12.1596 10.87Z" stroke="#1A1528" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1752,7 +1279,7 @@ window.switchTab = function (tabName) {
         </li>
         <li>
             
-            <a href="https://blurmint.com/sign-out/index.html">
+            <a href="./sign-in/index.html">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20" fill="none">
                     <g>
                         <path d="M1.66602 5.37258C1.66602 3.33008 3.35788 1.66675 5.43646 1.66675H9.57072C11.6451 1.66675 13.3327 3.32508 13.3327 5.36425V14.6276C13.3327 16.6709 11.6408 18.3334 9.56139 18.3334H5.42883C3.35364 18.3334 1.66602 16.6751 1.66602 14.6359V13.8526V5.37258Z" stroke="#1A1528" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1860,7 +1387,7 @@ window.switchTab = function (tabName) {
                     </a>
                 </li>
                 <li>
-                    <a href="https://blurmint.com/sign-out/index.html" class="item">
+                    <a href="./sign-in/index.html" class="item">
                         <span class="body-1 content">Sign Out</span>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g opacity="0.6">
