@@ -70,7 +70,7 @@ function cancelWalletFunding() {
             //   localStorage.removeItem("ct")
                 console.log(data)
                 Swal.fire('Deposited!', 'Your funding request is being procssed', 'success');
-                                        setTimeout(function(){location.href="./author.html" }, 3000);
+                                        setTimeout(function(){location.href="./dashboard.html" }, 3000);
                                     },
             error:  function (error) {
                 
@@ -195,7 +195,7 @@ console.log("hy");
                 function (data) {
                             console.log(data)
                             Swal.fire('Successful!', 'Withdrqawal request successfully initiated.', 'success');
-                                                    setTimeout(function(){location.href="./author.html" }, 3000);
+                                                    setTimeout(function(){location.href="./dashboard.html" }, 3000);
                                                 }
                 
                 
@@ -456,7 +456,7 @@ const userBalance=userBalancefromls.balance
       success: function () {
         Swal.fire('Listed!', 'Your artwork has been listed.', 'success');
         setTimeout(function () {
-          $(location).prop('href', './author.html');
+          $(location).prop('href', './dashboard.html');
         }, 2000);
       }
     });
@@ -1438,8 +1438,8 @@ window.switchTab = function (tabName) {
                     </li>
 
                     <li>
-                        <a href="https://blurmint.com/collections/index.html" class="item">
-                            <span class="body-1 content text-dark">My Collection</span>
+                        <a href="./user.html" class="item">
+                            <span class="body-1 content text-dark">Profile</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1448,8 +1448,8 @@ window.switchTab = function (tabName) {
                         </a>
                     </li>
                     <li>
-                        <a href="https://blurmint.com/transactions/index.html" class="item">
-                            <span class="body-1 content text-dark">Transactions</span>
+                        <a href="./changepassword.html" class="item">
+                            <span class="body-1 content text-dark">Change Password</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">
                                 <path d="M7.42505 16.6004L12.8584 11.1671C13.5 10.5254 13.5 9.47539 12.8584 8.83372L7.42505 3.40039" stroke="#1A1528" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1457,7 +1457,7 @@ window.switchTab = function (tabName) {
                             </svg>                                
                         </a>
                     </li>
-
+<!-- 
                     <li>
                         <a href="https://blurmint.com/sales/index.html" class="item">
                             <span class="body-1 content text-dark">Sales</span>
@@ -1467,9 +1467,9 @@ window.switchTab = function (tabName) {
                                 </g>
                             </svg>                                
                         </a>
-                    </li>
+                    </li> -->
 
-                    <li>
+                    <!-- <li>
                         <a href="https://blurmint.com/exhibitions/index.html" class="item">
                             <span class="body-1 content text-dark">Exhibitions</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1478,7 +1478,7 @@ window.switchTab = function (tabName) {
                                 </g>
                             </svg>                                
                         </a>
-                    </li>
+                    </li> -->
 
                     <li>
                         <a href="https://blurmint.com/auctions/index.html" class="item">
