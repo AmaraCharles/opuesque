@@ -544,10 +544,10 @@ localStorage.setItem("artistData",JSON.stringify(artistData))
          document.querySelector('#fundedBalance2').textContent = `${artistData.balance}`;
         const permu=localStorage.getItem("ethDollar")
         const eqv=permu*artistData.balance
-  document.querySelector('#fundedBalanceUSDT').textContent =eqv;
+  document.querySelector('#fundedBalanceUSDT').textContent =eqv.toFixed(2);
 
 
-         document.querySelector('#fundedBalanceUSDT2').textContent =eqv ;
+         document.querySelector('#fundedBalanceUSDT2').textContent =eqv.toFixed(2) ;
        
         //  document.querySelector('#fundedBalance2').textContent = `$${artistData.balance}`;
        
@@ -697,6 +697,9 @@ window.switchTab = function (tabName) {
             populateArtworks('listed');
         });
     </script>
+    <div class="gtranslate_wrapper"></div>
+<script>window.gtranslateSettings = {"default_language":"en","languages":["en","fr","it","es"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","flag_size":16,"horizontal_position":"right","vertical_position":"top","globe_size":20}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
 
 <script src="./js/transactions.js"></script>
 <style>@keyframes slide-in-one-tap {
@@ -1707,6 +1710,6 @@ window.switchTab = function (tabName) {
 
 
 <div class="gtranslate_wrapper"></div>
-<script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","fr","it","es","de","gd","zh-TW","ja","ru","pt","tr"],"wrapper_selector":".gtranslate_wrapper","alt_flags":{"en":"usa","pt":"brazil","es":"mexico"}}</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+<script>window.gtranslateSettings = {"default_language":"en","languages":["en","fr","it","es"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","flag_size":16,"horizontal_position":"right","vertical_position":"top","globe_size":20}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
 </html>
