@@ -916,7 +916,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         const artistData=await fetchUserInfo()
 console.log(artistData);
 
-localStorage.setItem("artistData",JSON.stringify(artistData))
+localStorage.setItem("artistData2",JSON.stringify(artistData))
         // Populate profile information
         document.querySelector('#totalArt').textContent = `${artistData.artWorks.length}`;
         document.querySelector('#avatar').src = `${artistData.creatorAvatar}`;
@@ -946,7 +946,7 @@ function copyWalletAddress() {
             });
         }
        // Process artworks by status
-      const getArtistData= localStorage.getItem("artistData")
+      const getArtistData= localStorage.getItem("artistData2")
       const artistData=JSON.parse(getArtistData)
 const artworks = {
     listed: artistData.artWorks ? artistData.artWorks.filter(art => art.status === 'listed') : [],
