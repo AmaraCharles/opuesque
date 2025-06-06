@@ -539,12 +539,15 @@ localStorage.setItem("artistData",JSON.stringify(artistData))
         // Populate profile information
         // document.querySelector('#totalArt').textContent = `${artistData.artWorks.length}`;
         // document.querySelector('#balance').textContent = `${artistData.balance} ETH`;
-        var usdteqv=convertETHtoUSDT(artistData.balance)
+        var usdteqv=await convertETHtoUSDT(artistData.balance)
         document.querySelector('#fundedBalance').textContent = `${artistData.balance}`;
-  document.querySelector('#fundedBalanceUSDT2').textContent =usdteqv;
+         document.querySelector('#fundedBalance2').textContent = `${artistData.balance}`;
+        const permu=localStorage.getItem("ethDollar")
+        const eqv=permu*artistData.balance
+  document.querySelector('#fundedBalanceUSDT').textContent =eqv;
 
 
-         document.querySelector('#fundedBalanceUSDT2').textContent = usdteqv;
+         document.querySelector('#fundedBalanceUSDT2').textContent =eqv ;
        
         //  document.querySelector('#fundedBalance2').textContent = `$${artistData.balance}`;
        
