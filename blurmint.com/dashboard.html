@@ -596,24 +596,20 @@ const artworks = {
 
 // Function to populate artworks in a tab
 function populateArtworks(tabName) {
-    var getUser=localStorage.getItem("user")
-    var user=JSON.parse(getUser)
+    var getUser = localStorage.getItem("user");
+    var user = JSON.parse(getUser);
 
     const container = document.getElementById(`${tabName}-tab`);
-    // container.innerHTML = '';
     if (!container) {
-    console.error(`Container for tab '${tabName}' not found.`);
-    return;
-}
+        console.error(`Container for tab '${tabName}' not found.`);
+        return;
+    }
+    container.innerHTML = ''; // Clear previous artworks before adding new ones
 
     artworks[tabName].forEach((art, index) => {
-
-        const detail= {userid:user._id,transacId:art._id}
-        console.log(detail);
-        
-       const detais=JSON.stringify(detail)
-       const details=encodeURIComponent(detais)
-localStorage.setItem("subdetails",details)
+        const detail = { userid: user._id, transacId: art._id };
+        const encodedDetails = encodeURIComponent(JSON.stringify(detail));
+        localStorage.setItem("subdetails", encodedDetails);
 
         const artworkCard = document.createElement('div');
         artworkCard.className = 'artwork-card';
@@ -626,10 +622,9 @@ localStorage.setItem("subdetails",details)
                     <span>${art.price} ETH</span>
                     <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
                 </div>
-               ${tabName === 'unlisted' ? `
-    <button class="list-button btn btn-success" data-index="${index}" >List Artwork</button>
-` : ''}
-
+                ${tabName === 'unlisted' ? `
+                    <button class="list-button btn btn-success" data-index="${index}">List Artwork</button>
+                ` : ''}
             </div>
         `;
         container.appendChild(artworkCard);
@@ -652,10 +647,9 @@ localStorage.setItem("subdetails",details)
                 });
 
                 if (result.isConfirmed) {
-                   var subdetails= localStorage.getItem("subdetails")
-sendTransacDetail(subdetails)
-                    // listArtwork(artwork);
-                    
+                    const subdetails = localStorage.getItem("subdetails");
+                    sendTransacDetail(subdetails);
+                    // listArtwork(artwork); // Optional: re-enable if needed
                 }
             });
         });
@@ -663,11 +657,10 @@ sendTransacDetail(subdetails)
 }
 
 function listArtwork(artwork) {
-    
-
     console.log(`Listing artwork: ${artwork.title}`);
-    // You might update a DB, send API request, or move to a "listed" array, etc.
+    // Add logic to update database or move artwork to listed
 }
+
 // Initialize with listed artworks
 populateArtworks('listed');
 
@@ -677,18 +670,20 @@ window.switchTab = function (tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
 
     // Hide/show the correct tab
     document.querySelectorAll('.artwork-grid').forEach(grid => {
         grid.style.display = 'none';
     });
     const activeGrid = document.getElementById(`${tabName}-tab`);
-    activeGrid.style.display = 'grid';
+    if (activeGrid) activeGrid.style.display = 'grid';
 
     // Populate artworks for the selected tab
     populateArtworks(tabName);
 };
+
  
         // Store modal instance globally
        
