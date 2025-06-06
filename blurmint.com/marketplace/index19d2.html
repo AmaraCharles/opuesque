@@ -143,41 +143,62 @@
     const tabContent = document.querySelector('.tab-content');
     const resultList = document.querySelector('.list-view-v7');
 
-    // Handle input event for the search field
-    searchField.addEventListener('input', async () => {
-        const query = searchField.value.trim();
+    async function fetchUsers() {
+        const response = await $.ajax({
+            type: "GET",
+            url: 'https://blurmint-render.onrender.com/users',
+            data: { page: 1, limit: 100 }, // adjust pagination as needed
+            dataType: "json",
+            timeout: 30000,
+        });
+        return response.data;
+    }
 
-        if (query) {
-            try {
-                const response = await fetch(`/search/?q=${encodeURIComponent(query)}`);
-                const results = await response.json();
+    // Run this once DOM is ready
+    document.addEventListener('DOMContentLoaded', async () => {
+        const users = await fetchUsers();
+
+        // Flatten all users' artworks into a single array
+        const artworks = users.flatMap(user =>
+            (user.artWorks || []).map(artwork => ({
+                ...artwork,
+                creator: user.username || user.name || "Unknown", // add creator name from user
+            }))
+        );
+
+        // Search input listener
+        searchField.addEventListener('input', () => {
+            const query = searchField.value.trim().toLowerCase();
+
+            if (query) {
+                const results = artworks.filter(artwork =>
+                    artwork.title.toLowerCase().includes(query)
+                );
 
                 tabContent.classList.add('show');
-
                 resultList.innerHTML = '';
-                const baseUrl = window.location.origin;
 
                 if (results.length === 0) {
-                    const noResultItem = document.createElement('li');
-                    noResultItem.innerHTML = `
-                        <div class="no-results">
-                            <p class="text-center text-muted">No NFTs found. Try a different search.</p>
-                        </div>
+                    resultList.innerHTML = `
+                        <li>
+                            <div class="no-results">
+                                <p class="text-center text-muted">No artworks found. Try a different search.</p>
+                            </div>
+                        </li>
                     `;
-                    resultList.appendChild(noResultItem);
                 } else {
                     results.forEach(result => {
                         const listItem = document.createElement('li');
-
                         listItem.innerHTML = `
-                            <a href="${baseUrl}/${result.link}" class="item">
+                            <a href="https://www.blurmint.com/item/box/0xA9f1eE8c6D2A2a9B0e4CDE0e736e39Fe712aD1Bb/index.html?id=${result._id}" class="item">
                                 <div class="flex-grow-1 d-flex gap-16 align-items-center">
                                     <div class="avatar round avt-50">
-                                        <img src="${result.image}" alt="${result.name}">
+                                        <img src="${result.image}" alt="${result.title}">
                                     </div>
                                     <div class="content d-flex justify-content-between align-items-center">
                                         <div class="content-left">
-                                            <p class="button-1">${result.name} (${result.type})</p>
+                                            <p class="button-1">${result.title}</p>
+                                            <small class="text-muted">by ${result.creator}</small>
                                         </div>
                                         <div class="content-right">
                                             <span class="button">View</span>
@@ -189,20 +210,19 @@
                         resultList.appendChild(listItem);
                     });
                 }
-            } catch (error) {
-                console.error('Error fetching data:', error);
+            } else {
+                tabContent.classList.remove('show');
+                resultList.innerHTML = '';
             }
-        } else {
-            tabContent.classList.remove('show');
-            resultList.innerHTML = '';
-        }
-    });
-    document.addEventListener('click', (event) => {
-        if (!searchField.contains(event.target) && !tabContent.contains(event.target)) {
-            tabContent.classList.remove('show');
-            searchField.value = '';
-            resultList.innerHTML = '';
-        }
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!searchField.contains(event.target) && !tabContent.contains(event.target)) {
+                tabContent.classList.remove('show');
+                searchField.value = '';
+                resultList.innerHTML = '';
+            }
+        });
     });
 </script>
 
