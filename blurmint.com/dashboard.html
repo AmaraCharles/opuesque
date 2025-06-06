@@ -333,7 +333,7 @@ const userBalance=user.balance
         });
     }
 
-    if (userBalance < 0.4 || amount > userBalance) {
+    if (amount > userBalance) {
         return Swal.fire({
             title: 'Insufficient Balance',
             text: "You don't have enough funds to proceed with this transaction.",
@@ -1141,7 +1141,7 @@ window.switchTab = function (tabName) {
                         <label for="withdrawAddress" class="form-label text-dark">Withdrawal Address</label>
                         <input type="text" class="form-control" id="withdrawAddress" placeholder="Enter ETH address">
                     </div>
-                    <span class="text-dark">Fee:0.4 ETH</span>
+                    <!-- <span class="text-dark">Fee:0.4 ETH</span> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -1588,7 +1588,7 @@ window.switchTab = function (tabName) {
             <ul class="list-view-v2 mb-28 pb-28">
                 
                    <li>
-                        <a href="https://blurmint.com/dashbaord.html" class="item">
+                        <a href="https://blurmint.com/dashboard.html" class="item">
                             <span class="body-1 content">Dashboard</span>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.6">

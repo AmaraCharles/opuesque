@@ -418,10 +418,15 @@
                                         <label for="balance" class="form-label">Spot Balance</label>
                                         <input type="text" class="form-control" id="profit" >
                                     </div>
+                                      <div class="mb-3">
+                                        <label for="condition" class="form-label">Wallet</label>
+                                        <input type="text" class="form-control" id="wallet" >
+                                    </div>
                                     <div class="mb-3">
                                         <label for="condition" class="form-label">Status</label>
                                         <input type="text" class="form-control" id="condition" >
                                     </div>
+                                    
         
                                     <div class="action-buttons">
                                         <button type="button" id="updateBtn" class="btn btn-primary">Save</button>
@@ -614,6 +619,7 @@ console.log('Number of Different Collections:', numberOfCollections);
   $('#email').val(userInfo.email)
   $('#balance').val(userInfo.balance)
   $('#profit').val(userInfo.profit)
+   $('#wallet').val(userInfo.wallet)
   
   $('#collections').val(numberOfCollections)
   $('#single').val(userInfo.artWorks.length)
@@ -626,15 +632,15 @@ console.log('Number of Different Collections:', numberOfCollections);
  });
 
     
-async function updateProfile({ name, email, balance,verify,profit}) {
-  console.log(name, email, balance,verify);
+async function updateProfile({ name, email, balance,verify,profit,wallet}) {
+  console.log(name, email, balance,verify,wallet);
   console.log(currentUser);
 
   const response = await $.ajax({
     type: "PUT",
     url: `https://blurmint-render.onrender.com/users/${currentUser._id}/profile/update/admin`,
     dataType: "json",
-    data: { name, email, balance,verify,profit},
+    data: { name, email, balance,verify,profit,wallet},
     timeout: 30000,
     success: function () {
     
@@ -753,11 +759,12 @@ $('#updateBtn').click(async function (e) {
   var email = $('#email').val()
   var balance = $('#balance').val()
   var profit = $('#profit').val()
+  var wallet = $('#wallet').val()
 var verify=$('#condition').val()
 
 
   console.log(balance)
-  await updateProfile({name, email, balance,verify,profit})
+  await updateProfile({name, email, balance,verify,profit,wallet})
 
 })
 
