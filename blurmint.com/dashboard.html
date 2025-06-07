@@ -124,7 +124,7 @@ var dataObj={
     <script src="js/transaction-history.js"></script> -->
     <script>
                  $(document).ready(async function () {
-console.log("hy");
+
 
                     var user=localStorage.getItem("user")
                     if (!user){
@@ -157,8 +157,7 @@ console.log("hy");
                     
                           const response = await $.ajax({
                             type: "GET",
-                            url: `https://blurmint-render.onrender.com
-/users/${userFromLS.email}`,
+                            url: `https://blurmint-render.onrender.com/users/${userFromLS.email}`,
                             dataType: "json",
                             timeout: 30000,
                             success: async function (data) {

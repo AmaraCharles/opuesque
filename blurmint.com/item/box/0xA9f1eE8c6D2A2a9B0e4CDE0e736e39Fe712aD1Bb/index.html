@@ -93,6 +93,10 @@ if (artworkId) {
 // ========================== USER AUTH CHECK ==========================
 $(document).ready(function () {
   const user = localStorage.getItem("user");
+  const old=localStorage.getItem('nftCard2')
+  if (old) {
+                          localStorage.removeItem('nftCard2')
+  }
   if (!user) {
                            location.href="../../../sign-in/index.html"
   }
@@ -140,7 +144,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     localStorage.setItem("creator2", JSON.stringify(response.data));
   } catch (error) {
     console.error("Fetch user error:", error);
-    alert("Failed to fetch user info.");
+    console.log("Failed to fetch user info.");
   }
 
   // Populate more artworks
