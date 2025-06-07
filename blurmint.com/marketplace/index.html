@@ -54,19 +54,20 @@
 
 <script>
   async function fetchNFTs() {
-    try {
-      console.log('Starting NFT fetch...');
-      const response = await $.ajax({
-        type: 'GET',
-        url: 'https://blurmint-render.onrender.com/users',
-        dataType: 'json',
-        timeout: 30000
-      });
+  try {
+    console.log('Starting NFT fetch...');
+    const response = await $.ajax({
+      type: 'GET',
+      url: 'https://blurmint-render.onrender.com/users',
+      dataType: 'json',
+      timeout: 30000
+    });
 
-      const allArtworks = [];
-      response.data.forEach(user => {
-        if (user.artWorks?.length > 0) {
-          user.artWorks.forEach(artwork => {
+    const allArtworks = [];
+    response.data.forEach(user => {
+      if (user.artWorks?.length > 0) {
+        user.artWorks.forEach(artwork => {
+          if (artwork.status === "listed") {  // ✅ Only include listed artworks
             allArtworks.push({
               _id: artwork._id,
               title: artwork.title,
@@ -79,16 +80,17 @@
               price: artwork.price,
               category: artwork.category?.toLowerCase() || "uncategorized"
             });
-          });
-        }
-      });
+          }
+        });
+      }
+    });
 
-      return allArtworks;
-    } catch (error) {
-      console.error('Error fetching NFTs:', error);
-      return [];
-    }
+    return allArtworks;
+  } catch (error) {
+    console.error('Error fetching NFTs:', error);
+    return [];
   }
+}
 
   function viewCreator(creatorName) {
     localStorage.setItem('selectedCreator', creatorName);
