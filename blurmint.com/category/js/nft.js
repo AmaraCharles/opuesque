@@ -127,6 +127,8 @@
           image: nft.image,
           _id: nft._id,
           royalty: nft.royalty,
+           owner: nft.owner,
+           description:nft.description,
           timeStamp: nft.timeStamp,
           category: nft.category?.toLowerCase() || "uncategorized"
         };
