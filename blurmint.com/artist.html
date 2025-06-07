@@ -959,8 +959,13 @@ function populateArtworks(tabName) {
     var getUser=localStorage.getItem("creator")
     var user=JSON.parse(getUser)
 $("#bio").text(user.bio)
-    const container = document.getElementById(`${tabName}-tab`);
-    container.innerHTML = '';
+  const container = document.getElementById(`${tabName}-tab`);
+    if (!container) {
+        console.error(`Container for tab '${tabName}' not found.`);
+        return;
+    }
+    container.innerHTML = ''; // Clear previous artworks before adding new ones
+
 
     artworks[tabName].forEach((art, index) => {
 
