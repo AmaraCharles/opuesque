@@ -24,6 +24,17 @@
     <title>NFT | blurmint</title>
 </head>
  <script>
+    $(document).ready(function () {
+  const user = localStorage.getItem("user");
+  const old=localStorage.getItem('nftCard2')
+  if (old) {
+                          localStorage.removeItem('nftCard2')
+  }
+  if (!user) {
+                           location.href="../../../sign-in/index.html"
+  }
+});
+
     // ========================== CONSTANTS ==========================
 const params = new URLSearchParams(window.location.search);
 const artworkId = params.get('id');
@@ -91,16 +102,6 @@ if (artworkId) {
 }
 
 // ========================== USER AUTH CHECK ==========================
-$(document).ready(function () {
-  const user = localStorage.getItem("user");
-  const old=localStorage.getItem('nftCard2')
-  if (old) {
-                          localStorage.removeItem('nftCard2')
-  }
-  if (!user) {
-                           location.href="../../../sign-in/index.html"
-  }
-});
 
 // ========================== LOAD NFT DETAILS ==========================
 window.addEventListener('DOMContentLoaded', async function () {
@@ -151,6 +152,8 @@ window.addEventListener('DOMContentLoaded', async function () {
   const artist = JSON.parse(localStorage.getItem("creator2"));
   const more = document.getElementById("more");
   for (const artwork of artist.artWorks) {
+    console.log(artwork.creator);
+      console.log(artwork.creator)
     const usdteqv2 = await convertETHtoUSDT(artwork.price);
     const html = `
       <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
@@ -1321,7 +1324,7 @@ document.addEventListener("DOMContentLoaded",async function () {
         </li>
         <li class="action-add-wallet">
             
-                <a href="../../../sign-in/index.html">
+                <a href="../../../create.html">
                     <i class="fa-solid fa-plus"></i>
                 </a>
             
@@ -1449,4 +1452,16 @@ document.addEventListener("DOMContentLoaded",async function () {
 <div class="gtranslate_wrapper"></div>
 <script>window.gtranslateSettings = {"default_language":"en","languages":["en","fr","it","es"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","flag_size":16,"horizontal_position":"right","vertical_position":"top","globe_size":20}</script>
 <script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = 'd9e9420de3249da41302a2167428fd6b48dc64c2';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 </html>
