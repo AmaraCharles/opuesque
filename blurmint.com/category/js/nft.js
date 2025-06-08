@@ -20,6 +20,7 @@
                 title: artwork.title,
                 image: artwork.image,
                 creator: `@${user.username}`,
+                 owner: artwork.owner,
                 creatorAvatar: user.creatorAvatar,
                 currentBid: `${artwork.price}`,
                 royalty: artwork.royalty,
