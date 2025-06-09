@@ -61,7 +61,7 @@ async function convertETHtoUSDT(ethAmount) {
 function viewCreator(element) {
   const cleanedName = element.innerHTML.replace(/@/g, '').trim();
   localStorage.setItem('selectedCreator', cleanedName);
-  window.location.href = '../../artist.html';
+  window.location.href = '../../../artist.html';
 }
 
 function handleArtworkClick(artwork) {

@@ -489,24 +489,22 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         return response.data;
     }
 
-    // Run this once DOM is ready
     document.addEventListener('DOMContentLoaded', async () => {
         const users = await fetchUsers();
 
-        // Flatten all users' artworks into a single array
         const artworks = users.flatMap(user =>
             (user.artWorks || []).map(artwork => ({
                 ...artwork,
-                creator: user.username || user.name || "Unknown", // add creator name from user
+                creator: user.username || user.name || "Unknown"
             }))
         );
 
-        // Search input listener
         searchField.addEventListener('input', () => {
             const query = searchField.value.trim().toLowerCase();
 
             if (query) {
                 const results = artworks.filter(artwork =>
+                    artwork.status === "listed" &&
                     artwork.title.toLowerCase().includes(query)
                 );
 
@@ -560,6 +558,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         });
     });
 </script>
+
            
             <div class="card-layout mb-40 mt-20">
                 <div class="hidden">
