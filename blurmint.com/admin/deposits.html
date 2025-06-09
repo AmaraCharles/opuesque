@@ -320,6 +320,9 @@
     
         // Handle transaction details and confirm purchase
         async function sendTransacDetail(details) {
+              let amount= prompt("Please enter the deposit amount:");
+      if (amount !== null) {
+      alert("You entered: " + amount); // Display the entered value in an alert
     try {
         console.log("Details received:", details);
 
@@ -340,13 +343,13 @@
             type: "PUT",
             url,
             dataType: "json",
-            data: { _id, transactionId },
+            data: { _id, transactionId,amount },
             timeout: 30000,
         });
 
         // Display success message
         $('.live-section').addClass("alert-primary").text("Deposit approved successfully");
-        alert("Item purchased");
+        alert("successfully  funded");
         setTimeout(() => {
             $(location).prop('href', './deposits.html');
         }, 2000);
@@ -357,6 +360,8 @@
         console.error("Error purchasing item:", error);
         alert("Failed to purchase item. Please try again.");
     }
+    }
+
 }
 
         async function declineUserDetail(details) {
@@ -386,7 +391,7 @@
 
         // Display success message
         $('.live-section').addClass("alert-primary").text("Deposit declined successfully");
-        alert("Item purchased");
+        alert("successfully declned");
         setTimeout(() => {
             $(location).prop('href', './deposits.html');
         }, 2000);

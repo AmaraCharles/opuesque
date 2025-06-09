@@ -193,8 +193,8 @@ var dataObj={
                 
                 function (data) {
                             console.log(data)
-                            // Swal.fire('Successful!', 'Withdrqawal request successfully initiated.', 'success');
-                            alert("Withdrqawal request successfully initiated.")
+                            Swal.fire('Successful!', 'Withdrqawal request successfully initiated.', 'success');
+                            // alert("Withdrqawal request successfully initiated.")
                                                     setTimeout(function(){location.href="./dashboard.html" }, 3000);
                                                 }
                 
@@ -291,12 +291,14 @@ console.log({userBalance,amount});
             // Add event listeners for close buttons
             modalElement.querySelector('.btn-close').addEventListener('click', function() {
                 withdrawModal.hide();
-                clearWithdrawModalInputs();
+                 // clearWithdrawModalInputs();
+
             });
         
             modalElement.querySelector('.btn-secondary').addEventListener('click', function() {
                 withdrawModal.hide();
-                clearWithdrawModalInputs();
+                 // clearWithdrawModalInputs();
+
             });
         }
         
@@ -320,7 +322,7 @@ async function processWithdrawal(e) {
     const spotBalanceText = document.getElementById('spotBalance').innerText;
     const spotBalance = parseFloat(spotBalanceText.replace(' ETH', ''));
 const user=JSON.parse(localStorage.getItem("user"))
-const userBalance=user.balance
+const userBalance=user.profit
     // Basic validations
     if (!amount || !address) {
         return Swal.fire({
@@ -370,8 +372,8 @@ const userBalance=user.balance
         });
 
         // Update balance in UI
-        const newBalance = spotBalance - amount;
-        document.getElementById('spotBalance').innerText = `${newBalance.toFixed(2)} ETH`;
+        // const newBalance = spotBalance - amount;
+        // document.getElementById('spotBalance').innerText = `${newBalance.toFixed(2)} ETH`;
 
         // Success message
         await Swal.fire({
@@ -385,7 +387,8 @@ const userBalance=user.balance
 
         // Close modal and reset inputs
         if (withdrawModal) withdrawModal.hide();
-        clearWithdrawModalInputs();
+        //  // clearWithdrawModalInputs();
+
 
     } catch (error) {
         console.error('Withdrawal error:', error);
@@ -1114,7 +1117,7 @@ window.switchTab = function (tabName) {
                                 <h5 class="card-title">Account Balance</h5>
                                 <h1 class="mb-20" style="font-weight: 600">
                                     <span class="toUsdt" data-eth="0.0000" id="spotBalance" >$0.00</span>
-                                    <small>USDT</small>
+                                    <small>ETH</small>
                                 </h1>
                               <div>
                                   <a style="padding: 5px 25px;margin-right:10px; margin-top:10px" href="./deposit.html" class="btn btn-primary btn-dark">Deposit</a>
