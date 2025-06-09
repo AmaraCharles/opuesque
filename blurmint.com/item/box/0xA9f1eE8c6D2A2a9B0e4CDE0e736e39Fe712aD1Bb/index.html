@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     const cleanedCreator = nftData.creator.replace(/@/g, '').trim();
     localStorage.setItem("selectedCreator3", cleanedCreator);
 
-    document.querySelector('.owned').textContent = nftData.creator;
+    // document.querySelector('.owned').textContent = nftData.creator;
     document.querySelector('#profavatar').src = nftData.creatorAvatar;
     document.querySelector('#profavatar2').src = nftData.creatorAvatar;
     document.querySelector('.current-bid').textContent = `${nftData.price} weth`;
