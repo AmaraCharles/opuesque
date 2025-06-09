@@ -162,7 +162,7 @@ const formatted = date.toLocaleDateString('en-US', {
 
 
     async function fetchUserInfo() {
-    var username=localStorage.getItem("selectedCreator2")
+    var username=localStorage.getItem("selectedCreator")
     try {
         const response = await $.ajax({
             type: "GET",
