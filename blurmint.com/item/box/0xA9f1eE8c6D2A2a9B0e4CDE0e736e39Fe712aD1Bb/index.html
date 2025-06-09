@@ -152,38 +152,72 @@ window.addEventListener('DOMContentLoaded', async function () {
   }
 
   // Populate more artworks
-  const artist = JSON.parse(localStorage.getItem("creator2"));
-  const more = document.getElementById("more");
-  for (const artwork of artist.artWorks) {
-    console.log(artwork.creator);
-      console.log(artwork.creator)
-    const usdteqv2 = await convertETHtoUSDT(artwork.price);
-    const html = `
-      <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
-        <div class="box-img">
-          <div class="image-container">
-            <div class="shimmer-placeholder"></div>
-            <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
-              onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-          </div>
+const artist = JSON.parse(localStorage.getItem("creator2"));
+const more = document.getElementById("more");
+
+for (const artwork of artist.artWorks) {
+  if (artwork.status !== "listed") continue; // ✅ Show only listed artworks
+
+  console.log(artwork.creator);
+  
+  const usdteqv2 = await convertETHtoUSDT(artwork.price);
+  const html = `
+    <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
+      <div class="box-img">
+        <div class="image-container">
+          <div class="shimmer-placeholder"></div>
+          <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
+            onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
         </div>
-        <div class="content">
-          <div class="button-1 name ellipsis">${artwork.title}</div>
-          <p class="mt-4">
-            ${artwork.creator}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14.3731 7.16036L..." fill="#2664ED" />
-            </svg>
-          </p>
-          <p class="mt-4">
-            <img style="width: 12px;" class="lazyload" data-src="../../../static/web/images/category/weth.webp" alt="">
-            ${artwork.price} WETH (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
-          </p>
-        </div>
-      </a>`;
-    more.insertAdjacentHTML('beforeend', html);
+      </div>
+      <div class="content">
+        <div class="button-1 name ellipsis">${artwork.title}</div>
+        <p class="mt-4">
+          ${artwork.creator}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.3731 7.16036L..." fill="#2664ED" />
+          </svg>
+        </p>
+        <p class="mt-4">
+          <img style="width: 12px;" class="lazyload" data-src="../../../static/web/images/category/weth.webp" alt="">
+          ${artwork.price} WETH (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
+        </p>
+      </div>
+    </a>`;
+  more.insertAdjacentHTML('beforeend', html);
+}
+
+async function share(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp) {
+  try {
+    const response = await fetch("https://blurmint-render.onrender.com/transactions/id/confirm/share", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Transaction failed");
+    }
+
+    const data = await response.json();
+    // Swal.fire({
+    //   title: 'Artwork Purchased!',
+    //   text: 'Congratulations!',
+    //   icon: 'success',
+    //   background: '#1a1a1a',
+    //   color: '#fff',
+    //   confirmButtonColor: '#f70361'
+    // });
+//    await share()
+    location.href = "../../../dashboard.html";
+    return data;
+  } catch (error) {
+    console.error("Purchase Error:", error.message);
+    throw error;
   }
-});
+}
+
 
 // ========================== PURCHASE FUNCTION ==========================
 async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp) {
@@ -208,7 +242,8 @@ async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetail
       color: '#fff',
       confirmButtonColor: '#f70361'
     });
-    location.href = "../../../dashboard.html";
+   await share()
+    // location.href = "../../../dashboard.html";
     return data;
   } catch (error) {
     console.error("Purchase Error:", error.message);
