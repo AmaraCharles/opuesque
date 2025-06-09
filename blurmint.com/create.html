@@ -400,6 +400,21 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             </div>
         </a>
         <script>
+                     $(document).ready(async function () {
+
+// console.log("he");
+
+                    var user=localStorage.getItem("user")
+                    if (!user){
+
+                                                location.href="./sign-in/index.html"
+
+}
+                    })
+                    
+                </script>
+                
+        <script>
             var avatarowner=JSON.parse(localStorage.getItem("user"))
             var userbanner=document.getElementById("user-banner")
             userbanner.src=avatarowner.creatorAvatar
@@ -539,7 +554,6 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                     </div> -->
                      <button type="button"  id="upload-button" class="btn btn-primary w-100 tf-btn primary">Create Item</button>
                 </form>
-                
                  <script>
         document.addEventListener('DOMContentLoaded', function() {
             const imagePreviewContainer = document.getElementById('imagePreviewContainer');

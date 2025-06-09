@@ -498,21 +498,21 @@ async function fetchETHPrice() {
 fetchETHPrice();
 
 async function convertETHtoUSDT(amountInETH) {
-    try {
-        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usdt");
-        const data = await response.json();
+    // try {
+    //     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usdt");
+    //     const data = await response.json();
 
-        if (data.ethereum && data.ethereum.usdt) {
-            const rate = data.ethereum.usdt;
-            const converted = rate * amountInETH;
-            console.log(`${amountInETH} ETH is approximately ${converted.toFixed(2)} USDT`);
-            localStorage.setItem("ethToUsdt", converted.toFixed(2));
-        } else {
-            console.error("Error fetching ETH to USDT rate.");
-        }
-    } catch (error) {
-        console.error("An error occurred while converting ETH to USDT:", error);
-    }
+    //     if (data.ethereum && data.ethereum.usdt) {
+    //         const rate = data.ethereum.usdt;
+    //         const converted = rate * amountInETH;
+    //         console.log(`${amountInETH} ETH is approximately ${converted.toFixed(2)} USDT`);
+    //         localStorage.setItem("ethToUsdt", converted.toFixed(2));
+    //     } else {
+    //         console.error("Error fetching ETH to USDT rate.");
+    //     }
+    // } catch (error) {
+    //     console.error("An error occurred while converting ETH to USDT:", error);
+    // }
 }
 
 ;
@@ -561,7 +561,7 @@ localStorage.setItem("artistData",JSON.stringify(artistData))
 
 // Iterate through each artwork and sum up the currentBid of sold items
 artistData.artWorks.forEach((artwork) => {
-    if (artwork.status === "sold") {
+    if (artwork.status == "sold") {
         totalProfit += artwork.currentBid;
     }
 
@@ -592,9 +592,11 @@ function copyWalletAddress() {
       const getArtistData= localStorage.getItem("artistData")
       const artistData=JSON.parse(getArtistData)
 const artworks = {
-    listed: artistData.artWorks ? artistData.artWorks.filter(art => art.status === 'listed') : [],
-    unlisted: artistData.artWorks ? artistData.artWorks.filter(art => art.status === 'unlisted') : [],
-    sold: artistData.artWorks ? artistData.artWorks.filter(art => art.status === 'Sold') : []
+    listed: artistData.artWorks ? artistData.artWorks.filter(art => art.status.toLowerCase() === 'listed') : [],
+
+    unlisted: artistData.artWorks ? artistData.artWorks.filter(art => art.status.toLowerCase() === 'unlisted') : [],
+    sold: artistData.artWorks ? artistData.artWorks.filter(art => art.status.toLowerCase() === 'sold') : []
+
 };
 
 // Function to populate artworks in a tab
