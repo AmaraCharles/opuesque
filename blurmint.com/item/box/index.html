@@ -24,232 +24,203 @@
 
     <title>NFT | blurmint</title>
 </head>
- <script>
-        $(document).ready(async function () {
+<script>
+  $(document).ready(async function () {
+    var user = localStorage.getItem("user");
+    if (!user) {
+      location.href = "../../sign-in/index.html";
+    }
+  });
 
-                    var user=localStorage.getItem("user")
-                    if (!user){
-
-                        location.href="../../sign-in/index.html"
-
-}
-                    })
-                 
-        // Load NFT details from localStorage when the page loads
-        async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp) {
+  // Load NFT details from localStorage when the page loads
+  async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp) {
     console.log(artworkId);
-    
-            try {
-        const response = await fetch("https://blurmint-render.onrender.com/transactions/id/confirm", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                artworkId,
-                artworkName,
-                bidAmount,
-                bidderName,
-                bidDetails,
-                bidderId,
-                timestamp
-            })
-        });
 
-        // Check if the response is not OK
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Transaction failed");
-        }
+    try {
+      const response = await fetch("https://blurmint-render.onrender.com/transactions/id/confirm", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          artworkId,
+          artworkName,
+          bidAmount,
+          bidderName,
+          bidDetails,
+          bidderId,
+          timestamp
+        })
+      });
 
-        const data = await response.json();
-        console.log("Purchase Successful:", data.message);
-        Swal.fire({
-                title: 'Artwork Purchased!',
-                text: 'Congratulations!',
-                icon: 'success',
-                background: '#1a1a1a',
-                color: '#fff',
-                confirmButtonColor: '#f70361'
-            });
-            location.href="../../dashboard.html"
-        return data;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Transaction failed");
+      }
+
+      const data = await response.json();
+      console.log("Purchase Successful:", data.message);
+      Swal.fire({
+        title: 'Artwork Purchased!',
+        text: 'Congratulations!',
+        icon: 'success',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#f70361'
+      });
+      location.href = "../../dashboard.html";
+      return data;
 
     } catch (error) {
-        console.error("Purchase Error:", error.message);
-        throw error;
+      console.error("Purchase Error:", error.message);
+      throw error;
     }
-}
-   function viewCreator(element) {
+  }
+
+  function viewCreator(element) {
     const cleanedName = element.innerHTML.replace(/@/g, '').trim();
     localStorage.setItem('selectedCreator', cleanedName);
     console.log(cleanedName);
-
     window.location.href = '../../artist.html';
-}
-
-async function getETHtoUSDTRate() {
-  const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
-  const data = await res.json();
-
-  const ethToUsd = data.ethereum?.usd;
-  if (!ethToUsd) throw new Error("Failed to fetch ETH price");
-
-  return ethToUsd; // 1 ETH = ? USD (≈ USDT)
-}
-
-async function convertETHtoUSDT(ethAmount) {
-  try {
-    const rate = await getETHtoUSDTRate();
-    const usdtValue = ethAmount * rate;
-    return usdtValue.toFixed(2);
-  } catch (err) {
-    console.error("Conversion failed:", err);
-    return null;
   }
-}
 
+  async function getETHtoUSDTRate() {
+    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
+    const data = await res.json();
+    const ethToUsd = data.ethereum?.usd;
+    if (!ethToUsd) throw new Error("Failed to fetch ETH price");
+    return ethToUsd;
+  }
 
+  async function convertETHtoUSDT(ethAmount) {
+    try {
+      const rate = await getETHtoUSDTRate();
+      const usdtValue = ethAmount * rate;
+      return usdtValue.toFixed(2);
+    } catch (err) {
+      console.error("Conversion failed:", err);
+      return null;
+    }
+  }
 
-
-        window.addEventListener('DOMContentLoaded', function () {
+  window.addEventListener('DOMContentLoaded', async function () {
     const nftData = JSON.parse(localStorage.getItem('nftCard'));
 
     if (nftData) {
-        document.getElementById('nft-image').src = nftData.image;
-         document.getElementById('profile-link').value =` https://www.blurmint.com/item/box/0xA9f1eE8c6D2A2a9B0e4CDE0e736e39Fe712aD1Bb/index.html?id=${nftData._id}`;
-        document.getElementById('nft-title').textContent = nftData.title;
-        document.getElementById('nft-description').textContent = nftData.description;
-        document.getElementById('owner').textContent = nftData.owner;
-        document.querySelector('.creator-info').textContent = nftData.creator;
-         
-    const cleanedCreator = nftData.creator.replace(/@/g, '').trim();
-    
+      document.getElementById('nft-image').src = nftData.image;
+      document.getElementById('profile-link').value = `https://www.blurmint.com/item/box/0xA9f1eE8c6D2A2a9B0e4CDE0e736e39Fe712aD1Bb/index.html?id=${nftData._id}`;
+      document.getElementById('nft-title').textContent = nftData.title;
+      document.getElementById('nft-description').textContent = nftData.description;
+      document.getElementById('owner').textContent = nftData.owner;
+      document.querySelector('.creator-info').textContent = nftData.creator;
 
-      localStorage.setItem("selectedCreator2",cleanedCreator)  
-       
-                document.querySelector('#profavatar').src = nftData.creatorAvatar;
-          document.querySelector('#profavatar2').src = nftData.creatorAvatar;
-          console.log(nftData.price);
-          
-        document.querySelector('.current-bid').textContent = nftData.price+ ""+"weth";
-          localStorage.setItem("bid",nftData.price)
-          // Example usage:
-convertETHtoUSDT(nftData.price).then(usdt => {
+      const cleanedCreator = nftData.creator.replace(/@/g, '').trim();
+      localStorage.setItem("selectedCreator2", cleanedCreator);
 
-  localStorage.setItem("usdt",usdt)
+      document.querySelector('#profavatar').src = nftData.creatorAvatar;
+      document.querySelector('#profavatar2').src = nftData.creatorAvatar;
 
-  console.log(`${usdt} USDT`);
-});
-var usdteqv=localStorage.getItem("usdt")
-document.querySelector('#toUsdt2').textContent = "$"+usdteqv;
- document.querySelector('#royalty').textContent = nftData.royalty + "%";
-         const date = new Date(nftData.timeStamp);
-const formatted = date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: '2-digit'
-});
-         document.querySelector('#timestamp').textContent = formatted;
-         document.querySelector('#author').textContent = nftData.creator;
+      document.querySelector('.current-bid').textContent = nftData.price + " weth";
+      localStorage.setItem("bid", nftData.price);
 
+      const usdt = await convertETHtoUSDT(nftData.price);
+      localStorage.setItem("usdt", usdt);
+      document.querySelector('#toUsdt2').textContent = "$" + usdt;
 
+      document.querySelector('#royalty').textContent = nftData.royalty + "%";
+      const date = new Date(nftData.timeStamp);
+      const formatted = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit'
+      });
+      document.querySelector('#timestamp').textContent = formatted;
+      document.querySelector('#author').textContent = nftData.creator;
 
     } else {
-        window.location.href = 'index.html';
+      window.location.href = 'index.html';
     }
 
-
-
     async function fetchUserInfo() {
-    var username=localStorage.getItem("selectedCreator")
-    try {
+      var username = localStorage.getItem("selectedCreator2");
+      try {
         const response = await $.ajax({
-            type: "GET",
-            url: `https://blurmint-render.onrender.com/users/username/${username}`,
-            dataType: "json",
-            timeout: 30000
+          type: "GET",
+          url: `https://blurmint-render.onrender.com/users/username/${username}`,
+          dataType: "json",
+          timeout: 30000
         });
+        console.log("fetched");
 
         localStorage.setItem("creator", JSON.stringify(response.data));
         console.log(response.data);
         return response.data;
 
-    } catch (error) {
+      } catch (error) {
         console.error("Fetch user error:", error);
         alert("Failed to fetch user info.");
+      }
     }
-}
 
+    // ✅ CALL fetchUserInfo HERE
+    await fetchUserInfo();
 
- // Populate carousel with artist's artwork
+    // Populate carousel with artist's artwork
+    const artist = JSON.parse(localStorage.getItem("creator"));
+    const more = document.getElementById("more");
 
-
-    
-   const artist = JSON.parse(localStorage.getItem("creator"));
-const more = document.getElementById("more");
-
-(async () => {
-  for (const artwork of artist.artWorks) {
-    const usdteqv2 = await convertETHtoUSDT(artwork.price);
-
-    const vamos = `
-      <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
-        <div class="box-img">
-          <div class="image-container">
-            <div class="shimmer-placeholder"></div>
-            <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
-              onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
+    for (const artwork of artist.artWorks) {
+      const usdteqv2 = await convertETHtoUSDT(artwork.price);
+      const vamos = `
+        <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
+          <div class="box-img">
+            <div class="image-container">
+              <div class="shimmer-placeholder"></div>
+              <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
+                onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
+            </div>
           </div>
-        </div>
-        <div class="content">
-          <div class="button-1 name ellipsis">${artwork.title}</div>
-          <p class="mt-4">
-            ${artwork.creator}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M14.3731 7.16036L..." fill="#2664ED" />
-            </svg>
-          </p>
-          <p class="mt-4">
-            <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-            ${artwork.price} WETH 
-            (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
-          </p>
-        </div>
-      </a>
-    `;
+          <div class="content">
+            <div class="button-1 name ellipsis">${artwork.title}</div>
+            <p class="mt-4">
+              ${artwork.creator}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.3731 7.16036L..." fill="#2664ED" />
+              </svg>
+            </p>
+            <p class="mt-4">
+              <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
+              ${artwork.price} WETH 
+              (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
+            </p>
+          </div>
+        </a>
+      `;
+      more.insertAdjacentHTML('beforeend', vamos);
+    }
+  });
 
-    more.insertAdjacentHTML('beforeend', vamos);
-  }
-})();
-
-});
-
-function handleArtworkClick(artwork) {
+  function handleArtworkClick(artwork) {
     localStorage.setItem('nftCard', JSON.stringify({
-        image: artwork.image,
-        title: artwork.title,
-        description: artwork.description,
-        creator: artwork.creator,
-        creatorAvatar: artwork.creatorAvatar || 'images/avatars/3.jpg',
-        currentBid: artwork.price,
-           price: artwork.price,
-           owner: artwork.owner,
-           description:artwork.description,
-           timeStamp:artwork.timeStamp,
-           royalty:artwork.royalty,
-        _id: artwork._id,
-        category:artwork.category
+      image: artwork.image,
+      title: artwork.title,
+      description: artwork.description,
+      creator: artwork.creator,
+      creatorAvatar: artwork.creatorAvatar || 'images/avatars/3.jpg',
+      currentBid: artwork.price,
+      price: artwork.price,
+      owner: artwork.owner,
+      description: artwork.description,
+      timeStamp: artwork.timeStamp,
+      royalty: artwork.royalty,
+      _id: artwork._id,
+      category: artwork.category
     }));
     window.location.href = 'index.html';
-}
+  }
+</script>
 
-
-
-
-
-    </script>
 <body>
     
     <div class="preload preload-container">
