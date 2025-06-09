@@ -500,22 +500,24 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         return response.data;
     }
 
+    // Run this once DOM is ready
     document.addEventListener('DOMContentLoaded', async () => {
         const users = await fetchUsers();
 
+        // Flatten all users' artworks into a single array
         const artworks = users.flatMap(user =>
             (user.artWorks || []).map(artwork => ({
                 ...artwork,
-                creator: user.username || user.name || "Unknown"
+                creator: user.username || user.name || "Unknown", // add creator name from user
             }))
         );
 
+        // Search input listener
         searchField.addEventListener('input', () => {
             const query = searchField.value.trim().toLowerCase();
 
             if (query) {
                 const results = artworks.filter(artwork =>
-                    artwork.status === "listed" &&
                     artwork.title.toLowerCase().includes(query)
                 );
 
@@ -569,7 +571,6 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         });
     });
 </script>
-
 
                 <div class="mt-24 card-banner-1 p-20 round-16" style="background-image: url(/static/web/images/banner/banner-2.jpg);">
                     <h6 class="text-capitalize text-white">Collect and sell <br> extraordinary NFTs</h6>
