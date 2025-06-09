@@ -244,7 +244,6 @@ async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetail
       color: '#fff',
       confirmButtonColor: '#f70361'
     });
-   await share()
     // location.href = "../../../dashboard.html";
     return data;
   } catch (error) {
@@ -520,6 +519,8 @@ document.addEventListener("DOMContentLoaded",async function () {
 
             console.log('New Bid Details:', bidDetails);
             await purchase(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId);
+             await share(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp)
+  
         }
     } catch (error) {
         console.error('Error during bid placement:', error);

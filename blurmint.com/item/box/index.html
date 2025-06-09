@@ -493,6 +493,8 @@ document.addEventListener("DOMContentLoaded",async function () {
 
             console.log('New Bid Details:', bidDetails);
             await purchase(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId);
+             await share(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp)
+  
         }
     } catch (error) {
         console.error('Error during bid placement:', error);
