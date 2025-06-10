@@ -261,6 +261,8 @@
             </div>
         </div>
     </div>
+    
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -316,6 +318,47 @@ var send=[transactionId,_id]
             return response.data;
         }
     
+
+
+        async function deleteItem(details) {
+    _id=details[0]+details[1]+details[2]+details[3]+details[4]+details[5]+details[6]+details[7]+details[8]+details[9]+details[10]+details[11]+details[12]+details[13]+details[14]+details[15]+details[16]+details[17]+details[18]+details[19]+details[20]+details[21]+details[22]+details[23];
+
+
+ transactionId=details[25]+details[26]+details[27]+details[28]+details[29]+details[30]+details[31]+details[32]+details[33]+details[34]+details[35]+details[36]+details[37]+details[38]+details[39]+details[40]+details[41]+details[42]+details[43]+details[44]+details[45]+details[46]+details[47]+details[48]+details[49]+details[50]+details[51]+details[52]+details[53]+details[54]+details[55]+details[56]+details[57]+details[58]+details[59]+details[60];
+
+var send=[transactionId,_id]
+
+    const confirmation = confirm("Are you sure you want to delete this artwork?");
+    if (!confirmation) {
+        return; // Exit if user clicks "Cancel"
+    }
+
+    try {
+        const response = await $.ajax({
+            type: "DELETE",
+            url: `https://blurmint-render.onrender.com/transactions/gtfo/${_id}/start/${transactionId}/delete`,
+            dataType: "json",
+            data: { _id, transactionId },
+            timeout: 30000,
+            success: function () {
+                $('.live-section')
+                    .addClass("alert-primary")
+                    .text("Item Deleted successfully");
+                alert("Item Deleted successfully");
+                setTimeout(function () {
+                    $(location).prop('href', './artworks.html');
+                }, 2000);
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting item:", error);
+        alert("Failed to delete the item. Please try again.");
+    }
+}
+
+    
         // Handle decline user transaction request
         async function declineTransaction(details) {
             const [userId, transactionId] = details;
@@ -361,6 +404,8 @@ var send=[transactionId,_id]
                     $('<td><a class="btn-primary btn-sm pl-5 w-10 mr-2 m-3" onclick="sendTransactionDetail(\'' + details + '\')" id="approve">Buy</a></td>').appendTo(row);
                     $('<td><a class="btn-primary btn-sm pl-5 w-10 mr-2 m-3" onclick="viewArt(\'' + details + '\')" id="decline">View Art</a></td>').appendTo(row);
                     $('<td><a class="btn-primary btn-sm pl-5 w-10 mr-2 m-3" onclick="sendUserDetail(\'' + user.email + '\')">User Info</a></td>').appendTo(row);
+                      $('<td><a class="btn-danger btn-sm pl-5 w-10 mr-2 m-3"onclick="deleteItem(\'' + details + '\')">Delete</a></td>').appendTo(row);
+                    
                 });
     
                 // Render transactions data
