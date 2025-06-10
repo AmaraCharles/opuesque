@@ -602,7 +602,6 @@ const artworks = {
 
 };
 
-// Function to populate artworks in a tab
 function populateArtworks(tabName) {
     var getUser = localStorage.getItem("user");
     var user = JSON.parse(getUser);
@@ -612,12 +611,12 @@ function populateArtworks(tabName) {
         console.error(`Container for tab '${tabName}' not found.`);
         return;
     }
-    container.innerHTML = ''; // Clear previous artworks before adding new ones
+
+    container.innerHTML = ''; // Clear previous artworks
 
     artworks[tabName].forEach((art, index) => {
         const detail = { userid: user._id, transacId: art._id };
         const encodedDetails = encodeURIComponent(JSON.stringify(detail));
-        localStorage.setItem("subdetails", encodedDetails);
 
         const artworkCard = document.createElement('div');
         artworkCard.className = 'artwork-card';
@@ -631,19 +630,20 @@ function populateArtworks(tabName) {
                     <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
                 </div>
                 ${tabName === 'unlisted' ? `
-                    <button class="list-button btn btn-success" data-index="${index}">List Artwork</button>
+                    <button class="list-button btn btn-success" data-index="${index}" data-details="${encodedDetails}">
+                        List Artwork
+                    </button>
                 ` : ''}
             </div>
         `;
         container.appendChild(artworkCard);
     });
 
-    // Attach event listeners to "List" buttons if in unlisted tab
+    // Attach event listeners to "List" buttons
     if (tabName === 'unlisted') {
         container.querySelectorAll('.list-button').forEach(button => {
             button.addEventListener('click', async () => {
-                const index = button.dataset.index;
-                const artwork = artworks[tabName][index];
+                const encodedDetails = button.getAttribute("data-details");
 
                 const result = await Swal.fire({
                     title: 'List this artwork?',
@@ -655,9 +655,7 @@ function populateArtworks(tabName) {
                 });
 
                 if (result.isConfirmed) {
-                    const subdetails = localStorage.getItem("subdetails");
-                    sendTransacDetail(subdetails);
-                    // listArtwork(artwork); // Optional: re-enable if needed
+                    sendTransacDetail(encodedDetails);
                 }
             });
         });
