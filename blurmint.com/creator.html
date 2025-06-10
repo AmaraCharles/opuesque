@@ -931,8 +931,8 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
     
 
-    async function fetchUserInfo() {
-    var username=localStorage.getItem("selectedCreator")
+    async function fetchUserInfo(username) {
+    // var username=localStorage.getItem("selectedCreator")
     try {
         const response = await $.ajax({
             type: "GET",
@@ -941,7 +941,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             timeout: 30000
         });
 
-        localStorage.setItem("creator", JSON.stringify(response.data));
+        localStorage.setItem("creatorln", JSON.stringify(response.data));
         console.log("Fetched user info.");
         return response.data;
 
@@ -955,11 +955,12 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
     $(document).ready(async function () {
 
     
-
-        const artistData=await fetchUserInfo()
+const params = new URLSearchParams(window.location.search);
+const artworkId = params.get('id');
+        const artistData=await fetchUserInfo(artworkId)
 console.log(artistData);
 
-localStorage.setItem("artistData2",JSON.stringify(artistData))
+localStorage.setItem("artistData3",JSON.stringify(artistData))
         // Populate profile information
         document.querySelector('#totalArt').textContent = `${artistData.artWorks.length}`;
         document.querySelector('#avatar').src = `${artistData.creatorAvatar}`;
@@ -990,7 +991,7 @@ function copyWalletAddress() {
             });
         }
        // Process artworks by status
-      const getArtistData= localStorage.getItem("artistData2")
+      const getArtistData= localStorage.getItem("artistData3")
       const artistData=JSON.parse(getArtistData)
 const artworks = {
     listed: artistData.artWorks ? artistData.artWorks.filter(art => art.status === 'listed') : [],
@@ -1000,7 +1001,7 @@ const artworks = {
 
 // Function to populate artworks in a tab
 function populateArtworks(tabName) {
-    var getUser=localStorage.getItem("creator")
+    var getUser=localStorage.getItem("creatorln")
     var user=JSON.parse(getUser)
 $("#bio").text(user.bio)
   const container = document.getElementById(`${tabName}-tab`);
