@@ -964,7 +964,7 @@ localStorage.setItem("artistData2",JSON.stringify(artistData))
         document.querySelector('#totalArt').textContent = `${artistData.artWorks.length}`;
         document.querySelector('#avatar').src = `${artistData.creatorAvatar}`;
         document.querySelector('#cover').src = `${artistData.creatorAvatar}`;
-        ent.querySelector('#totalsold').textContent= `${artistData.profit}`;
+        document.querySelector('#totalsold').textContent= `${artistData.profit}`;
         // document.querySelector('#balance').textContent = `${artistData.balance} ETH`;
         // document.querySelector('#fundedBalance').textContent = `${artistData.balance} ETH`;
         // document.querySelector('#spotBalance').textContent = `${artistData.profit} ETH`;
