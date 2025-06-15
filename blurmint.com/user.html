@@ -640,9 +640,9 @@ window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('bio').value = user.bio || '';
         document.getElementById('avatarPreview').src = user.creatorAvatar || '';
 
-        document.getElementById('twitter').value = user.social?.twitter || '';
-        document.getElementById('instagram').value = user.social?.instagram || '';
-        document.getElementById('website').value = user.social?.website || '';
+        document.getElementById('twitter').value = user.socialUsernames[0]?.twitter || '';
+        document.getElementById('instagram').value = user.socialUsernames[0]?.instagram || '';
+        document.getElementById('website').value = user.socialUsernames[0]?.website || '';
     }
 });
 
@@ -671,18 +671,18 @@ async function handleProfileUpdate(event) {
         formData.append('bio', document.getElementById('bio').value);
         const url=localStorage.getItem("url")
 formData.append('url',url );
-        const social = {
+        const socials = {
             twitter: document.getElementById('twitter').value,
             instagram: document.getElementById('instagram').value,
             website: document.getElementById('website').value
         };
-        formData.append('social', JSON.stringify(social));
+        formData.append('socials', JSON.stringify(socials));
 
-        const avatarInput = document.getElementById('avatarInput');
-        if (avatarInput.files[0]) {
-            formData.append('avatar', avatarInput.files[0]);
-        }
-
+        console.log(formData);
+        
+for (let pair of formData.entries()) {
+  console.log(pair[0]+ ': ' + pair[1]);
+}
         const response = await fetch(`https://blurmint-render-5jbt.onrender.com/users/${user._id}/profile/update`, {
             method: 'PUT',
             body: formData
