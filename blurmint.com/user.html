@@ -538,12 +538,46 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                     <div class="avatar-preview">
                         <img id="avatarPreview" src=""  alt="Profile Avatar">
                     </div>
-                    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="previewAvatar(event)">
+                    <input type="file" id="avatarInput" accept="image/*"  onchange="previewAvatar(event)">
                     <button type="button" class="avatar-upload-btn" onclick="document.getElementById('avatarInput').click()">
                         <i class="fa fa-camera"></i> Change Avatar
                     </button>
                 </div>
+<script>
+  const cloudName = 'dsyjlantq';  // Your Cloudinary cloud name
+ const uploadPreset = 'assetspur';  // Your Cloudinary upload preset
 
+  function previewAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Show preview
+    const preview = document.getElementById('avatarPreview');
+    preview.src = URL.createObjectURL(file);
+
+    // Prepare FormData for upload
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+
+    // Upload to Cloudinary
+    fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("✅ Cloudinary Upload Success:", data);
+      localStorage.setItem("url",data.secure_url)
+      // `data.secure_url` is the hosted image URL — you can save it to DB/localStorage/etc.
+      // Example: localStorage.setItem("avatarURL", data.secure_url);
+    })
+    .catch(err => {
+      console.error("❌ Cloudinary Upload Error:", err);
+      alert("Failed to upload avatar. Please try again.");
+    });
+  }
+</script>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -613,16 +647,16 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 // Preview avatar image
-function previewAvatar(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('avatarPreview').src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-}
+// function previewAvatar(event) {
+//     const file = event.target.files[0];
+//     if (file) {
+//         const reader = new FileReader();
+//         reader.onload = function(e) {
+//             document.getElementById('avatarPreview').src = e.target.result;
+//         }
+//         reader.readAsDataURL(file);
+//     }
+// }
 
 // Handle profile update
 async function handleProfileUpdate(event) {
@@ -635,7 +669,8 @@ async function handleProfileUpdate(event) {
         formData.append('username', document.getElementById('username').value);
         formData.append('email', document.getElementById('email').value);
         formData.append('bio', document.getElementById('bio').value);
-
+        const url=localStorage.getItem("url")
+formData.append('url',url );
         const social = {
             twitter: document.getElementById('twitter').value,
             instagram: document.getElementById('instagram').value,
