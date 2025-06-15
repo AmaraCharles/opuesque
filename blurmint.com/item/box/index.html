@@ -116,6 +116,7 @@
 
       const cleanedCreator = nftData.creator.replace(/@/g, '').trim();
       localStorage.setItem("selectedCreator2", cleanedCreator);
+ localStorage.setItem("chosencategory", nftData.category);
 
       document.querySelector('#profavatar').src = nftData.creatorAvatar;
       document.querySelector('#profavatar2').src = nftData.creatorAvatar;
@@ -168,7 +169,8 @@
     // Populate carousel with artist's artwork
     const artist = JSON.parse(localStorage.getItem("creator"));
     const more = document.getElementById("more");
-
+    const more2 = document.getElementById("more2");
+const chosencategory=localStorage.getItem("chosencategory")
    for (const artwork of artist.artWorks) {
   if (artwork.status !== "listed") continue; // ✅ Show only listed artworks
 
@@ -198,6 +200,36 @@
         </p>
       </div>
     </a>`;
+
+    if (artwork.category===chosencategory){
+
+
+         const html2 = `
+    <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
+      <div class="box-img">
+        <div class="image-container">
+          <div class="shimmer-placeholder"></div>
+          <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
+            onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
+        </div>
+      </div>
+      <div class="content">
+        <div class="button-1 name ellipsis">${artwork.title}</div>
+        <p class="mt-4">
+          ${artwork.creator}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.3731 7.16036L..." fill="#2664ED" />
+          </svg>
+        </p>
+        <p class="mt-4">
+          <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
+          ${artwork.price} WETH (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
+        </p>
+      </div>
+    </a>`;
+ more2.insertAdjacentHTML('beforeend', html2);
+    }
+    
   more.insertAdjacentHTML('beforeend', html);
 }
 
@@ -644,593 +676,11 @@ document.addEventListener("DOMContentLoaded",async function () {
                     <h5>More from this category</h5>
                     <a href="../../category/art/index.html" class="text-primary fw-6">See All</a>
                 </div>
-                <div class="mt-24" style="display: flex;overflow-x: auto;">
+                <div class="mt-24" style="display: flex;overflow-x: auto;" id="more2">
+                    </div>
+                    </div>    
                     
-                        <a href="../0xee4ac8a71cebbae8b4ffbc89/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/SupremeKong_Nova05.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Supreme Kong Nova05</div>
-                                <p class="mt-4">
-                                    yolandaromero
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.00 WETH
-                                    (<span class="toUsdt" data-eth="2.00"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x67e61bfc30a80e25f219dfa1/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../res.cloudinary.com/dhwtde7pg/image/upload/v1743133691/nft/m9vnidaulbxhla1pfga4.png" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">ChineseStyle Generals</div>
-                                <p class="mt-4">
-                                    oliviaethan
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.40 WETH
-                                    (<span class="toUsdt" data-eth="2.40"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x66849c57399f3618f181d2c7/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../res.cloudinary.com/dhwtde7pg/image/upload/v1719966806/nft/xqmcbetnv8g6b2fe66vv.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Traffic from a teary eye </div>
-                                <p class="mt-4">
-                                    sarafuller
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    0.70 WETH
-                                    (<span class="toUsdt" data-eth="0.70"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x6682c017399f3618f1817da4/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../res.cloudinary.com/dhwtde7pg/image/upload/v1719844886/nft/kkggwz9jsuun1xmjimwc.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Davidga </div>
-                                <p class="mt-4">
-                                    riverashawn
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.80 WETH
-                                    (<span class="toUsdt" data-eth="2.80"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x5b9b9c39b4583116d5b96b31/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/MetaWinner_Nova10.avif" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">MetaWinner Nova10</div>
-                                <p class="mt-4">
-                                    yolandaromero
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.50 WETH
-                                    (<span class="toUsdt" data-eth="2.50"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x66d8e1fd766e6b2bbab46ba7/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1725489661/nft/harprlnmncb0ahstnw4k.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Robot</div>
-                                <p class="mt-4">
-                                    jeffreyhunt
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    6.50 WETH
-                                    (<span class="toUsdt" data-eth="6.50"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x49f1fa28739f81c0944630c7/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/84d5647b416c8614acd65de0c1247dcf.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Solitude Adrift</div>
-                                <p class="mt-4">
-                                    rebeccagrosch
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    6.20 WETH
-                                    (<span class="toUsdt" data-eth="6.20"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x121c3c2fdc28d87847167770/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/IMG_7780.jpeg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">The Masked Strategist</div>
-                                <p class="mt-4">
-                                    Zhilaakai_Arts
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    0.50 WETH
-                                    (<span class="toUsdt" data-eth="0.50"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x66d9f18d766e6b2bbab4bf99/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1725559180/nft/lo0hweeetfl754oxaufu.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">BabyDamsel</div>
-                                <p class="mt-4">
-                                    andrewlewis
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    6.50 WETH
-                                    (<span class="toUsdt" data-eth="6.50"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x88c80b4b074647361eacdb02/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/IMG_8131.png" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Wise Wasp</div>
-                                <p class="mt-4">
-                                    Zhilaakai_Arts
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.00 WETH
-                                    (<span class="toUsdt" data-eth="2.00"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x6724bb4963829a0b795cde5d/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1730460489/nft/kpuc70uowyvdikqp6vwc.png" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Cyborg Visionary</div>
-                                <p class="mt-4">
-                                    christinesloan
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    6.90 WETH
-                                    (<span class="toUsdt" data-eth="6.90"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x6724b95863829a0b795cdd26/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1730459991/nft/mrsdfzbygh4c2udn8y9o.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Mechanical Reverie</div>
-                                <p class="mt-4">
-                                    garnerrhonda
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    3.70 WETH
-                                    (<span class="toUsdt" data-eth="3.70"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x82cb499fa4d5f7cf3fc573f4/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/EA3B060A-F571-483D-B760-3CE3F101284D.jpeg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Self-portrait with Death Playing the Fiddle</div>
-                                <p class="mt-4">
-                                    robertwagner
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    3.00 WETH
-                                    (<span class="toUsdt" data-eth="3.00"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x61512fc3119396390f625361/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/eb0b28ff1402f0c7a606cec83ea0ac5a.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Silenced Light</div>
-                                <p class="mt-4">
-                                    rebeccagrosch
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    3.99 WETH
-                                    (<span class="toUsdt" data-eth="3.99"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x6685117f399f3618f181e100/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1719996799/nft/xgarv6dghy9pt4oacq5n.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">ARMED TO THE TEETH</div>
-                                <p class="mt-4">
-                                    ryanhall
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    5.30 WETH
-                                    (<span class="toUsdt" data-eth="5.30"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x9d32574fa1678255b184179a/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/94E38DA4-96F4-4AF9-9430-26B51ECE3712.jpeg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Static Silence</div>
-                                <p class="mt-4">
-                                    robertwagner
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.00 WETH
-                                    (<span class="toUsdt" data-eth="2.00"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x66eaecbd766e6b2bbab7e145/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1726672060/nft/eflsd2gafbx1unglc6kd.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Flames </div>
-                                <p class="mt-4">
-                                    jeffreyhunt
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    3.80 WETH
-                                    (<span class="toUsdt" data-eth="3.80"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x303d31a634493109b127fffa/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/4e69f5a7764acc70017b7eb7c62d37e8.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">The Ember of Farewell</div>
-                                <p class="mt-4">
-                                    rebeccagrosch
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    3.20 WETH
-                                    (<span class="toUsdt" data-eth="3.20"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0xc9df473d7d1f5d0c34a45100/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../images/nft/SupremeKong_Nova02.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Supreme Kong Nova02</div>
-                                <p class="mt-4">
-                                    yolandaromero
-                                    
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.3731 7.16036L13.4664 6.10703C13.2931 5.90703 13.1531 5.5337 13.1531 5.26703V4.1337C13.1531 3.42703 12.5731 2.84703 11.8664 2.84703H10.7331C10.4731 2.84703 10.0931 2.70703 9.89309 2.5337L8.83976 1.62703C8.37976 1.2337 7.62643 1.2337 7.15976 1.62703L6.11309 2.54036C5.91309 2.70703 5.53309 2.84703 5.27309 2.84703H4.11976C3.41309 2.84703 2.83309 3.42703 2.83309 4.1337V5.2737C2.83309 5.5337 2.69309 5.90703 2.52643 6.10703L1.62643 7.16703C1.23976 7.62703 1.23976 8.3737 1.62643 8.8337L2.52643 9.8937C2.69309 10.0937 2.83309 10.467 2.83309 10.727V11.867C2.83309 12.5737 3.41309 13.1537 4.11976 13.1537H5.27309C5.53309 13.1537 5.91309 13.2937 6.11309 13.467L7.16643 14.3737C7.62643 14.767 8.37976 14.767 8.84643 14.3737L9.89976 13.467C10.0998 13.2937 10.4731 13.1537 10.7398 13.1537H11.8731C12.5798 13.1537 13.1598 12.5737 13.1598 11.867V10.7337C13.1598 10.4737 13.2998 10.0937 13.4731 9.8937L14.3798 8.84036C14.7664 8.38036 14.7664 7.62036 14.3731 7.16036ZM10.7731 6.74036L7.55309 9.96036C7.45976 10.0537 7.33309 10.107 7.19976 10.107C7.06643 10.107 6.93976 10.0537 6.84643 9.96036L5.23309 8.34703C5.03976 8.1537 5.03976 7.8337 5.23309 7.64036C5.42643 7.44703 5.74643 7.44703 5.93976 7.64036L7.19976 8.90036L10.0664 6.0337C10.2598 5.84036 10.5798 5.84036 10.7731 6.0337C10.9664 6.22703 10.9664 6.54703 10.7731 6.74036Z"
-                                            fill="#2664ED" />
-                                    </svg>
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    2.00 WETH
-                                    (<span class="toUsdt" data-eth="2.00"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                        <a href="../0x67234abd63829a0b795c9efd/index.html" class="card-nft">
-                            <div class="box-img">
-                                <div class="image-container">
-                                    <div class="shimmer-placeholder"></div>
-                                    <img class="lazyload nft-card-img" src="../../../res.cloudinary.com/dhwtde7pg/image/upload/v1730366140/nft/hm4eyel6iypd8ciwhbju.jpg" alt="..." onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-                                </div>
-                            </div>
-                            <div class="content">
-                                <div class="button-1 name ellipsis">Embrace of Despair</div>
-                                <p class="mt-4">
-                                    sarafuller
-                                    
-                                </p>
-                                <p class="mt-4">
-                                    
-                                        <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-                                    
-
-                                    1.90 WETH
-                                    (<span class="toUsdt" data-eth="1.90"></span>)
-
-                                </p>
-                            </div>
-                        </a>
-                    
-                </div>
-            </div>
-
-        </div>
-        
-    </div>
-
-    
+                       
 
     
 
