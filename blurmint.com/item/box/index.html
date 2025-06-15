@@ -37,7 +37,7 @@
     console.log(artworkId);
 
     try {
-      const response = await fetch("https://blurmint-render.onrender.com/transactions/id/confirm", {
+      const response = await fetch("https://blurmint-render-5jbt.onrender.com/transactions/id/confirm", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -147,7 +147,7 @@
       try {
         const response = await $.ajax({
           type: "GET",
-          url: `https://blurmint-render.onrender.com/users/username/${username}`,
+          url: `https://blurmint-render-5jbt.onrender.com/users/username/${username}`,
           dataType: "json",
           timeout: 30000
         });
@@ -237,7 +237,7 @@ const chosencategory=localStorage.getItem("chosencategory")
 
   async function share(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp) {
   try {
-    const response = await fetch("https://blurmint-render.onrender.com/transactions/id/confirm/share", {
+    const response = await fetch("https://blurmint-render-5jbt.onrender.com/transactions/id/confirm/share", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp })

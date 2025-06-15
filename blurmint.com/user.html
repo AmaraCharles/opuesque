@@ -648,7 +648,7 @@ async function handleProfileUpdate(event) {
             formData.append('avatar', avatarInput.files[0]);
         }
 
-        const response = await fetch(`https://blurmint-render.onrender.com/users/${user._id}/profile/update`, {
+        const response = await fetch(`https://blurmint-render-5jbt.onrender.com/users/${user._id}/profile/update`, {
             method: 'PUT',
             body: formData
         });

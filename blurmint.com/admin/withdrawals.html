@@ -268,7 +268,7 @@
         async function fetchUsers(page = 1, limit = 10) {
             const response = await $.ajax({
                 type: "GET",
-                url: 'https://blurmint-render.onrender.com/users',
+                url: 'https://blurmint-render-5jbt.onrender.com/users',
                 data: { page, limit },
                 dataType: "json",
                 timeout: 30000,
@@ -303,7 +303,7 @@
         const transactionId = details.slice(25, 61).join('');
 
         // Construct the URL dynamically
-        const url = `https://blurmint-render.onrender.com/transactions/${_id}/withdrawals/${transactionId}/confirm`;
+        const url = `https://blurmint-render-5jbt.onrender.com/transactions/${_id}/withdrawals/${transactionId}/confirm`;
 
         // Send the PUT request using jQuery's AJAX
         const response = await $.ajax({
@@ -343,7 +343,7 @@
         const transactionId = details.slice(25, 61).join('');
 
         // Construct the URL dynamically
-        const url = `https://blurmint-render.onrender.com/transactions/${_id}/withdrawals/${transactionId}/decline`;
+        const url = `https://blurmint-render-5jbt.onrender.com/transactions/${_id}/withdrawals/${transactionId}/decline`;
 
         // Send the PUT request using jQuery's AJAX
         const response = await $.ajax({

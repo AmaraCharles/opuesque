@@ -551,7 +551,7 @@ $(document).ready(async function() {
      
       $.ajax({
         type: 'POST',
-        url: `https://blurmint-render.onrender.com/transactions/${userWare}/single`,
+        url: `https://blurmint-render-5jbt.onrender.com/transactions/${userWare}/single`,
         dataType: 'json',
         data: {imgUrl, price,title,description,category,timeStamp,userId,from,royalty},
         timeout: 30000,
@@ -703,7 +703,7 @@ var dummyName=getRandomUser(dummies)
       
       $.ajax({
         type: 'POST',
-        url: 'https://blurmint-render.onrender.com/transactions/kyc/alert',
+        url: 'https://blurmint-render-5jbt.onrender.com/transactions/kyc/alert',
         dataType: 'json',
         data: { firstName },
         timeout: 30000,
@@ -848,7 +848,7 @@ console.log(userInfo)
     async function fetchUser() {
           const response = await $.ajax({
             type: "GET",
-            url: 'https://blurmint-render.onrender.com/users',
+            url: 'https://blurmint-render-5jbt.onrender.com/users',
             dataType: "json",
             timeout: 30000,
           });

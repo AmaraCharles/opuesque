@@ -4,7 +4,7 @@ async function fetchNFTs() {
     console.log('Starting NFT fetch...');
     const response = await $.ajax({
       type: 'GET',
-      url: 'https://blurmint-render.onrender.com/users',
+      url: 'https://blurmint-render-5jbt.onrender.com/users',
       dataType: 'json',
       timeout: 30000
     });

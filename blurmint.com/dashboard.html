@@ -62,7 +62,7 @@ function cancelWalletFunding() {
        
           await $.ajax({
             type: "POST",
-            url: `https://blurmint-render.onrender.com/transactions/${dataObj.userId}/deposit`,
+            url: `https://blurmint-render-5jbt.onrender.com/transactions/${dataObj.userId}/deposit`,
             dataType: "json",
             data: { ...dataObj },
             timeout: 30000,
@@ -157,7 +157,7 @@ var dataObj={
                     
                           const response = await $.ajax({
                             type: "GET",
-                            url: `https://blurmint-render.onrender.com/users/${userFromLS.email}`,
+                            url: `https://blurmint-render-5jbt.onrender.com/users/${userFromLS.email}`,
                             dataType: "json",
                             timeout: 30000,
                             success: async function (data) {
@@ -179,7 +179,7 @@ var dataObj={
                       console.log(dataObj);
                       const response = await $.ajax({
                         type: "POST",
-                        url: `https://blurmint-render.onrender.com
+                        url: `https://blurmint-render-5jbt.onrender.com
 /transactions/${dataObj._id}/withdrawal`,
                         dataType: "json",
                         timeout: 30000,
@@ -410,7 +410,7 @@ const userBalance=user.profit
     try {
         const response = await $.ajax({
             type: "GET",
-            url: `https://blurmint-render.onrender.com/users/${userFromLS.email}`,
+            url: `https://blurmint-render-5jbt.onrender.com/users/${userFromLS.email}`,
             dataType: "json",
             timeout: 30000
         });
@@ -452,7 +452,7 @@ const userBalance=userBalancefromls.balance
 
     const response = await $.ajax({
       type: "PUT",
-      url: `https://blurmint-render.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm`,
+      url: `https://blurmint-render-5jbt.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm`,
       dataType: "json",
       data: { _id, transactionId },
       timeout: 30000,
