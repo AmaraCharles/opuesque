@@ -239,6 +239,10 @@
                                     <label for="category" class="form-label">owner</label>
                                     <input type="text" class="form-control" id="owner">
                                 </div>
+                                 <div class="mb-3">
+                                    <label for="category" class="form-label">Creator</label>
+                                    <input type="text" class="form-control" id="creator">
+                                </div>
 
                                  <div class="mb-3">
                                     <label for="category" class="form-label">Royalty</label>
@@ -263,6 +267,10 @@
                                 <div class="mb-3">
                                     <label for="collection" class="form-label">Collection</label>
                                     <input type="text" class="form-control" id="collection">
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="views" class="form-label">timeStamp</label>
+                                    <input type="text" class="form-control" id="timeStamp">
                                 </div>
                                 <button id="updateBtn" class="btn btn-primary w-100">Update</button>
                             </form>
@@ -291,7 +299,18 @@
           currentBid,
           status}) {  
 
-        console.log(title, description, price, author, category, status, views, collection);
+        console.log(_id, image,
+          price ,
+          title,
+          description,
+          category,
+          timeStamp,
+          creator,
+          owner,
+          royalty,
+          creatorAvatar,
+          currentBid,
+          status);
         
              var details = localStorage.getItem('wish');
           var _idd = details.slice(0, 24);
@@ -366,11 +385,12 @@
         $('#price').val(userInfo.price);
         $('#author').val(userInfo.creator);
         $('#category').val(userInfo.category);
+          $('#creator').val(userInfo.creator);
         $('#status').val(userInfo.status);
         $('#views').val(userInfo.views);
         $('#collection').val(userInfo.collection);
         $('#imaging').attr('src', userInfo.image);
-        
+        localStorage.setItem("artwormg", userInfo.image);
           $('#creatorAvatar').val(userInfo.creatorAvatar);
          $('#owner').val(userInfo.owner);
          $('#timeStamp').val(userInfo.timeStamp);
@@ -393,8 +413,10 @@
         var  timeStamp= $('#timeStamp').val();
         var currentBid=  $('#currentBid').val();
         var _id= $('#_id').val();
+         var creator= $('#creator').val();
         var royalty= $('#royalty').val();
-        var image=userInfo.image;
+        var artwormg=localStorage.getItem("artwormg")
+        var image=artwormg
         console.log({ _id, image,
           price ,
           title,
