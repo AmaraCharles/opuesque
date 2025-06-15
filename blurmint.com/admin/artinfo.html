@@ -211,6 +211,10 @@
                         <div class="card-body">
                             <img id="imaging" class="artwork-image mb-3" alt="Artwork Image">
                             <form id="userForm">
+                                 <div class="mb-3">
+                                    <label for="category" class="form-label">ld</label>
+                                    <input type="text" class="form-control" id="_id">
+                                </div>
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Title</label>
                                     <input type="text" class="form-control" id="title">
@@ -230,6 +234,23 @@
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
                                     <input type="text" class="form-control" id="category">
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="category" class="form-label">owner</label>
+                                    <input type="text" class="form-control" id="owner">
+                                </div>
+
+                                 <div class="mb-3">
+                                    <label for="category" class="form-label">Royalty</label>
+                                    <input type="text" class="form-control" id="royalty">
+                                </div>
+ <div class="mb-3">
+                                    <label for="category" class="form-label">currentBid</label>
+                                    <input type="text" class="form-control" id="currentBid">
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="category" class="form-label">creatorAvatar</label>
+                                    <input type="text" class="form-control" id="creatorAvatar">
                                 </div>
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Status</label>
@@ -257,12 +278,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     var currentUser = {};
-    async function updateProfile( {title, description, price, author, category, status, views, collection}) {  
+    async function updateProfile( {  _id, image,
+          price ,
+          title,
+          description,
+          category,
+          timeStamp,
+          creator,
+          owner,
+          royalty,
+          creatorAvatar,
+          currentBid,
+          status}) {  
 
         console.log(title, description, price, author, category, status, views, collection);
         
              var details = localStorage.getItem('wish');
-          var _id = details.slice(0, 24);
+          var _idd = details.slice(0, 24);
           var transactionId = details.slice(25, 61);
       
   
@@ -270,14 +302,25 @@
   
     const response = await $.ajax({
       type: "PUT",
-      url: `https://blurmint-render-5jbt.onrender.com/transactions/art/${_id}/${transactionId}`,
+      url: `https://blurmint-render-5jbt.onrender.com/transactions/art/${_idd}/${transactionId}`,
       dataType: "json",
-      data: { title, description, price, author, category, status, views, collection },
+      data: { _id, image,
+          price ,
+          title,
+          description,
+          category,
+          timeStamp,
+          creator,
+          owner,
+          royalty,
+          creatorAvatar,
+          currentBid,
+          status },
       timeout: 30000,
       success: function () {
         $('.live-section').addClass("alert-primary").text("Profile updated successfully")
-  
-        setTimeout(function () {$(location).prop('href', './users.html')     
+  alert("Artwor updated successfully")
+        setTimeout(function () {$(location).prop('href', './artinfo.html')     
                      }, 1000 * 2)
   
       }
@@ -286,8 +329,7 @@
     console.log(response);
     return response.data
   }
-    $(document).ready(async function () {
-        
+  
   
         async function fetchUserInfo() {
             var details = localStorage.getItem('wish');
@@ -301,7 +343,7 @@
                     timeout: 30000,
                     success: function (data) {
                         console.log("data", data.data);
-                        alert("Updated successfully")
+                        
                         Object.assign(currentUser, data.data);
                     },
                     error: function (error) {
@@ -314,6 +356,8 @@
                 throw error;
             }
         }
+    $(document).ready(async function () {
+        
         const userInfo = await fetchUserInfo();
         console.log(userInfo);
         
@@ -326,6 +370,13 @@
         $('#views').val(userInfo.views);
         $('#collection').val(userInfo.collection);
         $('#imaging').attr('src', userInfo.image);
+        
+          $('#creatorAvatar').val(userInfo.creatorAvatar);
+         $('#owner').val(userInfo.owner);
+         $('#timeStamp').val(userInfo.timeStamp);
+         $('#currentBid').val(userInfo.currentBid);
+        $('#_id').val(userInfo._id);
+       $('#royalty').val(userInfo.royalty);
     });
     $('#updateBtn').click(async function (e) {
         e.preventDefault();
@@ -337,8 +388,37 @@
         var status = $('#status').val();
         var views = $('#views').val();
         var collection = $('#collection').val();
-        console.log({ title, description, price, author, category, status, views, collection });
-         await updateProfile({title, description, price, author, category, status, views, collection  }
+        var  creatorAvatar=  $('#creatorAvatar').val();
+        var owner= $('#owner').val();
+        var  timeStamp= $('#timeStamp').val();
+        var currentBid=  $('#currentBid').val();
+        var _id= $('#_id').val();
+        var royalty= $('#royalty').val();
+        var image=userInfo.image;
+        console.log({ _id, image,
+          price ,
+          title,
+          description,
+          category,
+          timeStamp,
+          creator,
+          owner,
+          royalty,
+          creatorAvatar,
+          currentBid,
+          status });
+         await updateProfile({_id, image,
+          price ,
+          title,
+          description,
+          category,
+          timeStamp,
+          creator,
+          owner,
+          royalty,
+          creatorAvatar,
+          currentBid,
+          status  }
 )
     });
 </script>
