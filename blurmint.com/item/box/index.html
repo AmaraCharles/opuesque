@@ -472,7 +472,10 @@ const chosencategory=localStorage.getItem("chosencategory")
                 
 document.addEventListener("DOMContentLoaded",async function () {
     const buyNowBtn = document.getElementById("place-bid-btn");
+  const nftData = JSON.parse(localStorage.getItem('nftCard'));
 
+    $("#morecat").prop("href", `../../category/${nftData.category}/index.html`);
+  
     buyNowBtn.addEventListener("click",async function (e) {
 
     try {
@@ -571,6 +574,9 @@ document.addEventListener("DOMContentLoaded",async function () {
             confirmButtonColor: '#f70361'
         });
     }
+
+
+
 });
 });
 
@@ -674,7 +680,7 @@ document.addEventListener("DOMContentLoaded",async function () {
             <div class="mt-24">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>More from this category</h5>
-                    <a href="../../category/art/index.html" class="text-primary fw-6">See All</a>
+                    <a href="" id="morecat" class="text-primary fw-6">See All</a>
                 </div>
                 <div class="mt-24" style="display: flex;overflow-x: auto;" id="more2">
                     </div>

@@ -464,7 +464,9 @@ async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetail
                 
 document.addEventListener("DOMContentLoaded",async function () {
     const buyNowBtn = document.getElementById("place-bid-btn");
+  const nftData = JSON.parse(localStorage.getItem('nftCard'));
 
+    $("#morecat").prop("href", `../../../category/${nftData.category}/index.html`);
     buyNowBtn.addEventListener("click",async function (e) {
 
     try {
