@@ -745,7 +745,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                             <div class="stat-label text-dark">Items</div>
                         </div>
                         <div class="stat-item" style="margin-right: 30px;">
-                            <div class="stat-value text-dark" id="totalsold">0</div>
+                            <div class="stat-value text-dark" id="totalprof">0</div>
                             <div class="stat-label text-dark">Volume</div>
                         </div>
                         <!-- <div class="stat-item">
@@ -965,6 +965,7 @@ localStorage.setItem("artistData3",JSON.stringify(artistData))
         document.querySelector('#totalArt').textContent = `${artistData.artWorks.length}`;
         document.querySelector('#avatar').src = `${artistData.creatorAvatar}`;
         document.querySelector('#cover').src = `${artistData.creatorAvatar}`;
+         document.querySelector('#totalprof').src = `${artistData.profit}`;
         // document.querySelector('#balance').textContent = `${artistData.balance} ETH`;
         // document.querySelector('#fundedBalance').textContent = `${artistData.balance} ETH`;
         // document.querySelector('#spotBalance').textContent = `${artistData.profit} ETH`;
