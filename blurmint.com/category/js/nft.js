@@ -28,7 +28,7 @@ async function fetchNFTs() {
               _id: artwork._id,
               title: artwork.title,
               image: artwork.image,
-              creator: `@${user.username}`,
+              creator: `@${artwork.creator}`,
               owner: artwork.owner,
               creatorAvatar: user.creatorAvatar,
               currentBid: `${artwork.price}`,
