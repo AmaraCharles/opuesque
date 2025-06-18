@@ -647,7 +647,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
      
       $.ajax({
         type: 'POST',
-        url: `https://blurmint-render-5jbt.onrender.com/transactions/${userWare}/single`,
+        url: `https://blurmint-b1436d62eb91.herokuapp.com/transactions/${userWare}/single`,
         dataType: 'json',
         data: {imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar},
         timeout: 30000,
@@ -772,7 +772,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       
       $.ajax({
         type: 'POST',
-        url: 'https://blurmint-render-5jbt.onrender.com/transactions/kyc/alert',
+        url: 'https://blurmint-b1436d62eb91.herokuapp.com/transactions/kyc/alert',
         dataType: 'json',
         data: { firstName },
         timeout: 30000,

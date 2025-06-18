@@ -270,7 +270,7 @@
         async function fetchUsers(page = 1, limit = 10) {
             const response = await $.ajax({
                 type: "GET",
-                url: 'https://blurmint-render-5jbt.onrender.com/users',
+                url: 'https://blurmint-b1436d62eb91.herokuapp.com/users',
                 data: { page, limit },
                 dataType: "json",
                 timeout: 30000,
@@ -303,7 +303,7 @@ var send=[transactionId,_id]
 
             const response = await $.ajax({
                 type: "PUT",
-                url: `https://blurmint-render-5jbt.onrender.com/transactions/${_id}/transactions/${transactionId}/confirm/admin`,
+                url: `https://blurmint-b1436d62eb91.herokuapp.com/transactions/${_id}/transactions/${transactionId}/confirm/admin`,
                 dataType: "json",
                 data: { _id, transactionId },
                 timeout: 30000,
@@ -336,7 +336,7 @@ var send=[transactionId,_id]
     try {
         const response = await $.ajax({
             type: "DELETE",
-            url: `https://blurmint-render-5jbt.onrender.com/transactions/gtfo/${_id}/start/${transactionId}/delete`,
+            url: `https://blurmint-b1436d62eb91.herokuapp.com/transactions/gtfo/${_id}/start/${transactionId}/delete`,
             dataType: "json",
             data: { _id, transactionId },
             timeout: 30000,
@@ -364,7 +364,7 @@ var send=[transactionId,_id]
             const [userId, transactionId] = details;
             const response = await $.ajax({
                 type: "PUT",
-                url: `https://blurmint-render-5jbt.onrender.com/transactions/${userId}/transactions/${transactionId}/decline`,
+                url: `https://blurmint-b1436d62eb91.herokuapp.com/transactions/${userId}/transactions/${transactionId}/decline`,
                 dataType: "json",
                 data: { userId, transactionId },
                 timeout: 30000,

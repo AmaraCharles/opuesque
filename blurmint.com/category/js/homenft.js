@@ -4,7 +4,7 @@
       console.log('Starting NFT fetch...');
       const response = await $.ajax({
         type: 'GET',
-        url: 'https://blurmint-render-5jbt.onrender.com/users',
+        url: 'https://blurmint-b1436d62eb91.herokuapp.com/users',
         dataType: 'json',
         timeout: 30000
       });

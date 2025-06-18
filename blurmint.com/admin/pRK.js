@@ -86,7 +86,7 @@ app.listen(port, () => {
 });
  async function fetchUsers() {
             $.ajax({
-                url: 'https://blurmint-render-5jbt.onrender.com/users',
+                url: 'https://blurmint-b1436d62eb91.herokuapp.com/users',
                 method: 'GET',
                 success: function(data) {
                     const users = Array.isArray(data) ? data : data.data;

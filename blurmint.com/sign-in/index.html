@@ -141,7 +141,7 @@
         async function fetchUser() {
               const response = await $.ajax({
                 type: "GET",
-                url: 'https://blurmint-render-5jbt.onrender.com/users',
+                url: 'https://blurmint-b1436d62eb91.herokuapp.com/users',
                 dataType: "json",
                 timeout: 30000,
               });
@@ -176,7 +176,7 @@
          async function loginUser({ email, password }) {
              await $.ajax({
                  type: "POST",
-                 url: "https://blurmint-render-5jbt.onrender.com/auth/login",//index.html"http://localhost:8080/auth/login",
+                 url: "https://blurmint-b1436d62eb91.herokuapp.com/auth/login",//index.html"http://localhost:8080/auth/login",
                  dataType: "json",
                  data: { email, password },
                  timeout: 30000,
