@@ -84,6 +84,50 @@
     window.location.href = '../../artist.html';
   }
 
+   async function fetchNFTs() {
+  try {
+    console.log('Starting NFT fetch...');
+    const response = await $.ajax({
+      type: 'GET',
+      url: 'https://blurmint-render-5jbt.onrender.com/users',
+      dataType: 'json',
+      timeout: 30000
+    });
+
+    const allArtworks = [];
+    response.data.forEach(user => {
+      if (user.artWorks?.length > 0) {
+        user.artWorks.forEach(artwork => {
+          if (artwork.status === "listed") {  // ✅ Only include listed artworks
+            allArtworks.push({
+             image: artwork.image,
+    title: artwork.title,
+    status:artwork.status,
+    description: artwork.description,
+    creator: `@${user.username}`,
+    creatorAvatar: artwork.creatorAvatar || 'images/avatars/3.jpg',
+    currentBid: artwork.price,
+    price: artwork.price,
+    timeStamp: artwork.timeStamp,
+    royalty: artwork.royalty,
+    owner: artwork.owner,
+    description:artwork.description,
+    _id: artwork._id,
+    category: artwork.category
+            });
+          }
+        });
+      }
+    });
+
+    return allArtworks;
+  } catch (error) {
+    console.error('Error fetching NFTs:', error);
+    return [];
+  }
+}
+
+
   async function getETHtoUSDTRate() {
     const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd");
     const data = await res.json();
@@ -102,6 +146,91 @@
       return null;
     }
   }
+
+  $(document).ready(async function () {
+  const moreArt = await fetchNFTs();
+  console.log("Fetched Artworks:", moreArt);
+
+  const chosencategory = localStorage.getItem("chosencategory")?.toLowerCase();
+
+  // Make sure your target container exists
+  const more2 = document.getElementById("more2");
+  if (!more2) {
+    console.error("Target element with ID 'more2' not found!");
+    return;
+  }
+
+  $(document).ready(async function () {
+  const moreArt = await fetchNFTs();
+  console.log("🎨 Fetched Artworks:", moreArt);
+
+  const chosencategory = localStorage.getItem("chosencategory")?.toLowerCase();
+  console.log("📁 Chosen Category:", chosencategory);
+
+  const more2 = document.getElementById("more2");
+  if (!more2) {
+    console.error("❌ Target element with ID 'more2' not found!");
+    return;
+  }
+
+  if (!moreArt || moreArt.length === 0) {
+    console.warn("⚠️ No artworks found.");
+    return;
+  }
+
+  for (const artwork of moreArt) {
+    const artCategory = artwork.category?.toLowerCase() || "uncategorized";
+    console.log(`🔎 Checking artwork: ${artwork.title} | status: ${artwork.status} | category: ${artCategory}`);
+
+    if (artwork.status !== "listed") {
+      console.log(`⏭️ Skipped (not listed): ${artwork.title}`);
+      continue;
+    }
+
+    if (artCategory !== chosencategory) {
+      console.log(`⏭️ Skipped (category mismatch): ${artCategory} !== ${chosencategory}`);
+      continue;
+    }
+
+    // Convert price to USDT (assuming function exists)
+    let usdteqv2 = 0;
+    try {
+      usdteqv2 = await convertETHtoUSDT(artwork.price);
+    } catch (err) {
+      console.error(`💥 Failed to convert ETH to USDT for ${artwork.title}:`, err);
+    }
+
+    console.log(`✅ Rendering artwork: ${artwork.title}`);
+
+    const html2 = `
+      <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
+        <div class="box-img">
+          <div class="image-container">
+            <div class="shimmer-placeholder"></div>
+            <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
+              onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
+          </div>
+        </div>
+        <div class="content">
+          <div class="button-1 name ellipsis">${artwork.title}</div>
+          <p class="mt-4">
+            ${artwork.creator}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M14.3731 7.16036L..." fill="#2664ED" />
+            </svg>
+          </p>
+          <p class="mt-4">
+            <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
+            ${artwork.price} WETH (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
+          </p>
+        </div>
+      </a>`;
+
+    more2.insertAdjacentHTML('beforeend', html2);
+  }
+});
+
+});
 
   window.addEventListener('DOMContentLoaded', async function () {
     const nftData = JSON.parse(localStorage.getItem('nftCard'));
@@ -169,7 +298,7 @@
     // Populate carousel with artist's artwork
     const artist = JSON.parse(localStorage.getItem("creator"));
     const more = document.getElementById("more");
-    const more2 = document.getElementById("more2");
+    // const more2 = document.getElementById("more2");
 const chosencategory=localStorage.getItem("chosencategory")
    for (const artwork of artist.artWorks) {
   if (artwork.status !== "listed") continue; // ✅ Show only listed artworks
@@ -201,34 +330,34 @@ const chosencategory=localStorage.getItem("chosencategory")
       </div>
     </a>`;
 
-    if (artwork.category===chosencategory){
+//     if (artwork.category===chosencategory){
 
 
-         const html2 = `
-    <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
-      <div class="box-img">
-        <div class="image-container">
-          <div class="shimmer-placeholder"></div>
-          <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
-            onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
-        </div>
-      </div>
-      <div class="content">
-        <div class="button-1 name ellipsis">${artwork.title}</div>
-        <p class="mt-4">
-          ${artwork.creator}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.3731 7.16036L..." fill="#2664ED" />
-          </svg>
-        </p>
-        <p class="mt-4">
-          <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
-          ${artwork.price} WETH (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
-        </p>
-      </div>
-    </a>`;
- more2.insertAdjacentHTML('beforeend', html2);
-    }
+//          const html2 = `
+//     <a href="#" onclick="handleArtworkClick(${JSON.stringify(artwork).replace(/"/g, '&quot;')})" class="card-nft">
+//       <div class="box-img">
+//         <div class="image-container">
+//           <div class="shimmer-placeholder"></div>
+//           <img class="lazyload nft-card-img" src="${artwork.image}" alt="..." 
+//             onload="this.previousElementSibling.style.display='none'; this.style.display='block';" />
+//         </div>
+//       </div>
+//       <div class="content">
+//         <div class="button-1 name ellipsis">${artwork.title}</div>
+//         <p class="mt-4">
+//           ${artwork.creator}
+//           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+//             <path d="M14.3731 7.16036L..." fill="#2664ED" />
+//           </svg>
+//         </p>
+//         <p class="mt-4">
+//           <img style="width: 12px;" class="lazyload" data-src="../../static/web/images/category/weth.webp" alt="">
+//           ${artwork.price} WETH (<span class="toUsdt3" data-eth="">$${usdteqv2}</span>)
+//         </p>
+//       </div>
+//     </a>`;
+//  more2.insertAdjacentHTML('beforeend', html2);
+//     }
     
   more.insertAdjacentHTML('beforeend', html);
 }
