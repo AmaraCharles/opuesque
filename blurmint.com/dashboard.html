@@ -548,10 +548,10 @@ localStorage.setItem("artistData",JSON.stringify(artistData))
          document.querySelector('#fundedBalance2').textContent = `${Number(artistData.balance).toFixed(4)}`;
         const permu=localStorage.getItem("ethDollar")
         const eqv=permu*artistData.balance
-  document.querySelector('#fundedBalanceUSDT').textContent =eqv.toFixed(2);
+  document.querySelector('#fundedBalanceUSDT').textContent =Number(eqv).toFixed(2);
 
 
-         document.querySelector('#fundedBalanceUSDT2').textContent =eqv.toFixed(2) ;
+         document.querySelector('#fundedBalanceUSDT2').textContent =Number(eqv).toFixed(2) ;
        
         //  document.querySelector('#fundedBalance2').textContent = `$${artistData.balance}`;
        
