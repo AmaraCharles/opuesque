@@ -396,7 +396,7 @@ var send=[transactionId,_id]
                     
                     const details = [user._id, art._id];
                     const row = $('<tr>').appendTo(tbl);
-                    $('<td>').text(art.creator).appendTo(row);
+                    $('<td>').text(art.owner).appendTo(row);
                     $('<td>').text(art.title).appendTo(row);
                     $('<td>').text("none").appendTo(row);
                     $('<td>').text(art.category).appendTo(row);
