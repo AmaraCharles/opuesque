@@ -248,7 +248,17 @@ window.addEventListener('DOMContentLoaded', async function () {
     localStorage.setItem("selectedCreator3", cleanedCreator);
 localStorage.setItem("chosencategory",nftData.category)
     // document.querySelector('.owned').textContent = nftData.creator;
-    document.querySelector('#profavatar').src = nftData.creatorAvatar;
+   if (`@${nftData.owner}` !=nftData.creator ){
+   document.querySelector('#profavatar').src ="../../../fav.png";
+   
+
+}
+
+if (`@${nftData.owner}`==nftData.creator ){
+
+       document.querySelector('#profavatar').src = nftData.creatorAvatar;
+   
+}
     document.querySelector('#profavatar2').src = nftData.creatorAvatar;
     document.querySelector('.current-bid').textContent = `${nftData.price} weth`;
     localStorage.setItem("bid", nftData.currentBid);

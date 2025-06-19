@@ -249,7 +249,17 @@
       localStorage.setItem("selectedCreator2", cleanedCreator);
  localStorage.setItem("chosencategory", nftData.category);
 
-      document.querySelector('#profavatar').src = nftData.creatorAvatar;
+ if (`@${nftData.owner}` !=nftData.creator ){
+   document.querySelector('#profavatar').src ="../../fav.png";
+   
+
+}
+
+if (`@${nftData.owner}`==nftData.creator ){
+
+       document.querySelector('#profavatar').src = nftData.creatorAvatar;
+   
+}
       document.querySelector('#profavatar2').src = nftData.creatorAvatar;
 
       document.querySelector('.current-bid').textContent = nftData.price + " weth";
