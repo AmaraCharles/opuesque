@@ -103,62 +103,65 @@
     const data = await res.json();
     return data.ethereum?.usd || 0;
   }
+async function loadNFTs() {
+  const artworks = await fetchNFTs();
+  const ethToUsdRate = await getETHtoUSDTRate();
+  const nftGrid = document.getElementById('all-api-nft-grid'); // The only grid used
 
-  async function loadNFTs() {
-    const artworks = await fetchNFTs();
-    const ethToUsdRate = await getETHtoUSDTRate();
-    const nftGrid = document.getElementById('all-api-nft-grid'); // The only grid used
+  // Sort by timestamp (newest first)
+  artworks.sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
 
-    for (const nft of artworks) {
-      const usdtEquivalent = (nft.price * ethToUsdRate).toFixed(2);
+  for (const nft of artworks) {
+    const usdtEquivalent = (nft.price * ethToUsdRate).toFixed(2);
 
-      const nftHTML = `
-        <a 
-          style="display: block; margin: 0; padding: 0; max-width: 350px;" 
-          class="card-nft" 
-          data-nft-title="${nft.title}"
-        >
-          <div class="box-img">
-            <div class="image-container">
-              <div class="shimmer-placeholder"></div>
-              <img 
-                style="height: 180px; width: 100%; object-fit: cover;" 
-                src="${nft.image}" 
-                alt="${nft.title}" 
-                onload="this.previousElementSibling.style.display='none'; this.style.display='block';" 
-                onerror="this.src='../../static/web/images/fallback-image.jpg'; this.previousElementSibling.style.display='none'; this.style.display='block';"
-              />
-            </div>
+    const nftHTML = `
+      <a 
+        style="display: block; margin: 0; padding: 0; max-width: 350px;" 
+        class="card-nft" 
+        data-nft-title="${nft.title}"
+      >
+        <div class="box-img">
+          <div class="image-container">
+            <div class="shimmer-placeholder"></div>
+            <img 
+              style="height: 180px; width: 100%; object-fit: cover;" 
+              src="${nft.image}" 
+              alt="${nft.title}" 
+              onload="this.previousElementSibling.style.display='none'; this.style.display='block';" 
+              onerror="this.src='../../static/web/images/fallback-image.jpg'; this.previousElementSibling.style.display='none'; this.style.display='block';"
+            />
           </div>
+        </div>
 
-          <div class="content">
-            <div class="button-1 name ellipsis">${nft.title}</div>
-            <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
-            <p class="mt-4">
-              <img style="width: 12px;" src="../static/web/images/category/weth.webp" onerror="this.src='../static/web/images/category/weth.webp'" alt="">
-              ${nft.currentBid} WETH 
-              (<span class="toUsdt4">$${usdtEquivalent}</span>)
-            </p>
-          </div>
-        </a>
-      `;
+        <div class="content">
+          <div class="button-1 name ellipsis">${nft.title}</div>
+          <p class="mt-4" onclick="viewCreator('${nft.creator}')">${nft.creator}</p>
+          <p class="mt-4">
+            <img style="width: 12px;" src="../static/web/images/category/weth.webp" onerror="this.src='../static/web/images/category/weth.webp'" alt="">
+            ${nft.currentBid} WETH 
+            (<span class="toUsdt4">$${usdtEquivalent}</span>)
+          </p>
+        </div>
+      </a>
+    `;
 
-      nftGrid.insertAdjacentHTML('beforeend', nftHTML);
-    }
-
-    // Click handler to go to details page
-    document.body.addEventListener('click', (e) => {
-      const card = e.target.closest('.card-nft');
-      if (!card) return;
-
-      const nftTitle = card.dataset.nftTitle;
-      const nft = artworks.find(n => n.title === nftTitle);
-      if (nft) {
-        localStorage.setItem('nftCard', JSON.stringify(nft));
-        window.location.href = '../item/box/index.html';
-      }
-    });
+    nftGrid.insertAdjacentHTML('beforeend', nftHTML);
   }
+
+  // Click handler to go to details page
+  document.body.addEventListener('click', (e) => {
+    const card = e.target.closest('.card-nft');
+    if (!card) return;
+
+    const nftTitle = card.dataset.nftTitle;
+    const nft = artworks.find(n => n.title === nftTitle);
+    if (nft) {
+      localStorage.setItem('nftCard', JSON.stringify(nft));
+      window.location.href = '../item/box/index.html';
+    }
+  });
+}
+
 
   $(document).ready(() => {
     loadNFTs();
