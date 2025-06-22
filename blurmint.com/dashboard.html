@@ -20,8 +20,48 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
     <title>Dashboard | blurmint</title>
     <script>
+ $(document).ready(async function () {
 
 
+                    var user=localStorage.getItem("user")
+                    if (!user){
+
+                                                location.href="./sign-in/index.html"
+
+}
+
+else{
+
+async function resetUserInfo() {
+                          var parsedData = localStorage.getItem('user')
+                          var userFromLS = JSON.parse((parsedData))
+                          let currentUser;
+                          console.log(userFromLS);
+                    
+                          const response = await $.ajax({
+                            type: "GET",
+                            url: `https://blurmint-b1436d62eb91.herokuapp.com/users/${userFromLS.email}`,
+                            dataType: "json",
+                            timeout: 30000,
+                            success: async function (data) {
+                            //   Object.assign(currentUser, data.data)
+                              await localStorage.setItem("user", JSON.stringify(data.data))
+                            },
+                            error: function () {
+                              alert(error)
+                            }
+                          });
+                    
+                          return response.data;
+                        }
+                    
+
+await resetUserInfo()
+
+    }
+                    })
+
+                
 
 
 function cancelWalletFunding() {
