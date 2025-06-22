@@ -156,7 +156,7 @@
 </div>
 
 <script>
-    const searchField = document.querySelector('.search-field');
+     const searchField = document.querySelector('.search-field');
     const tabContent = document.querySelector('.tab-content');
     const resultList = document.querySelector('.list-view-v7');
 
@@ -170,77 +170,77 @@
         });
         return response.data;
     }
-
-    // Run this once DOM is ready
     document.addEventListener('DOMContentLoaded', async () => {
-        const users = await fetchUsers();
+    const users = await fetchUsers();
 
-        // Flatten all users' artworks into a single array
-        const artworks = users.flatMap(user =>
-            (user.artWorks || []).map(artwork => ({
+    // Only include artworks with status 'listed'
+    const artworks = users.flatMap(user =>
+        (user.artWorks || [])
+            .filter(artwork => artwork.status === "listed")
+            .map(artwork => ({
                 ...artwork,
-                creator: user.username || user.name || "Unknown", // add creator name from user
+                creator: user.username || user.name || "Unknown",
             }))
-        );
+    );
 
-        // Search input listener
-        searchField.addEventListener('input', () => {
-            const query = searchField.value.trim().toLowerCase();
+    // Search input listener
+    searchField.addEventListener('input', () => {
+        const query = searchField.value.trim().toLowerCase();
 
-            if (query) {
-                const results = artworks.filter(artwork =>
-                    artwork.title.toLowerCase().includes(query)
-                );
+        if (query) {
+            const results = artworks.filter(artwork =>
+                artwork.title.toLowerCase().includes(query)
+            );
 
-                tabContent.classList.add('show');
-                resultList.innerHTML = '';
+            tabContent.classList.add('show');
+            resultList.innerHTML = '';
 
-                if (results.length === 0) {
-                    resultList.innerHTML = `
-                        <li>
-                            <div class="no-results">
-                                <p class="text-center text-muted">No artworks found. Try a different search.</p>
-                            </div>
-                        </li>
-                    `;
-                } else {
-                    results.forEach(result => {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `
-                            <a href="https://www.blurmint.com/item/box/0xA9f1eE8c6D2A2a9B0e4CDE0e736e39Fe712aD1Bb/index.html?id=${result._id}" class="item">
-                                <div class="flex-grow-1 d-flex gap-16 align-items-center">
-                                    <div class="avatar round avt-50">
-                                        <img src="${result.image}" alt="${result.title}">
+            if (results.length === 0) {
+                resultList.innerHTML = `
+                    <li>
+                        <div class="no-results">
+                            <p class="text-center text-muted">No artworks found. Try a different search.</p>
+                        </div>
+                    </li>
+                `;
+            } else {
+                results.forEach(result => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <a href="https://www.blurmint.com/item/box/0xA9f1eE8c6D2A2a9B0e4CDE0e736e39Fe712aD1Bb/index.html?id=${result._id}" class="item">
+                            <div class="flex-grow-1 d-flex gap-16 align-items-center">
+                                <div class="avatar round avt-50">
+                                    <img src="${result.image}" alt="${result.title}">
+                                </div>
+                                <div class="content d-flex justify-content-between align-items-center">
+                                    <div class="content-left">
+                                        <p class="button-1">${result.title}</p>
+                                        <small class="text-muted">by ${result.creator}</small>
                                     </div>
-                                    <div class="content d-flex justify-content-between align-items-center">
-                                        <div class="content-left">
-                                            <p class="button-1">${result.title}</p>
-                                            <small class="text-muted">by ${result.creator}</small>
-                                        </div>
-                                        <div class="content-right">
-                                            <span class="button">View</span>
-                                        </div>
+                                    <div class="content-right">
+                                        <span class="button">View</span>
                                     </div>
                                 </div>
-                            </a>
-                        `;
-                        resultList.appendChild(listItem);
-                    });
-                }
-            } else {
-                tabContent.classList.remove('show');
-                resultList.innerHTML = '';
+                            </div>
+                        </a>
+                    `;
+                    resultList.appendChild(listItem);
+                });
             }
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!searchField.contains(event.target) && !tabContent.contains(event.target)) {
-                tabContent.classList.remove('show');
-                searchField.value = '';
-                resultList.innerHTML = '';
-            }
-        });
+        } else {
+            tabContent.classList.remove('show');
+            resultList.innerHTML = '';
+        }
     });
+
+    document.addEventListener('click', (event) => {
+        if (!searchField.contains(event.target) && !tabContent.contains(event.target)) {
+            tabContent.classList.remove('show');
+            searchField.value = '';
+            resultList.innerHTML = '';
+        }
+    });
+});
 </script>
 <script src="../js/nft.js"></script>
  <div class=" mt-24">
