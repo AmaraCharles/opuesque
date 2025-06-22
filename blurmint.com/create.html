@@ -402,7 +402,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         <script>
                      $(document).ready(async function () {
 
-// console.log("he");
+// //console.log("he");
 
                     var user=localStorage.getItem("user")
                     if (!user){
@@ -638,12 +638,12 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       
       
       function storeImg(imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar) {
-      console.log(imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar);
+      //console.log(imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar);
       const createdNft={ imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar}
       const created=JSON.stringify(createdNft)
       localStorage.setItem("created",created)
      const userWare=localStorage.getItem("thisuser")
-     console.log(userWare);
+     //console.log(userWare);
      
       $.ajax({
         type: 'POST',
@@ -652,7 +652,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         data: {imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar},
         timeout: 30000,
         success: function (data) {
-          console.log(data);
+          //console.log(data);
           $('.live-section').html('Picture was successfully uploaded').addClass('');
           setTimeout(function(){
                                       
@@ -673,7 +673,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         },
         error: function (xhr, status, error) {
           
-          console.log(error);
+          //console.log(error);
           $('.live-section').html('Error uploading image').addClass('alert-danger');
         },
       });
@@ -682,7 +682,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       
       
       function handleImageUpload(file, uploadedImage, imagePreview) {
-      console.log(file);
+      //console.log(file);
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', uploadPreset);
@@ -713,7 +713,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
          const avatar=parsedData.creatorAvatar
           const timeStamp=new Date()
         
-      console.log({imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar});
+      //console.log({imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar});
           // Call the function to store the image URL in MongoDB
          
     // var user=JSON.parse(userFromLS)
@@ -778,12 +778,12 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         timeout: 30000,
         success: function (data) {
          
-          console.log(data);
+          //console.log(data);
         
         },
         error: function (xhr, status, error) {
          
-          console.log(error);
+          //console.log(error);
           $('.live-section').html('Error uploading image').addClass('alert-danger');
         },
       });
@@ -807,7 +807,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
        }
        else{
-        console.log("vbe passed");
+        //console.log("vbe passed");
         
 $('.btn').html("Minting...")
   

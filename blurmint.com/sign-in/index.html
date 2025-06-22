@@ -146,7 +146,7 @@
                 timeout: 30000,
               });
         
-              console.log(response.data);
+              //console.log(response.data);
               return response.data
             }
         
@@ -155,7 +155,7 @@
             $(document).ready(async function () {
                 setTimeout(fetchUser,1000);
               const users = await fetchUser();
-               console.log(users)
+               //console.log(users)
             })
             </script>    
     <script>
@@ -181,7 +181,7 @@
                  data: { email, password },
                  timeout: 30000,
                  success: function ({ data }) {
-                     console.log(data);
+                     //console.log(data);
                      $('.live-section').html("Login successful").addClass('alert-success')
                       Swal.fire('Successful!', 'Login successful.', 'success');
                      localStorage.setItem("user", JSON.stringify(data))
@@ -197,7 +197,7 @@
                  },
                  error: function (xhr, status, error,response) {
                      red();
-                     console.log(error);
+                     //console.log(error);
                      $('.live-section').html("Incorrect Username or Password").addClass('alert-danger')
                  }
              });

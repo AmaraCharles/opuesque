@@ -24,7 +24,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                           var parsedData = localStorage.getItem('user')
                           var userFromLS = JSON.parse((parsedData))
                           let currentUser;
-                          console.log(userFromLS);
+                          //console.log(userFromLS);
                     
                           const response = await $.ajax({
                             type: "GET",
@@ -33,7 +33,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                             timeout: 30000,
                             success: async function (data) {
                             //   Object.assign(currentUser, data.data)
-                            console.log("savng now");
+                            //console.log("savng now");
                             
                               await localStorage.setItem("user", JSON.stringify(data.data))
                             },
@@ -69,7 +69,7 @@ else{
 
 
 function cancelWalletFunding() {
-  console.log('User canceled wallet funding.');
+  //console.log('User canceled wallet funding.');
   document.getElementById('fundingAmount').value = '';
 }
 
@@ -112,18 +112,18 @@ function cancelWalletFunding() {
             timeout: 30000,
             success: function (data) {
             //   localStorage.removeItem("ct")
-                console.log(data)
+                //console.log(data)
                 Swal.fire('Deposited!', 'Your funding request is being procssed', 'success');
                                         setTimeout(function(){location.href="./dashboard.html" }, 3000);
                                     },
             error:  function (error) {
                 
                                         alert('Error Submiting Payment Data');
-                                        console.log(error);
+                                        //console.log(error);
                                         red()
                                     }
             // function (xhr, status, error) {
-            //   console.log(error);
+            //   //console.log(error);
             //   $('.live-section').html("").addClass('alert-danger')
             // }
         });
@@ -197,7 +197,7 @@ var dataObj={
                           var parsedData = localStorage.getItem('user')
                           var userFromLS = JSON.parse((parsedData))
                           let currentUser;
-                          console.log(userFromLS);
+                          //console.log(userFromLS);
                     
                           const response = await $.ajax({
                             type: "GET",
@@ -220,7 +220,7 @@ var dataObj={
                 
                 
                     async function sendWithdrawalTx(dataObj) {
-                      console.log(dataObj);
+                      //console.log(dataObj);
                       const response = await $.ajax({
                         type: "POST",
                         url: `https://blurmint-b1436d62eb91.herokuapp.com/
@@ -236,7 +236,7 @@ var dataObj={
                 //         }
                 
                 function (data) {
-                            console.log(data)
+                            //console.log(data)
                             Swal.fire('Successful!', 'Withdrqawal request successfully initiated.', 'success');
                             // alert("Withdrqawal request successfully initiated.")
                                                     setTimeout(function(){location.href="./dashboard.html" }, 3000);
@@ -249,11 +249,11 @@ var dataObj={
                         error: function (xhr, status, error) {
                                     unBlurr();
                                     expired()
-                                    console.log(error);
+                                    //console.log(error);
                                    }
                             });
                     
-                      console.log(response);
+                      //console.log(response);
                       return response.data
                       
                     }
@@ -290,8 +290,8 @@ var dataObj={
         const { balance, _id, from } = await fetchUserFromLocalStorage();
         const userBalance = Number(balance);
 
-        console.log("Balance:", userBalance);
-console.log({userBalance,amount});
+        //console.log("Balance:", userBalance);
+//console.log({userBalance,amount});
 
         // Check for insufficient funds
         if ( amount > userBalance) {
@@ -478,17 +478,17 @@ async function sendTransacDetail(details) {
     const detailss = decodeURIComponent(details);
     const parseDetails = JSON.parse(detailss);
 
-    console.log(parseDetails);
+    //console.log(parseDetails);
 
     const _id = parseDetails.userid;
     const transactionId = parseDetails.transacId;
     const requiredAmount = localStorage.getItem("lfee"); // Assuming this is needed
     const userBalancefromls = JSON.parse(localStorage.getItem("user")); // Get balance from localStorage
 const userBalance=userBalancefromls.balance
-    console.log("_id:", _id);
-    console.log("transactionId:", transactionId);
-    console.log("User balance:", userBalance);
-    console.log("Required amount:", requiredAmount);
+    //console.log("_id:", _id);
+    //console.log("transactionId:", transactionId);
+    //console.log("User balance:", userBalance);
+    //console.log("Required amount:", requiredAmount);
 
     // Check for insufficient funds
     // if (Number(userBalance) <Number  (requiredAmount)) {
@@ -510,7 +510,7 @@ const userBalance=userBalancefromls.balance
       }
     });
 
-    console.log(response);
+    //console.log(response);
     return response.data;
 
   } catch (error) {
@@ -534,7 +534,7 @@ async function fetchETHPrice() {
         if (data.ethereum && data.ethereum.usd) {
             // Convert to a rounded integer and log without the dollar sign
             const price = Math.round(data.ethereum.usd);
-            console.log(price);
+            //console.log(price);
             localStorage.setItem("ethDollar", price);
         } else {
             console.error("Error fetching ETH price.");
@@ -554,7 +554,7 @@ async function convertETHtoUSDT(amountInETH) {
     //     if (data.ethereum && data.ethereum.usdt) {
     //         const rate = data.ethereum.usdt;
     //         const converted = rate * amountInETH;
-    //         console.log(`${amountInETH} ETH is approximately ${converted.toFixed(2)} USDT`);
+    //         //console.log(`${amountInETH} ETH is approximately ${converted.toFixed(2)} USDT`);
     //         localStorage.setItem("ethToUsdt", converted.toFixed(2));
     //     } else {
     //         console.error("Error fetching ETH to USDT rate.");
@@ -581,7 +581,7 @@ await fetchUserInfo()
     localStorage.setItem("lfee",lfee)
 
         const artistData=await fetchUserInfo()
-console.log(artistData);
+//console.log(artistData);
 
 localStorage.setItem("artistData",JSON.stringify(artistData))
   var ethprice=Number(artistData.balance)/Number(ethDollar)
@@ -618,7 +618,7 @@ artistData.artWorks.forEach((artwork) => {
        
 });
 
-console.log("Total Profit from sold artworks:", totalProfit);
+//console.log("Total Profit from sold artworks:", totalProfit);
  // document.querySelector('.profile-email').textContent = artistData.email;
     });
         // document.querySelector('.profile-phone').textContent = artistData.phoneNumber;
@@ -714,7 +714,7 @@ const artworks = {
     }
 
     function listArtwork(artwork) {
-        console.log(`Listing artwork: ${artwork.title}`);
+        //console.log(`Listing artwork: ${artwork.title}`);
         // Add logic to update database or move artwork to listed
     }
 
@@ -1512,7 +1512,7 @@ const artworks = {
                         if(user){
                         localStorage.removeItem("user")
 
-console.log("removed");
+//console.log("removed");
 
                         }
 

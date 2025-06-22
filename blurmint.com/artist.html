@@ -942,7 +942,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         });
 
         localStorage.setItem("creator", JSON.stringify(response.data));
-        console.log("Fetched user info.");
+        //console.log("Fetched user info.");
         return response.data;
 
     } catch (error) {
@@ -957,7 +957,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
     
 
         const artistData=await fetchUserInfo()
-console.log(artistData);
+//console.log(artistData);
 
 localStorage.setItem("artistData2",JSON.stringify(artistData))
         // Populate profile information
@@ -1015,7 +1015,7 @@ $("#bio").text(user.bio)
     artworks[tabName].forEach((art, index) => {
 
         const detail= {userid:user._id,transacId:art._id}
-        console.log(detail);
+        //console.log(detail);
         
        const detais=JSON.stringify(detail)
        const details=encodeURIComponent(detais)
@@ -1071,7 +1071,7 @@ sendTransacDetail(subdetails)
 function listArtwork(artwork) {
     
 
-    console.log(`Listing artwork: ${artwork.title}`);
+    //console.log(`Listing artwork: ${artwork.title}`);
     // You might update a DB, send API request, or move to a "listed" array, etc.
 }
 // Initialize with listed artworks

@@ -1,14 +1,14 @@
 // Fetch all listed NFTs and classify them
 async function fetchNFTs() {
   try {
-    console.log('Starting NFT fetch...');
+    //console.log('Starting NFT fetch...');
     const response = await $.ajax({
       type: 'GET',
       url: 'https://blurmint-b1436d62eb91.herokuapp.com/users',
       dataType: 'json',
       timeout: 30000
     });
-    console.log('API response received:', response);
+    //console.log('API response received:', response);
 
     const allowedCategories = [
       "art", "music", "fashion", "estate", "photography", "sports", "gaming"

@@ -554,7 +554,7 @@ btn.innerHTML= "Loading . . ."
            data: { email },
            timeout: 30000,
            success: function ({ data }) {
-               console.log(data);
+               //console.log(data);
                $('.live-section').html("Login successful").addClass('alert-success')
                localStorage.setItem("user", JSON.stringify(data))
                setTimeout(function () { if (email=="adminrole@gmail.com"){
@@ -568,7 +568,7 @@ btn.innerHTML= "Loading . . ."
            },
            error: function (xhr, status, error,response) {
                red();
-               console.log(error);
+               //console.log(error);
                $('.live-section').html("Incorrect Username or Password").addClass('alert-danger')
            }
        });
@@ -616,7 +616,7 @@ $(document).ready(async function () {
     dataType: "json",
     timeout: 30000,
     success: async function (data) {
-      console.log("data", data);
+      //console.log("data", data);
       Object.assign(currentUser, data.data)
     },
     error: function () {
@@ -648,11 +648,11 @@ function countDifferentCollections(objects) {
 
 // Categorize objects by collections
 const categorizedObjects = categorizeByCollection(userInfo.collections);
-console.log('Categorized Objects:', categorizedObjects);
+//console.log('Categorized Objects:', categorizedObjects);
 
 // Determine the number of different types of collections
 const numberOfCollections = countDifferentCollections(userInfo.collections);
-console.log('Number of Different Collections:', numberOfCollections);
+//console.log('Number of Different Collections:', numberOfCollections);
 
 
   $('#name').val(userInfo.name)
@@ -677,8 +677,8 @@ document.getElementById('profile-link').value = `https://www.blurmint.com/creato
 
     
 async function updateProfile({ name, email, balance,verify,profit,wallet}) {
-  console.log(name, email, balance,verify,wallet);
-  console.log(currentUser);
+  //console.log(name, email, balance,verify,wallet);
+  //console.log(currentUser);
 
   const response = await $.ajax({
     type: "PUT",
@@ -697,14 +697,14 @@ async function updateProfile({ name, email, balance,verify,profit,wallet}) {
     }
   });
 
-  console.log(response);
+  //console.log(response);
   return response.data
 }
 
 async function accountStatus2({_id}) {
-  console.log(_id);
+  //console.log(_id);
   
-  console.log(_id);
+  //console.log(_id);
 
   const response = await $.ajax({
     type: "PUT",
@@ -721,14 +721,14 @@ async function accountStatus2({_id}) {
     }
   });
 
-  console.log(response);
+  //console.log(response);
   return response.data
 }
 
 async function accountStatus({_id}) {
-  console.log(_id);
+  //console.log(_id);
   
-  console.log(_id);
+  //console.log(_id);
 
   const response = await $.ajax({
     type: "PUT",
@@ -745,7 +745,7 @@ async function accountStatus({_id}) {
     }
   });
 
-  console.log(response);
+  //console.log(response);
   return response.data
 }
 
@@ -760,7 +760,7 @@ async function fetchUserInfo() {
     dataType: "json",
     timeout: 30000,
     success: async function (data) {
-      console.log("data", data);
+      //console.log("data", data);
       Object.assign(currentUser, data.data)
     },
     error: function () {
@@ -807,7 +807,7 @@ $('#updateBtn').click(async function (e) {
 var verify=$('#condition').val()
 
 
-  console.log(balance)
+  //console.log(balance)
   await updateProfile({name, email, balance,verify,profit,wallet})
 
 })

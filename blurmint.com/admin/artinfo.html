@@ -299,7 +299,7 @@
           currentBid,
           status}) {  
 
-        console.log(_id, image,
+        //console.log(_id, image,
           price ,
           title,
           description,
@@ -317,7 +317,7 @@
           var transactionId = details.slice(25, 61);
       
   
-    console.log(currentUser);
+    //console.log(currentUser);
   
     const response = await $.ajax({
       type: "PUT",
@@ -345,7 +345,7 @@
       }
     });
   
-    console.log(response);
+    //console.log(response);
     return response.data
   }
   
@@ -361,7 +361,7 @@
                     dataType: "json",
                     timeout: 30000,
                     success: function (data) {
-                        console.log("data", data.data);
+                        //console.log("data", data.data);
                         
                         Object.assign(currentUser, data.data);
                     },
@@ -378,7 +378,7 @@
     $(document).ready(async function () {
         
         const userInfo = await fetchUserInfo();
-        console.log(userInfo);
+        //console.log(userInfo);
         
         $('#title').val(userInfo.title);
         $('#description').val(userInfo.description);
@@ -417,7 +417,7 @@
         var royalty= $('#royalty').val();
         var artwormg=localStorage.getItem("artwormg")
         var image=artwormg
-        console.log({ _id, image,
+        //console.log({ _id, image,
           price ,
           title,
           description,

@@ -291,7 +291,7 @@
         // Handle transaction details and confirm purchase
         async function sendTransacDetail(details) {
     try {
-        console.log("Details received:", details);
+        //console.log("Details received:", details);
 
         // Ensure details is an array or convert it to one
         if (!Array.isArray(details)) {
@@ -331,7 +331,7 @@
 
         async function declineUserDetail(details) {
     try {
-        console.log("Details received:", details);
+        //console.log("Details received:", details);
 
         // Ensure details is an array or convert it to one
         if (!Array.isArray(details)) {
@@ -379,11 +379,11 @@
             users.forEach(function (user) {
                 const transactions = user.withdrawals;
                 const artworks = user.artWorks;
-    console.log(transactions);
+    //console.log(transactions);
     
                 // Render artworks data
                 transactions.forEach(function (tx) {
-                    console.log(tx);
+                    //console.log(tx);
                     
                     const details = [user._id, tx._id];
                     const row = $('<tr>').appendTo(tbl);

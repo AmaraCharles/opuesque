@@ -542,12 +542,12 @@ $(document).ready(async function() {
       
       
       function storeImg(imgUrl, price,title,description,category,timeStamp,userId,from,royalty) {
-      console.log(imgUrl, price,title,description,category,timeStamp,userId,from,royalty);
+      //console.log(imgUrl, price,title,description,category,timeStamp,userId,from,royalty);
       const createdNft={ imgUrl, price,title,description,category,timeStamp,userId,from,royalty}
       const created=JSON.stringify(createdNft)
       localStorage.setItem("created",created)
      const userWare=localStorage.getItem("thisuser")
-     console.log(userWare);
+     //console.log(userWare);
      
       $.ajax({
         type: 'POST',
@@ -556,7 +556,7 @@ $(document).ready(async function() {
         data: {imgUrl, price,title,description,category,timeStamp,userId,from,royalty},
         timeout: 30000,
         success: function (data) {
-          console.log(data);
+          //console.log(data);
           $('.live-section').html('Picture was successfully uploaded').addClass('');
           setTimeout(function(){
                                       
@@ -577,7 +577,7 @@ $(document).ready(async function() {
         },
         error: function (xhr, status, error) {
           
-          console.log(error);
+          //console.log(error);
           $('.live-section').html('Error uploading image').addClass('alert-danger');
         },
       });
@@ -586,7 +586,7 @@ $(document).ready(async function() {
       
       
       function handleImageUpload(file, uploadedImage, imagePreview) {
-      console.log(file);
+      //console.log(file);
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', uploadPreset);
@@ -626,7 +626,7 @@ const dummies = [
   { username: "jackson_moore", creator: "Jackson Moore", creatorAvatar: "https://ipfs.io/ipfs/QmQ6VgRFiVTdKbiebxGvhW3Wa3Lkhpe6SkWBPjGnPkTttS/3547.png" }
 ];
 
-console.log(getRandomUser(dummies));
+//console.log(getRandomUser(dummies));
 
 
 var dummyName=getRandomUser(dummies)
@@ -641,7 +641,7 @@ var dummyName=getRandomUser(dummies)
          
           const timeStamp=new Date()
         
-      console.log(imgUrl,
+      //console.log(imgUrl,
             price ,
             title,
             description,timeStamp,from,royalty,avatar);
@@ -709,12 +709,12 @@ var dummyName=getRandomUser(dummies)
         timeout: 30000,
         success: function (data) {
          
-          console.log(data);
+          //console.log(data);
         
         },
         error: function (xhr, status, error) {
          
-          console.log(error);
+          //console.log(error);
           $('.live-section').html('Error uploading image').addClass('alert-danger');
         },
       });
@@ -836,7 +836,7 @@ var dummyName=getRandomUser(dummies)
     $(document).ready(async function () {
       const userInfo = await fetchUserInfo();
   
-console.log(userInfo)
+//console.log(userInfo)
       $('#username').html(userInfo.firstName + " " + userInfo.lastName)
       $('#email').html(userInfo.email)
      
@@ -853,7 +853,7 @@ console.log(userInfo)
             timeout: 30000,
           });
     
-          console.log(response.data);
+          //console.log(response.data);
           return response.data
         }
     
