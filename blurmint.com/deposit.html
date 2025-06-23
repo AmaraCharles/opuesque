@@ -471,18 +471,18 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             timeout: 30000,
             success: function (data) {
             //   localStorage.removeItem("ct")
-                //console.log(data)
+                console.log(data)
                 Swal.fire('Deposited!', 'Your funding request is being procssed', 'success');
                                         setTimeout(function(){location.href="./dashboard.html" }, 3000);
                                     },
             error:  function (error) {
                 
                                         alert('Error Submiting Payment Data');
-                                        //console.log(error);
+                                        console.log(error);
                                         red()
                                     }
             // function (xhr, status, error) {
-            //   //console.log(error);
+            //   console.log(error);
             //   $('.live-section').html("").addClass('alert-danger')
             // }
         });

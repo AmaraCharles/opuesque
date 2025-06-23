@@ -208,7 +208,7 @@
             </div>
             <script>
                   async function purchase(artworkId, artworkName, bidAmount, bidderName, bidDetails, bidderId, timestamp) {
-    //console.log(artworkId);
+    console.log(artworkId);
     
             try {
         const response = await fetch("https://blurmint-b1436d62eb91.herokuapp.com/transactions/id/confirm", {
@@ -234,7 +234,7 @@
         }
 
         const data = await response.json();
-        //console.log("Purchase Successful:", data.message);
+        console.log("Purchase Successful:", data.message);
         Swal.fire({
                 title: 'Artwork Purchased!',
                 text: 'Congratulations!',
@@ -278,8 +278,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const ethValue = ethElement?.getAttribute("data-eth") || "N/A";
         const owner = ownerElement?.textContent.trim() || "Unknown";
 
-        //console.log("ETH Value:", ethValue);
-        //console.log("Owner Username:", owner);
+        console.log("ETH Value:", ethValue);
+        console.log("Owner Username:", owner);
 
         if (user.balance<ethValue){
 
@@ -1634,7 +1634,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if(user){
                         localStorage.removeItem("user")
 
-//console.log("removed");
+console.log("removed");
 
                         }
 
@@ -1771,7 +1771,7 @@ location.href="../../sign-in/index.html"
                         if(user){
                         localStorage.removeItem("user")
 
-//console.log("removed");
+console.log("removed");
 
                         }
 

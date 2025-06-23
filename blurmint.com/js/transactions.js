@@ -16,7 +16,7 @@ async function displayTransactionHistory(type) {
     const tableBody = document.getElementById(tableBodyId);
     tableBody.innerHTML = '';
 
-    //console.log(`${type} transactions:`, transactions);  // Ensure the correct transactions are being fetched
+    console.log(`${type} transactions:`, transactions);  // Ensure the correct transactions are being fetched
 
     // Check if transactions exist
     if (!transactions.length) {

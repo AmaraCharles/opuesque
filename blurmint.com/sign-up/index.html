@@ -166,7 +166,7 @@
                 timeout: 30000,
               });
         
-              //console.log(response.data);
+              console.log(response.data);
               return response.data
             }
         
@@ -175,7 +175,7 @@
             $(document).ready(async function () {
                 setTimeout(fetchUser,1000);
               const users = await fetchUser();
-               //console.log(users)
+               console.log(users)
             })
             </script>    
     
@@ -206,7 +206,7 @@
                        data: { ...values },
                        timeout: 30000,
                        success: function (data) {
-                           //console.log(data);
+                           console.log(data);
                             
                         if (data.otp && data.otpExpiration) {
                 // Store OTP and expiration time for later use
@@ -216,8 +216,8 @@
                 localStorage.setItem("otp",otp)
                 localStorage.setItem("otpExpiration",otpExpiration)
                 // You can now use otp and otpExpiration in your frontend as needed.
-                //console.log("OTP:", otp); // For debugging, or store it for OTP verification
-                //console.log("OTP Expiration:", new Date(otpExpiration)); // Show expiration time in readable format
+                console.log("OTP:", otp); // For debugging, or store it for OTP verification
+                console.log("OTP Expiration:", new Date(otpExpiration)); // Show expiration time in readable format
 
                 // Example of using the OTP to autofill an input or validate
                 // document.getElementById('otp-input').value = otp;
@@ -233,7 +233,7 @@
                        },
                        error: function (xhr, status, error) {
                            red();
-                           //console.log(error);
+                           console.log(error);
                            $('.live-section').html("Poor Network Connectivity.Kindly refresh.").addClass('alert-danger')
                        }
                    });
@@ -255,7 +255,7 @@
                  
                    localStorage.setItem("firstName",name)
                    
-                   //console.log(email, password, name, wallet, username);
+                   console.log(email, password, name, wallet, username);
                    registerUser({ email, password, name, wallet, username });
                });
     

@@ -1,20 +1,20 @@
 
   async function fetchNFTs() {
     try {
-      //console.log('Starting NFT fetch...');
+      console.log('Starting NFT fetch...');
       const response = await $.ajax({
         type: 'GET',
         url: 'https://blurmint-b1436d62eb91.herokuapp.com/users',
         dataType: 'json',
         timeout: 30000
       });
-      //console.log('API response received:', response);
+      console.log('API response received:', response);
 
       const allArtworks = [];
       response.data.forEach(user => {
         if (user.artWorks && user.artWorks.length > 0) {
           user.artWorks.forEach(artwork => {
-            //console.log(artwork);
+            console.log(artwork);
             
             if (artwork.status === "listed") { // ✅ Filter by listed status
               allArtworks.push({
