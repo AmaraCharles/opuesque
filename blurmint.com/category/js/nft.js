@@ -101,7 +101,10 @@ async function loadNFTs() {
   const ethToUsdRate = await getETHtoUSDTRate();
 
   function renderNFTs(nfts, grid) {
+     nfts.sort((a, b) => new Date(b.timeStamp) - new Date(a.timeStamp));
+
     nfts.forEach(nft => {
+      
       const usdtEquivalent = (nft.price * ethToUsdRate).toFixed(2);
       const nftHTML = `
         <a style="display: block; margin: 0; padding: 0; max-width: 350px;" 
