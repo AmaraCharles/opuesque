@@ -1028,56 +1028,44 @@ function populateArtworks(tabName) {
 
     container.innerHTML = ''; // Clear existing
 
-    artworks[tabName].forEach((art, index) => {
-        const detail = { userid: user._id, transacId: art._id };
-        const details = encodeURIComponent(JSON.stringify(detail));
+     artworks[tabName].forEach((art, index) => {
+  const detail   = { userid: user._id, transacId: art._id };
+  const details  = encodeURIComponent(JSON.stringify(detail));
 
-        const artworkCard = document.createElement('div');
-        artworkCard.className = 'artwork-card';
-        artworkCard.innerHTML = `
-            <img src="${art.image}" alt="${art.title}" class="artwork-image">
-            <div class="artwork-details">
-                <h3 class="artwork-title">${art.title}</h3>
-                <p>${art.description || ''}</p>
-                <div class="artwork-meta">
-                    <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
-                </div>
-                ${tabName === 'unlisted' ? `
-                    <button class="list-button btn btn-success" data-index="${index}" data-details="${details}">
-                        List Artwork
-                    </button>
-                ` : ''}
-            </div>
-        `;
-        container.appendChild(artworkCard);
-    });
+  // Create the card container
+  const artworkCard = document.createElement('div');
 
-    // Card click listener
-  document.body.addEventListener('click', (e) => {
-    const card = e.target.closest('.card-nft');
-    if (!card) return;
+  // 1) Preserve your existing className (e.g. 'artwork-card')
+  // 2) Add 'card-nft' so the click handler picks it up
+  artworkCard.className = 'artwork-card card-nft';
 
-    const nftTitle = card.dataset.nftTitle;
-    const nft = artworks.find(n => n.title === nftTitle);
-    if (nft) {
-      const nftCard = {
-        title: nft.title,
-        creator: nft.creator,
-        creatorAvatar: nft.creatorAvatar,
-        currentBid: nft.currentBid,
-        price: nft.price,
-        image: nft.image,
-        _id: nft._id,
-        royalty: nft.royalty,
-        owner: nft.owner,
-        description: nft.description,
-        timeStamp: nft.timeStamp,
-        category: nft.category
-      };
-      localStorage.setItem('nftCard', JSON.stringify(nftCard));
-      window.location.href = '../../item/box/index.html';
-    }
-  });
+  // 3) Attach the unique identifier for lookup
+  artworkCard.setAttribute('data-nft-id', art._id);
+
+  // 4) If you still need the details payload on unlisted cards:
+  if (tabName === 'unlisted') {
+    artworkCard.setAttribute('data-details', details);
+  }
+
+  // 5) Now inject your original inner markup exactly as before:
+  artworkCard.innerHTML = `
+    <img src="${art.image}" alt="${art.title}" class="artwork-image">
+    <div class="artwork-details">
+      <h3 class="artwork-title">${art.title}</h3>
+      <p>${art.description || ''}</p>
+      <div class="artwork-meta">
+        <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
+      </div>
+      ${tabName === 'unlisted' ? `
+        <button class="list-button btn btn-success" data-details="${details}">
+          List Artwork
+        </button>` : ''}
+    </div>
+  `;
+
+  container.appendChild(artworkCard);
+});
+
     // Attach event listeners to "List" buttons if tab is 'unlisted'
     if (tabName === 'unlisted') {
         container.querySelectorAll('.list-button').forEach(button => {
@@ -1100,6 +1088,31 @@ function populateArtworks(tabName) {
         });
     }
 }
+
+document.body.addEventListener("click", e => {
+  // ignore clicks on "List" buttons
+  if (e.target.closest(".list-button")) return;
+
+  const card = e.target.closest(".card-nft");
+  if (!card) return;
+
+  // grab the NFT id you attached in populateArtworks()
+  const nftId = card.getAttribute("data-nft-id");
+  if (!nftId) return;
+
+  // find it in the full un‐grouped array
+  const nft = (artistData.artWorks || []).find(a => a._id === nftId);
+  if (!nft) return;
+
+  // build & store
+  localStorage.setItem("nftCard", JSON.stringify({
+    ...nft,
+    creator: artistData.username,
+    creatorAvatar: artistData.avatar
+  }));
+
+  window.location.href = "./item/box/index.html";
+});
 
 // Tab switching function
 window.switchTab = function (tabName) {
