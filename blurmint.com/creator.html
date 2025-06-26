@@ -1108,7 +1108,7 @@ document.body.addEventListener("click", e => {
   localStorage.setItem("nftCard", JSON.stringify({
     ...nft,
     creator: artistData.username,
-    creatorAvatar: artistData.avatar
+    creatorAvatar: artistData.creatorAvatar
   }));
 
   window.location.href = "./item/box/index.html";
