@@ -1000,54 +1000,76 @@ const artworks = {
     sold: artistData.artWorks ? artistData.artWorks.filter(art => art.status === 'sold') : []
 };
 
-// Function to populate artworks in a tab
 function populateArtworks(tabName) {
-    var getUser=localStorage.getItem("creator")
-    var user=JSON.parse(getUser)
-$("#bio").text(user.bio)
-  const container = document.getElementById(`${tabName}-tab`);
+    const getUser = localStorage.getItem("creator");
+    const user = JSON.parse(getUser);
+
+    if (!user || !user.artWorks) {
+        console.error("No creator or artworks found.");
+        return;
+    }
+
+    // Set bio
+    $("#bio").text(user.bio);
+
+    // Rebuild artwork groups dynamically
+    const artworks = {
+        listed: user.artWorks.filter(a => a.status === 'listed'),
+        unlisted: user.artWorks.filter(a => a.status === 'unlisted'),
+        sold: user.artWorks.filter(a => a.status === 'sold') // optional tab
+    };
+
+    const container = document.getElementById(`${tabName}-tab`);
     if (!container) {
         console.error(`Container for tab '${tabName}' not found.`);
         return;
     }
-    container.innerHTML = ''; // Clear previous artworks before adding new ones
 
+    container.innerHTML = ''; // Clear existing
 
-    artworks[tabName].forEach((art, index) => {
+     artworks[tabName].forEach((art, index) => {
+  const detail   = { userid: user._id, transacId: art._id };
+  const details  = encodeURIComponent(JSON.stringify(detail));
 
-        const detail= {userid:user._id,transacId:art._id}
-        //console.log(detail);
-        
-       const detais=JSON.stringify(detail)
-       const details=encodeURIComponent(detais)
-localStorage.setItem("subdetails",details)
+  // Create the card container
+  const artworkCard = document.createElement('div');
 
-        const artworkCard = document.createElement('div');
-        artworkCard.className = 'artwork-card';
-        artworkCard.innerHTML = `
-            <img src="${art.image}" alt="${art.title}" class="artwork-image">
-            <div class="artwork-details">
-                <h3 class="artwork-title">${art.title}</h3>
-                <p>${art.description || ''}</p>
-                <div class="artwork-meta">
-                   
-                    <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
-                </div>
-               ${tabName === 'unlisted' ? `
-    <button class="list-button btn btn-success" data-index="${index}" >List Artwork</button>
-` : ''}
+  // 1) Preserve your existing className (e.g. 'artwork-card')
+  // 2) Add 'card-nft' so the click handler picks it up
+  artworkCard.className = 'artwork-card card-nft';
 
-            </div>
-        `;
-        container.appendChild(artworkCard);
-    });
+  // 3) Attach the unique identifier for lookup
+  artworkCard.setAttribute('data-nft-id', art._id);
 
-    // Attach event listeners to "List" buttons if in unlisted tab
+  // 4) If you still need the details payload on unlisted cards:
+  if (tabName === 'unlisted') {
+    artworkCard.setAttribute('data-details', details);
+  }
+
+  // 5) Now inject your original inner markup exactly as before:
+  artworkCard.innerHTML = `
+    <img src="${art.image}" alt="${art.title}" class="artwork-image">
+    <div class="artwork-details">
+      <h3 class="artwork-title">${art.title}</h3>
+      <p>${art.description || ''}</p>
+      <div class="artwork-meta">
+        <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
+      </div>
+      ${tabName === 'unlisted' ? `
+        <button class="list-button btn btn-success" data-details="${details}">
+          List Artwork
+        </button>` : ''}
+    </div>
+  `;
+
+  container.appendChild(artworkCard);
+});
+
+    // Attach event listeners to "List" buttons if tab is 'unlisted'
     if (tabName === 'unlisted') {
         container.querySelectorAll('.list-button').forEach(button => {
             button.addEventListener('click', async () => {
-                const index = button.dataset.index;
-                const artwork = artworks[tabName][index];
+                const encodedDetails = button.getAttribute("data-details");
 
                 const result = await Swal.fire({
                     title: 'List this artwork?',
@@ -1059,52 +1081,61 @@ localStorage.setItem("subdetails",details)
                 });
 
                 if (result.isConfirmed) {
-                   var subdetails= localStorage.getItem("subdetails")
-sendTransacDetail(subdetails)
-                    // listArtwork(artwork);
-                    
+                    sendTransacDetail(encodedDetails);
                 }
             });
         });
     }
 }
 
-function listArtwork(artwork) {
-    
+document.body.addEventListener("click", e => {
+  // ignore clicks on "List" buttons
+  if (e.target.closest(".list-button")) return;
 
-    //console.log(`Listing artwork: ${artwork.title}`);
-    // You might update a DB, send API request, or move to a "listed" array, etc.
-}
-// Initialize with listed artworks
-populateArtworks('listed');
+  const card = e.target.closest(".card-nft");
+  if (!card) return;
+
+  // grab the NFT id you attached in populateArtworks()
+  const nftId = card.getAttribute("data-nft-id");
+  if (!nftId) return;
+
+  // find it in the full un‐grouped array
+  const nft = (artistData.artWorks || []).find(a => a._id === nftId);
+  if (!nft) return;
+
+  // build & store
+  localStorage.setItem("nftCard", JSON.stringify({
+    ...nft,
+    creator: "@"+artistData.username,
+    creatorAvatar: artistData.creatorAvatar
+  }));
+
+  window.location.href = "./item/box/index.html";
+});
 
 // Tab switching function
 window.switchTab = function (tabName) {
-    // Toggle active class on tab buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
 
-    // Hide/show the correct tab
     document.querySelectorAll('.artwork-grid').forEach(grid => {
         grid.style.display = 'none';
     });
     const activeGrid = document.getElementById(`${tabName}-tab`);
-    activeGrid.style.display = 'grid';
+    if (activeGrid) activeGrid.style.display = 'grid';
 
-    // Populate artworks for the selected tab
+    // Load fresh artworks from localStorage
     populateArtworks(tabName);
 };
- 
-        // Store modal instance globally
-       
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // document.getElementById('spotBalance').innerText = '2.50 ETH';
-            // document.getElementById('fundedBalance').innerText = '1.75 ETH';
-            populateArtworks('listed');
-        });
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function () {
+    populateArtworks('listed');
+});
+
 
     </script>
 

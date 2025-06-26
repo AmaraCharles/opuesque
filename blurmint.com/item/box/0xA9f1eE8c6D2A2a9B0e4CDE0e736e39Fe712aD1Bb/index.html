@@ -244,7 +244,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('owner-info').textContent = nftData.owner;
     document.querySelector('#creator').textContent = nftData.creator;
 
-    const cleanedCreator = nftData.creator.replace(/@/g, '').trim();
+    const cleanedCreator = nftData.owner.replace(/@/g, '').trim();
     localStorage.setItem("selectedCreator3", cleanedCreator);
 localStorage.setItem("chosencategory",nftData.category)
     // document.querySelector('.owned').textContent = nftData.creator;
