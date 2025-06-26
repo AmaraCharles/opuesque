@@ -310,6 +310,11 @@ if (`@${nftData.owner}`==`${nftData.creator}` ){
     // Populate carousel with artist's artwork
     const artist = JSON.parse(localStorage.getItem("creator"));
     const more = document.getElementById("more");
+    more.innerHTML = ""; // clears existing artworks
+// if (artist.artWorks.length === 0) {
+//   more.innerHTML = "<p>No listed artworks found.</p>";
+// }
+
     // const more2 = document.getElementById("more2");
 const chosencategory=localStorage.getItem("chosencategory")
    for (const artwork of artist.artWorks) {

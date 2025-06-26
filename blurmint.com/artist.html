@@ -943,6 +943,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
             const updatedUser = response.data;
             localStorage.setItem("creator", JSON.stringify(updatedUser));
+            populateArtworks('listed');
             return updatedUser;
 
         } catch (error) {
@@ -1133,7 +1134,7 @@ window.switchTab = function (tabName) {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function () {
-    populateArtworks('listed');
+    // populateArtworks('listed');
 });
 
 
