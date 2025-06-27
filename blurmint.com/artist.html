@@ -1090,24 +1090,26 @@ function populateArtworks(tabName) {
 }
 
 document.body.addEventListener("click", e => {
-  // ignore clicks on "List" buttons
   if (e.target.closest(".list-button")) return;
 
   const card = e.target.closest(".card-nft");
   if (!card) return;
 
-  // grab the NFT id you attached in populateArtworks()
+  e.preventDefault(); // ✅ Stop default <a href="#"> from doing anything
+
   const nftId = card.getAttribute("data-nft-id");
   if (!nftId) return;
+if (!nftId) {
+  console.warn("No data-nft-id on clicked card.");
+  return;
+}
 
-  // find it in the full un‐grouped array
   const nft = (artistData.artWorks || []).find(a => a._id === nftId);
   if (!nft) return;
 
-  // build & store
   localStorage.setItem("nftCard", JSON.stringify({
     ...nft,
-    creator: "@"+artistData.username,
+    creator: "@" + artistData.username,
     creatorAvatar: artistData.creatorAvatar
   }));
 
