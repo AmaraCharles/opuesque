@@ -1,5 +1,5 @@
 # HTTrack Website Copier Cookie File
 # This file format is compatible with Netscape cookies
-blurmint.art	TRUE	/	FALSE	1999999999	csrftoken	PoBEv0CfDh5txobgppXsdFAHWj8rD7Ks
-blurmint.art	TRUE	/	FALSE	1999999999	SameSite	Lax
+aureliusmint.com	TRUE	/	FALSE	1999999999	csrftoken	PoBEv0CfDh5txobgppXsdFAHWj8rD7Ks
+aureliusmint.com	TRUE	/	FALSE	1999999999	SameSite	Lax
 

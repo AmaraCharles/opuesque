@@ -1,17 +1,17 @@
-HTTrack3.49-2+htsswf+htsjava launched on Mon, 19 May 2025 11:35:20 at https://www.blurmint.art/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
-blurmint
+HTTrack3.49-2+htsswf+htsjava launched on Mon, 19 May 2025 11:35:20 at https://www.aureliusmint.com/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+aureliusmint
 (winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://opuxvault.com/ -O1 "C:\webby\opp" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
 
 
 
 Information, Warnings and Errors reported for this mirror:
 
-note:	the hts-log.txt file, and hts-cblurminter, may contain sensitive information,
-blurmint
-	such as username/password authenticablurmintwebsites mirrored in this project
-blurmint
-	do not share these files/folders if you want theseblurmintion to remain privateblurmint
-blurmintblurmint
+note:	the hts-log.txt file, and hts-caureliusminter, may contain sensitive information,
+aureliusmint
+	such as username/password authenticaaureliusmintwebsites mirrored in this project
+aureliusmint
+	do not share these files/folders if you want theseaureliusmintion to remain privateaureliusmint
+aureliusmintaureliusmint
 
 
 11:51:51	Warning: 	Found for https://opuxvault.com/settings/
