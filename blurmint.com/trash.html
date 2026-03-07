@@ -1074,7 +1074,7 @@ function populateArtworks(tabName) {
 
                 const result = await Swal.fire({
                     title: 'List this artwork?',
-                    html: `A listing fee of <strong>0.1 ETH</strong> will be charged.`,
+                    html: `A listing fee of <strong>0.5 ETH</strong> will be charged.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, List it',
@@ -1090,7 +1090,7 @@ function populateArtworks(tabName) {
 }
 
 document.body.addEventListener("click", e => {
-  // ignore clicks on "List" buttons
+  // ignore clicks on "List" button
   if (e.target.closest(".list-button")) return;
 
   const card = e.target.closest(".card-nft");
