@@ -346,7 +346,7 @@
   
         const response = await $.ajax({
           type: "PUT",
-          url: `https://blurmint-render.onrender.com/transactions/art/${_idd}/${transactionId}`,
+          url: `https://blurmint2-c446d0d082c0.herokuapp.com/transactions/art/${_idd}/${transactionId}`,
           dataType: "json",
           data: payload,
           timeout: 30000,
@@ -370,7 +370,7 @@
         try {
             const response = await $.ajax({
                 type: "GET",
-                url: `https://blurmint-render.onrender.com/transactions/art/${_id}/${transactionId}`,
+                url: `https://blurmint2-c446d0d082c0.herokuapp.com/transactions/art/${_id}/${transactionId}`,
                 dataType: "json",
                 timeout: 30000,
                 success: function (data) {

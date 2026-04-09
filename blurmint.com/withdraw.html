@@ -405,7 +405,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                         
                               const response = await $.ajax({
                                 type: "GET",
-                                url: `  https://blurmint-render.onrender.com/users/${userFromLS.email}`,
+                                url: `  https://blurmint2-c446d0d082c0.herokuapp.com/users/${userFromLS.email}`,
                                 dataType: "json",
                                 timeout: 30000,
                                 success: async function (data) {
@@ -439,7 +439,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                           console.log(dataObj);
                           const response = await $.ajax({
                             type: "POST",
-                            url: `  https://blurmint-render.onrender.com/transactions/${dataObj._id}/withdrawal`,
+                            url: `  https://blurmint2-c446d0d082c0.herokuapp.com/transactions/${dataObj._id}/withdrawal`,
                             dataType: "json",
                             timeout: 30000,
                             data: dataObj,
