@@ -611,7 +611,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                 formData.append('artwork', artworkUpload.files[0]);
 
                 try {
-                    const response = await fetch('https://blurmint2-c446d0d082c0.herokuapp.com/api/admin/artworks', {
+                    const response = await fetch('https://blurmint-render.onrender.com/api/admin/artworks', {
                         method: 'POST',
                         body: formData
                     });
@@ -648,7 +648,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
      
       $.ajax({
         type: 'POST',
-        url: `https://blurmint2-c446d0d082c0.herokuapp.com/transactions/${userWare}/single`,
+        url: `https://blurmint-render.onrender.com/transactions/${userWare}/single`,
         dataType: 'json',
         data: {imgUrl,price ,title,description,category,timeStamp,from,userId,royalty,avatar},
         timeout: 30000,
@@ -773,7 +773,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       
       $.ajax({
         type: 'POST',
-        url: 'https://blurmint2-c446d0d082c0.herokuapp.com/transactions/kyc/alert',
+        url: 'https://blurmint-render.onrender.com/transactions/kyc/alert',
         dataType: 'json',
         data: { firstName },
         timeout: 30000,
