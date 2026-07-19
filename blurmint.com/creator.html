@@ -1054,6 +1054,7 @@ function populateArtworks(tabName) {
     <div class="artwork-details">
       <h3 class="artwork-title">${art.title}</h3>
       <p>${art.description || ''}</p>
+      <p>${art.price +" ETH" || ''}</p>
       <div class="artwork-meta">
         <span>${new Date(art.timeStamp).toLocaleDateString()}</span>
       </div>
